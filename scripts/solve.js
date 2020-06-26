@@ -5,11 +5,11 @@ const STOP_BUTTON_ID    = 'stop-button';
 const HIDDEN_ATTRIBUTE  = 'hidden';
 const NEWLINE           = '\n';
 
-var codeMirror;
-var outputArea;
-var runButton;
-var stopButton;
-var keepRunningCode;
+let codeMirror;
+let outputArea;
+let runButton;
+let stopButton;
+let keepRunningCode;
 
 window.addEventListener('load', function() {
   setupCodeMirror();
@@ -42,11 +42,11 @@ function setupElements() {
 * so that its can be displayed on the GUI, outside of the sandbox.
 **/
 function overrideFunctions(interpreter, scope) {
-  var alertOverride = function(text) {
+  let alertOverride = function(text) {
     outputArea.innerHTML += text + NEWLINE;
   };
 
-  var assertOverride = function(isTrue, message) {
+  let assertOverride = function(isTrue, message) {
     if (!isTrue) {
       outputArea.innerHTML += message || "Assertion failed";
       keepRunningCode = false;
