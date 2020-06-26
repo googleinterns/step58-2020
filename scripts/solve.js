@@ -11,5 +11,4 @@ window.addEventListener('load', function() {
   let totalComplexity = 0;
   results.functions.forEach(fn => totalComplexity += fn.metrics.complexity);
   document.getElementById('analysis-output').innerText = 'The cyclomatic complexity is ' + totalComplexity;
-  console.log(JSHINT.data());
 });
