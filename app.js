@@ -8,6 +8,7 @@ const app       = express();
 
 app.use('/html', express.static(path.join(__dirname, 'html')))
 app.use('/scripts', express.static(path.join(__dirname, 'scripts')))
+app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')))
 app.use('/lib', express.static(path.join(__dirname, 'lib')))
 
 app.get('/solve', function(request, response){
