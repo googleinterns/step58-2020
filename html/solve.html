@@ -30,7 +30,7 @@
   <div class="col-6" id="code-area"></div>
 
   <div class="col-3">
-    <div class="card text-center fill">
+    <div class="card fill">
       <div class="card-header">
 
         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -44,8 +44,12 @@
       </div>
       <div class="card-body">
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="code-output" role="tabpanel" aria-labelledby="output-tab"></div>
-          <div class="tab-pane fade" id="analysis-output" role="tabpanel" aria-labelledby="analysis-tab"></div>
+          <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="output-tab">
+            <pre id="code-output"></pre>
+          </div>
+          <div class="tab-pane fade" role="tabpanel" aria-labelledby="analysis-tab">
+            <pre id="analysis-output"></pre>
+          </div>
         </div>
       </div>
     </div>
