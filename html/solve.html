@@ -11,6 +11,44 @@
 <!-- CSS imports -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="lib/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="stylesheets/solve.css">
 
-<div id="code-area"></div>
-<div id="output-area"></div>
+
+<div class="row fill no-gutters">
+
+  <div class="col-3">
+    <div class="card fill">
+      <div class="card-header">
+        <h5 class="card-title" id="question-title"></h5>
+      </div>
+      <div class="card-body">
+        <p class="card-text" id="question-text"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6" id="code-area"></div>
+
+  <div class="col-3">
+    <div class="card text-center fill">
+      <div class="card-header">
+
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="output-tab" data-toggle="tab" href="#output" role="tab" aria-controls="output" aria-selected="true">Output</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#analysis" role="tab" aria-controls="analysis" aria-selected="false">Analysis</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="code-output" role="tabpanel" aria-labelledby="output-tab"></div>
+          <div class="tab-pane fade" id="analysis-output" role="tabpanel" aria-labelledby="analysis-tab"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
