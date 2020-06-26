@@ -44,10 +44,19 @@ function overrideFunctions(interpreter, scope) {
 }
 
 function executeCode() {
-  let code      = codeMirror.getValue();
-  interpreter = new Interpreter(code, overrideFunctions);
+  outputArea.innerHTML  = '';
+  keepRunningCode       = true;
+  updateButtons();
 
-  startRunningCode(interpreter);
+  try {
+    let code    = codeMirror.getValue();
+    interpreter = new Interpreter(code, overrideFunctions);
+    startRunningCode(interpreter); 
+  } catch (error) {
+    outputArea.innerHTML += error + NEWLINE;
+    keepRunningCode = false;
+    updateButtons();
+  }
 }
 
 function updateButtons() {
@@ -61,10 +70,6 @@ function updateButtons() {
 }
 
 function startRunningCode(interpreter) {
-  outputArea.innerHTML  = '';
-  keepRunningCode       = true;
-  updateButtons();
-
   function nextStep() {
     if (keepRunningCode && interpreter.step()) {
       setTimeout(nextStep, 0);
