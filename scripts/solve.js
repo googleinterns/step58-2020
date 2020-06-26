@@ -39,12 +39,12 @@ function setupElements() {
 }
 
 /**
-* Function to override functions call inside the sandbox interpreter.
-* This function serves as an interface between the browser and the sandbox.
-* 
-* By overriding alert() in the sandbox for example, we can modify alert()
-* so that its can be displayed on the GUI, outside of the sandbox.
-**/
+ * Function to override functions call inside the sandbox interpreter.
+ * This function serves as an interface between the browser and the sandbox.
+ * 
+ * By overriding alert() in the sandbox for example, we can modify alert()
+ * so that its can be displayed on the GUI, outside of the sandbox.
+ **/
 function overrideFunctions(interpreter, scope) {
   let alertOverride = function(text) {
     outputArea.innerHTML += text + NEWLINE;
@@ -65,14 +65,14 @@ function overrideFunctions(interpreter, scope) {
 }
 
 /**
-* Wrapper function around startRunningCode.
-* This function mostly serves to try to catch any error encountered
-* when trying to interpret invalid JavaScript code,
-* preventing the interpreter from failing silently.
-*
-* Should an invalid JavaScript code be encountered, it will be
-* displayed to the user.
-**/
+ * Wrapper function around startRunningCode.
+ * This function mostly serves to try to catch any syntax error 
+ * encountered when trying to parse invalid JavaScript code,
+ * preventing the interpreter from failing silently.
+ *
+ * Should an invalid JavaScript code be encountered, it will be
+ * displayed to the user.
+ **/
 function executeCode() {
   outputArea.innerHTML  = '';
   keepRunningCode       = true;
@@ -100,14 +100,18 @@ function updateButtons() {
 }
 
 /**
-* Runs the interpreter step by step until we are finished.
-* Utilizes setTimeout() to allow other tasks to run too
-* and prevents the application from bricking in cases such as
-* infinite loops.
-**/
+ * Runs the interpreter step by step until we are finished.
+ * Utilizes setTimeout() to allow other tasks to run too
+ * and prevents the application from bricking in cases such as
+ * infinite loops.
+ *
+ * Uses tryStep() to handle undefined reference error and
+ * relay the error back to the user. Note that this error
+ * is different than the one handled by executeCode().
+ **/
 function startRunningCode(interpreter) {
   function nextStep() {
-    if (keepRunningCode && interpreter.step()) {
+    if (keepRunningCode && tryStep(interpreter)) {
       setTimeout(nextStep, 0);
     } else {
       keepRunningCode = false;
@@ -115,6 +119,15 @@ function startRunningCode(interpreter) {
     }
   }
   nextStep();
+}
+
+function tryStep(interpreter) {
+  try {
+    return interpreter.step();
+  } catch(error) {   
+    outputArea.innerHTML += error + NEWLINE;
+    return false;
+  }
 }
 
 function stopRunningCode() {
