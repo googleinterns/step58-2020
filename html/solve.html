@@ -3,10 +3,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-<!-- CodeMirror and Interpreter JavaScript imports -->
+<!-- CodeMirror, Interpreter, and JSHint JavaScript imports -->
 <script src="lib/codemirror/lib/codemirror.js"></script>
 <script src="lib/codemirror/mode/javascript/javascript.js"></script>
 <script src="lib/js_interpreter/acorn_interpreter.js"></script>
+<script src="lib/jshint-2.11.1/jshint.js"> </script>
 
 <!-- Local JavaScript import -->
 <script src="scripts/solve.js"></script>
@@ -18,7 +19,6 @@
 
 <!-- Local CSS imports -->
 <link rel="stylesheet" href="stylesheets/solve.css">
-
 
 <div class="row fill no-gutters">
 
@@ -50,11 +50,11 @@
       </div>
       <div class="card-body">
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="output-tab">
+          <div class="tab-pane fade show active" id="output" role="tabpanel" aria-labelledby="output-tab">
             <pre id="code-output"></pre>
           </div>
-          <div class="tab-pane fade" role="tabpanel" aria-labelledby="analysis-tab">
-            <pre id="analysis-output"></pre>
+          <div class="tab-pane fade" id="analysis" role="tabpanel" aria-labelledby="analysis-tab">
+            <p id="analysis-output"></p>
           </div>
         </div>
       </div>
