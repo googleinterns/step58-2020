@@ -36,8 +36,18 @@ function overrideFunctions(interpreter, scope) {
     outputArea.innerHTML += text + NEWLINE;
   };
 
+  var assertOverride = function(isTrue, message) {
+    if (!isTrue) {
+      outputArea.innerHTML += message || "Assertion failed";
+      keepRunningCode = false;
+      updateButtons();
+    }
+  }
+
   interpreter.setProperty(scope, 'alert', 
     interpreter.createNativeFunction(alertOverride));
+  interpreter.setProperty(scope, 'assert', 
+    interpreter.createNativeFunction(assertOverride));
 }
 
 function executeCode() {
