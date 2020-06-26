@@ -46,6 +46,10 @@
           <li class="nav-item">
             <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#analysis" role="tab" aria-controls="analysis" aria-selected="false">Analysis</a>
           </li>
+          <div>
+            <button type="button" id="run-button" class="btn btn-success" onclick="executeCode()">Run</button>
+            <button type="button" id="stop-button" class="btn btn-danger" onclick="stopRunningCode()" hidden>Stop</button>
+          </div>
         </ul>
       </div>
       <div class="card-body">
