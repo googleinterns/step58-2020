@@ -15,7 +15,6 @@ let keepRunningCode;
 window.addEventListener('load', function() {
   setupCodeMirror();
   setupElements();
-  runStaticAnalysis(myCodeMirror.getValue());
 });
 
 /**
@@ -24,13 +23,15 @@ window.addEventListener('load', function() {
  **/
 function setupCodeMirror() {
   codeMirror = CodeMirror(document.getElementById(CODE_AREA_ID), {
-    value: 'function myScript(){return 100;}\n',
+    value: SAMPLE_CODE,
     mode:  'javascript',
     lineNumbers: true,
   });
-}
 
-});
+  codeMirror.on('change', function() {
+    runStaticAnalysis(codeMirror.getValue());
+  });
+}
 
 function setupElements() {
   outputArea    = document.getElementById(CODE_OUTPUT_ID);
