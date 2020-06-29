@@ -19,12 +19,12 @@ app.get('/', function(request, response){
   response.sendFile('html/home.html', { root: __dirname });
 });
 
-app.get('/sign-in', function(request, response){
-  response.sendFile('html/sign-in.html', { root: __dirname });
-});
-
 app.get('/contact', function(request, response){
   response.sendFile('html/contact.html', { root: __dirname });
+});
+
+app.get('/about', function(request, response){
+  response.sendFile('html/about.html', { root: __dirname });
 });
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`))
