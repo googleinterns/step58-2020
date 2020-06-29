@@ -11,7 +11,7 @@ app.use('/scripts', express.static(path.join(__dirname, 'scripts')))
 app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')))
 app.use('/lib', express.static(path.join(__dirname, 'lib')))
 
-app.get('/solve', function(request, response){
+app.get('/', function(request, response){
   response.sendFile('html/solve.html', { root: __dirname });
 });
 
