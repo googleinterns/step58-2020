@@ -24,6 +24,10 @@ app.get('/', function(request, response){
 app.get('/sign-in', function(request, response){
   response.sendFile('html/sign-in.html', { root: __dirname });
 });
+//This is for the contact page 
+app.get('/contact', function(request, response){
+  response.sendFile('html/contact.html', { root: __dirname });
+});
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`))
 module.exports = app;
