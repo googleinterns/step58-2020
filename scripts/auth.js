@@ -1,4 +1,3 @@
-//<---------------------------------------------------------------------------------------->
 //THIS IS JUST THE GOOGLE SIGN IN CODE
 function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
@@ -19,4 +18,3 @@ function signOut(){
         console.log('User signed out.');
     });
 }
-//<------------------------------------------------------------------------------------------>
