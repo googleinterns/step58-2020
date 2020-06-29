@@ -22,10 +22,16 @@ window.addEventListener('load', function() {
  **/
 function setupCodeMirror() {
   codeMirror = CodeMirror(document.getElementById(CODE_AREA_ID), {
-    value: 'function myScript(){return 100;}\n',
+    value: 'function fizzBuzz(num) { return num; }\n\nassert(fizzBuzz(9) == \'Fizz\', \'Does not print Fizz\');\nassert(fizzBuzz(5) == \'Buzz\', \'Does not print Buzz\');\nassert(fizzBuzz(15) == \'FizzBuzz\', \'Does not print FizzBuzz\');\nalert(\'All Test Cases Passed\');',
     mode:  'javascript',
     lineNumbers: true,
   });
+
+  codeMirror.on('change', function() {
+    runStaticAnalysis(codeMirror.getValue());
+  });
+
+  runStaticAnalysis(codeMirror.getValue());
 }
 
 function setupElements() {
@@ -48,7 +54,7 @@ function overrideFunctions(interpreter, scope) {
 
   let assertOverride = function(isTrue, message) {
     if (!isTrue) {
-      outputArea.innerHTML += message || "Assertion failed";
+      outputArea.innerHTML += message || 'Assertion failed';
       keepRunningCode = false;
       updateButtons();
     }
@@ -129,4 +135,12 @@ function tryStep(interpreter) {
 function stopRunningCode() {
   keepRunningCode = false;
   updateButtons();
+}
+
+function runStaticAnalysis(code) {
+  let totalComplexity = 0;
+  JSHINT(code);
+  const results = JSHINT.data();
+  results.functions.forEach(fn => totalComplexity += fn.metrics.complexity);
+  document.getElementById('analysis-output').innerText = 'The cyclomatic complexity is ' + totalComplexity;
 }
