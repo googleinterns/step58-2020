@@ -7,6 +7,7 @@
 <script src="lib/codemirror/lib/codemirror.js"></script>
 <script src="lib/codemirror/mode/javascript/javascript.js"></script>
 <script src="lib/js_interpreter/acorn_interpreter.js"></script>
+<script src="lib/jshint-2.11.1/jshint.js"> </script>
 
 <!-- Local JavaScript import -->
 <script src="scripts/solve.js"></script>
@@ -25,10 +26,12 @@
   <div class="col-3">
     <div class="card fill">
       <div class="card-header">
-        <h5 class="card-title" id="question-title"></h5>
+        <h5 class="card-title" id="question-title">FizzBuzz</h5>
       </div>
       <div class="card-body">
-        <p class="card-text" id="question-text"></p>
+        <p class="card-text" id="question-text">
+        Write a fizzBuzz function that takes in an integer. If the integer given is a multiple of three return “Fizz”, and if instead the integer is a multiple of five return “Buzz”. For numbers which are multiples of both three and five return “FizzBuzz”.
+        </p>
       </div>
     </div>
   </div>
@@ -54,10 +57,10 @@
       </div>
       <div class="card-body">
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="output-tab">
+          <div class="tab-pane fade show active" id="output" role="tabpanel" aria-labelledby="output-tab">
             <pre id="code-output"></pre>
           </div>
-          <div class="tab-pane fade" role="tabpanel" aria-labelledby="analysis-tab">
+          <div class="tab-pane fade" id="analysis" role="tabpanel" aria-labelledby="analysis-tab">
             <pre id="analysis-output"></pre>
           </div>
         </div>
