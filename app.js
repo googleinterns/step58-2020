@@ -16,5 +16,9 @@ app.get('/solve', function(request, response){
   response.sendFile('html/solve.html', { root: __dirname });
 });
 
+app.get('/', function(request, response){
+  response.sendFile('html/home.html', { root: __dirname });
+});
+
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`))
 module.exports = app;
