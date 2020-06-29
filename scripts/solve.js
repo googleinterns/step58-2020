@@ -154,10 +154,13 @@ function runStaticAnalysis(code) {
 
   functionNames = results.functions.map(element => element.name);
   unusedVarNames = results.unused.map(element => element.name);
+  
+  // Only show unused variables, not functions
   let unusedVars = unusedVarNames.filter(x => !functionNames.includes(x));
-  console.log(unusedVars);
-
-  metricsString = `Number of functions: ${results.functions.length}
+  unusedVars = unusedVars.join(', ');
+  
+  metricsString = `Number of functions: ${results.functions.length}.
+      Unused variables: ${unusedVars.length > 0 ? unusedVars : 'none'}.
       The total cyclomatic compexity is ${totalComplexity}.`
   document.getElementById('analysis-output').innerText = metricsString;
 }
