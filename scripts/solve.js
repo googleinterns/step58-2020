@@ -27,7 +27,6 @@ function setupCodeMirror() {
     mode:  'javascript',
     lineNumbers: true,
   });
-<<<<<<< HEAD
 
   codeMirror.on('change', function() {
     runStaticAnalysis(codeMirror.getValue());
@@ -136,15 +135,6 @@ function stopRunningCode() {
   keepRunningCode = false;
   updateButtons();
 }
-=======
-  
-  runStaticAnalysis(myCodeMirror.getValue());
-  
-  myCodeMirror.on('change', function() {
-    runStaticAnalysis(myCodeMirror.getValue());
-  });
-});
->>>>>>> a821801... Run analysis on changes and add more metrics
 
 function runStaticAnalysis(code) {
   let totalComplexity = 0;
@@ -154,13 +144,10 @@ function runStaticAnalysis(code) {
 
   functionNames = results.functions.map(element => element.name);
   unusedVarNames = results.unused.map(element => element.name);
-  
-  // Only show unused variables, not functions
   let unusedVars = unusedVarNames.filter(x => !functionNames.includes(x));
-  unusedVars = unusedVars.join(', ');
-  
-  metricsString = `Number of functions: ${results.functions.length}.
-      Unused variables: ${unusedVars.length > 0 ? unusedVars : 'none'}.
+  console.log(unusedVars);
+
+  metricsString = `Number of functions: ${results.functions.length}
       The total cyclomatic compexity is ${totalComplexity}.`
   document.getElementById('analysis-output').innerText = metricsString;
 }
