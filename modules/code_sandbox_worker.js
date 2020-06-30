@@ -37,6 +37,6 @@ var overrideFunctions = function(interpreter, scope) {
 
 
 // Receives code from stdin, and execute it.
-let code = fs.readFileSync(0, 'utf-8');
+let code = fs.readFileSync(process.stdin.fd, 'utf-8');
 interpreter = new acornInterpreter.Interpreter(code, overrideFunctions);
 while(interpreter.step());
