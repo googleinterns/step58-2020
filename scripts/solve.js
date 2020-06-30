@@ -5,6 +5,7 @@ const RUN_BUTTON_ID     = 'run-button';
 const STOP_BUTTON_ID    = 'stop-button';
 const HIDDEN_ATTRIBUTE  = 'hidden';
 const NEWLINE           = '\n';
+const SOLUTION_FUNCTION = 'solution';
 
 let codeMirror;
 let outputArea;
@@ -141,5 +142,13 @@ function runStaticAnalysis(code) {
   JSHINT(code);
   const results = JSHINT.data();
   results.functions.forEach(fn => totalComplexity += fn.metrics.complexity);
-  document.getElementById('analysis-output').innerText = 'The cyclomatic complexity is ' + totalComplexity;
+
+  unusedNames = results.unused ? results.unused.map(element => element.name) : [];
+  // TODO(@ifeomi) revisit this once we have clarity on how test cases will be provided
+  let unused = unusedNames.filter(x => x !== SOLUTION_FUNCTION);
+
+  metricsString = `Number of functions: ${results.functions.length}
+      Unused functions and variables: ${unused.length > 0 ? unused.join(', ') : 'none'}
+      The total cyclomatic compexity is ${totalComplexity}.`
+  document.getElementById('analysis-output').innerText = metricsString;
 }
