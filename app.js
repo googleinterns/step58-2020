@@ -20,21 +20,5 @@ app.use('/scripts', express.static(path.join(__dirname, 'scripts')))
 app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')))
 app.use('/lib', express.static(path.join(__dirname, 'lib')))
 
-app.get('/solve', function(request, response){
-  response.sendFile('html/solve.html', { root: __dirname });
-});
-
-app.get('/', function(request, response){
-  response.sendFile('html/home.html', { root: __dirname });
-});
-
-app.get('/contact', function(request, response){
-  response.sendFile('html/contact.html', { root: __dirname });
-});
-
-app.get('/about', function(request, response){
-  response.sendFile('html/about.html', { root: __dirname });
-});
-
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`))
 module.exports = app;
