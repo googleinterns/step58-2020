@@ -1,4 +1,4 @@
-const sandbox = require('../modules/code_sandbox.js');
+const sandbox = require('../modules/code_sandbox_manager.js');
 const assert = require('assert');
 
 describe('Code Sandbox', function () {
