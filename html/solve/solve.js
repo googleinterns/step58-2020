@@ -1,5 +1,21 @@
 'use strict';
 
+<<<<<<< HEAD
+=======
+const sampleCode = 'function myScript(){return 100;}\n';
+
+window.addEventListener('load', function() {
+  this.console.log("hello!")
+  const myCodeMirror = CodeMirror(document.getElementById('code-area'), {
+    value: sampleCode,
+    mode: 'javascript',
+    lineNumbers: true
+  });
+
+  runStaticAnalysis(myCodeMirror.getValue());
+});
+
+>>>>>>> c7ced66... Add Angular modules
 function runStaticAnalysis(code) {
   let totalComplexity = 0;
   JSHINT(code);
