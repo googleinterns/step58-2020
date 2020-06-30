@@ -5,6 +5,7 @@ const RUN_BUTTON_ID     = 'run-button';
 const STOP_BUTTON_ID    = 'stop-button';
 const HIDDEN_ATTRIBUTE  = 'hidden';
 const NEWLINE           = '\n';
+const SOLUTION_FUNCTION = 'solution';
 
 let codeMirror;
 let outputArea;
@@ -142,12 +143,11 @@ function runStaticAnalysis(code) {
   const results = JSHINT.data();
   results.functions.forEach(fn => totalComplexity += fn.metrics.complexity);
 
-  functionNames = results.functions.map(element => element.name);
-  unusedVarNames = results.unused.map(element => element.name);
-  let unusedVars = unusedVarNames.filter(x => !functionNames.includes(x));
-  console.log(unusedVars);
+  unusedNames = results.unused ? results.unused.map(element => element.name) : [];
+  let unused = unusedNames.filter(x => x !== SOLUTION_FUNCTION);
 
   metricsString = `Number of functions: ${results.functions.length}
+      Unused functions and variables: ${unused.length > 0 ? unused.join(', ') : 'none'}
       The total cyclomatic compexity is ${totalComplexity}.`
   document.getElementById('analysis-output').innerText = metricsString;
 }
