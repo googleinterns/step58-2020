@@ -35,13 +35,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/contact">Contact Us</a>
                     </li>
-                    <li class="nav-item">
-                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="signOut();">Sign out</a>
-                    </li>
                 </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <a class="nav-link" href="#" onclick="signOut();">Sign out</a>
+                </form>
             </div>
         </nav>
     </body>
