@@ -144,6 +144,7 @@ function runStaticAnalysis(code) {
   results.functions.forEach(fn => totalComplexity += fn.metrics.complexity);
 
   unusedNames = results.unused ? results.unused.map(element => element.name) : [];
+  // TODO(@ifeomi) revisit this once we have clarity on how test cases will be provided
   let unused = unusedNames.filter(x => x !== SOLUTION_FUNCTION);
 
   metricsString = `Number of functions: ${results.functions.length}
