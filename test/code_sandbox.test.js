@@ -73,5 +73,21 @@ describe('Code Sandbox', function () {
       assert.ok(result.stderr.includes('ReferenceError: str is not defined'));
     });
   });
+
+  describe('timeout', function () {
+    it(`should prevent infinite loop given a timeout argument`, function () {
+      const code = `while(true);`;
+      const result = sandbox.run(code, 100);
+
+      assert.equal(result.signal, 'SIGTERM');
+    });
+
+    it(`should use default timeout when not given an explicit argument`, function () {
+      const code = `while(true);`;
+      const result = sandbox.run(code);
+
+      assert.equal(result.signal, 'SIGTERM');
+    });
+  });
 });
 
