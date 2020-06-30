@@ -43,29 +43,38 @@
 const child         = require('child_process');
 const path          = require('path'); 
 
-const childScript   = path.join(__dirname, 'code_sandbox_worker.js');
+const CHILD_SCRIPT      = path.join(__dirname, 'code_sandbox_worker.js');
+const DEFAULT_TIMEOUT   = 1500;
 
-function run(code) {
+function run(code, timeout) {
   // Passes in code through stdin of child process.
   // Also prevents child process from printing to console.
-  let childCommand  = 'node ' + childScript;
-  let execOption    = {'input': code, 'stdio': 'pipe'};
+  // Sets a timeout (in milliseconds) if given, uses DEFAULT_TIMEOUT otherwise
+  let childCommand  = 'node ' + CHILD_SCRIPT;
+  let execOption    = {
+    'input': code, 
+    'stdio': 'pipe', 
+    'timeout': timeout || DEFAULT_TIMEOUT
+  };
 
   let childStdout;
   let childStderr;
+  let childSignal;
 
-  // Captures the child process' stdout and stderr
+  // Captures the child process' stdout, stderr, and signal when terminated
   // and returns it to the caller.
   try {
     childStdout = child.execSync(childCommand, execOption).toString();
   } catch (error) {
     childStdout = error.stdout.toString();
     childStderr = error.stderr.toString();
+    childSignal = error.signal;
   }
 
   return {
     stdout: childStdout,
-    stderr: childStderr
+    stderr: childStderr,
+    signal: childSignal
   };
 }
 
