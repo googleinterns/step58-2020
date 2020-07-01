@@ -16,8 +16,13 @@
     "test": "mocha --exit test/*.test.js"
   },
   "dependencies": {
+<<<<<<< HEAD
     "express": "^4.16.3",
     "express-handlebars": "^4.0.4"
+=======
+    "@google-cloud/datastore": "^6.0.0",
+    "express": "^4.16.3"
+>>>>>>> Example of User Datasore
   },
   "devDependencies": {
     "mocha": "^8.0.0",
