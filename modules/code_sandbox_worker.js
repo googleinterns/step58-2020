@@ -11,6 +11,7 @@
 global.acorn            = require('../lib/js_interpreter/acorn_interpreter.js');
 const acornInterpreter  = require('../lib/js_interpreter/acorn_interpreter.js');
 const fs                = require('fs');
+const code              = process.argv[2];
 
 
 /**
@@ -37,8 +38,6 @@ var overrideFunctions = function(interpreter, scope) {
     interpreter.createNativeFunction(assertOverride));
 }
 
-
-// Receives code from stdin, and execute it.
-let code = fs.readFileSync(process.stdin.fd, 'utf-8');
+// Execute code received as argument
 interpreter = new acornInterpreter.Interpreter(code, overrideFunctions);
 while(interpreter.step());
