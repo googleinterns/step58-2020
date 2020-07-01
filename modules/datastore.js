@@ -12,16 +12,15 @@ const datastore = new Datastore({
 const kind = 'User';
 // The name for the new entity
 const name = 'sampleUser1';
-//The email for the new entity
-const email = 'user@gmail.com'
 // The Cloud Datastore key for the new entity
-const userKey = datastore.key([kind, name, email]);
+const userKey = datastore.key([kind, name]);
 
 // Prepares the new entity
 const user = {
   key: userKey,
   data: {
-    description: 'ID Key',
+    description: 'User Key',
+    email: 'user@gmail.com'
   },
 };
 
@@ -29,7 +28,7 @@ const user = {
 datastore
   .save(user)
   .then(() => {
-    console.log(`Saved ${user.key.name}: ${user.data.description}`);
+    console.log(`Saved ${user.key.name}: ${user.data.description}, ${user.data.email}`);
   })
   .catch(err => {
     console.error('ERROR:', err);
