@@ -16,7 +16,8 @@
     "test": "mocha --exit test/*.test.js"
   },
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "express-handlebars": "^4.0.4"
   },
   "devDependencies": {
     "mocha": "^8.0.0",

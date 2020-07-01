@@ -1,11 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and core components
-<<<<<<< HEAD
 const app = angular.module('yellowBrickCode', [
-=======
-angular.module('yellowBrickCode', [
->>>>>>> c7ced66... Add Angular modules
   'ngRoute',
   'yellowBrickCode.solve',
 ]).
@@ -13,7 +9,6 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   $locationProvider.hashPrefix('!');
 
   $routeProvider.otherwise({redirectTo: '/solve'});
-<<<<<<< HEAD
 }]);
 
 app.directive('uiCodeMirror', [function() {
@@ -28,6 +23,4 @@ app.directive('uiCodeMirror', [function() {
   return {
     link: link
   };
-=======
->>>>>>> c7ced66... Add Angular modules
 }]);
