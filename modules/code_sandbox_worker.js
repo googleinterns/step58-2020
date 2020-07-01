@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
 * Worker script that runs a JavaScript code inside a sandbox.
 *
