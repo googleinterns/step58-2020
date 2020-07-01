@@ -27,6 +27,7 @@
 >>>>>>> Added changes made for comments
     "express": "^4.16.3",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "express-handlebars": "^4.0.4"
 =======
     "@google-cloud/datastore": "^6.0.0",
@@ -40,6 +41,10 @@
 =======
     "google-auth-library": "^6.0.2"
 >>>>>>> Everything needed for User's information to be stored is completed
+=======
+    "express-handlebars": "^4.0.4",
+    "@google-cloud/datastore": "^6.0.0"
+>>>>>>> Example of User Datasore
   },
   "devDependencies": {
     "mocha": "^8.0.0",
