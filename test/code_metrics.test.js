@@ -6,10 +6,10 @@ describe('Code Metrics Analyzer', function() {
     it('should output the correct complexity number', function() {
       const sourceCode = `function test() {
                             if (3*2 === 6) {
-                              alert("3*2 is 6")
+                              alert("3*2 is 6");
                             }
                             else {
-                              alert("panic")
+                              alert("panic");
                             }
                           }`
       const result = analyze(sourceCode);
