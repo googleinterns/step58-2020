@@ -8,6 +8,6 @@ html, body {
   height: 100%;
 }
 
-#code-area, .CodeMirror {
+.CodeMirror {
   height: 100%;
 }
