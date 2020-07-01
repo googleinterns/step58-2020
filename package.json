@@ -18,10 +18,15 @@
   "dependencies": {
 <<<<<<< HEAD
     "express": "^4.16.3",
+<<<<<<< HEAD
     "express-handlebars": "^4.0.4"
 =======
     "@google-cloud/datastore": "^6.0.0",
     "express": "^4.16.3"
+>>>>>>> Example of User Datasore
+=======
+    "express-handlebars": "^4.0.4",
+    "@google-cloud/datastore": "^6.0.0"
 >>>>>>> Example of User Datasore
   },
   "devDependencies": {
