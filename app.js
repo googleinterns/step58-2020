@@ -8,25 +8,27 @@ const exphbs    = require('express-handlebars');
 const app       = express();
 
 /**
-* Responds to requests for routes by giving html files with the same name if possible.
-* Ex: Client will get /html/hello.html when sending a request to /hello
+* Setup express handlebars as our templating engine.
 **/
-app.use('/', express.static(path.join(__dirname, 'html'), {extensions:['html']}));
+app.engine('hbs', exphbs({defaultLayout: 'main', extname: 'hbs'}));
+app.set('views', path.join(__dirname, 'html'));
+app.set('view engine', 'hbs');
 
 /**
 * Binds the routes /scripts, /stylesheets, and /lib with their corresponding directory.
 * Ex: client will get /scripts/hello.js when sending request to /scripts/client.js
 **/
-app.use('/scripts', express.static(path.join(__dirname, 'scripts')))
-app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')))
-app.use('/lib', express.static(path.join(__dirname, 'lib')))
+app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
+app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')));
+app.use('/lib', express.static(path.join(__dirname, 'lib')));
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('views', './html')
-app.set('view engine', 'handlebars')
-app.get('/index', function(request, response) {
-  response.render('index')
-})
+/**
+* Responds to requests for routes by giving html files with the same name if possible.
+* Ex: When the route /hello is requested, the server will render the file hello.hbs
+**/
+app.use('/', function(request, response, next) {
+  response.render(request.originalUrl.slice(1));
+});
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}`))
 module.exports = app;
