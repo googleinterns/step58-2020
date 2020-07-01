@@ -89,5 +89,37 @@ describe('Code Sandbox', async() => {
       assert.equal(result.signal, 'SIGTERM');
     });
   });
+
+  describe('promise', async() => {
+    it(`should prevent blocking on multiple calls`, async() => {
+      const longCode    = `while(true);`;
+      const shortCode   = `alert('Finishes first');`;
+
+      let promises      = [];
+      let results       = [];
+
+      // Runs long code first then the short code asynchronously.
+      // where the first one to finish will be stored in results first.
+      (async() => {
+        let promise = sandbox.run(longCode, 1000);
+        promises.push(promise);
+        results.push(await promise);
+      })();
+      (async() => {
+        let promise = sandbox.run(shortCode);
+        promises.push(promise);
+        results.push(await promise);
+      })();
+
+      // Awaits for both promises to prevent current process
+      // from exiting before the sandboxes finish, which would
+      // create orphan processes.
+      await promises[0];
+      await promises[1];
+
+      assert.equal(results[0].stdout, 'Finishes first\n');
+      assert.equal(results[1].signal, 'SIGTERM');
+    });
+  });
 });
 
