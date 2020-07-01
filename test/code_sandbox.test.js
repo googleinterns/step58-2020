@@ -9,9 +9,7 @@ describe('Code Sandbox', async() => {
 
       assert.equal(result.stdout, 'Hello there!\n');
     });
-  });
 
-  describe('alert()', async() => {
     it(`should be connected to sandbox host's stderr`, async() => {
       const code      = `assert(false);`;
       const result    = await sandbox.run(code);
