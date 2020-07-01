@@ -1,0 +1,45 @@
+<div class="row fill no-gutters">
+
+  <div class="col-3">
+    <div class="card fill">
+      <div class="card-header">
+        <h5 class="card-title" id="question-title"></h5>
+      </div>
+      <div class="card-body">
+        <p class="card-text" id="question-text"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6" id="code-area"></div>
+
+  <div class="col-3">
+    <div class="card fill">
+      <div class="card-header">
+
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="output-tab" data-toggle="tab" href="#output" role="tab" aria-controls="output" aria-selected="true">Output</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="analysis-tab" data-toggle="tab" href="#analysis" role="tab" aria-controls="analysis" aria-selected="false">Analysis</a>
+          </li>
+          <div>
+            <button type="button" id="run-button" class="btn btn-success" onclick="executeCode()">Run</button>
+            <button type="button" id="stop-button" class="btn btn-danger" onclick="stopRunningCode()" hidden>Stop</button>
+          </div>
+        </ul>
+      </div>
+      <div class="card-body">
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="output" role="tabpanel" aria-labelledby="output-tab">
+            <pre id="code-output"></pre>
+          </div>
+          <div class="tab-pane fade" id="analysis" role="tabpanel" aria-labelledby="analysis-tab">
+            <p id="analysis-output"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
