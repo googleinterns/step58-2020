@@ -10,10 +10,12 @@ const datastore = new Datastore({
 
 // The kind for the new entity
 const kind = 'User';
-// The name/ID for the new entity
+// The name for the new entity
 const name = 'sampleUser1';
+//The email for the new entity
+const email = 'user@gmail.com'
 // The Cloud Datastore key for the new entity
-const userKey = datastore.key([kind, name]);
+const userKey = datastore.key([kind, name, email]);
 
 // Prepares the new entity
 const user = {
