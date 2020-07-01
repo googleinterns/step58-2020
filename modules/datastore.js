@@ -1,5 +1,5 @@
 // Imports the Google Cloud client library
-const {Datastore} = require('@google-cloud/datastore');
+const Datastore = require('@google-cloud/datastore');
 
 const projectId = 'cloud-ad-step-2020';
 
@@ -8,32 +8,29 @@ const datastore = new Datastore({
   projectId: projectId,
 });
 
-/**This is the function for saving user's data
-    
- */
-async function userData(name, email){
-    //The kind for the new entity being the user info
-    const kind = 'User';
-    //The Cloud Datastore key for the new entity
-    const userKey = datastore.key([kind, name]);
+// The kind for the new entity
+const kind = 'User';
+// The name for the new entity
+const name = 'sampleUser1';
+//The email for the new entity
+const email = 'user@gmail.com'
+// The Cloud Datastore key for the new entity
+const userKey = datastore.key([kind, name, email]);
 
-    //Preparing the new entity
-    const user = {
-        key: userKey,
-        data: {
-            description: 'User\'s profile information',
-            email: email
-        },
-    };
+// Prepares the new entity
+const user = {
+  key: userKey,
+  data: {
+    description: 'ID Key',
+  },
+};
 
-    //Saving the user entity
-    datastore
-        .save(user)
-        .then(() => {
-            console.log(`Saved ${user.key.name}: ${user.data.description}, ${user.data.email}`);
-        })
-        .catch(err => {
-            console.error('ERROR:', err);
-        });
-}
-module.exports = userData;
+// Saves the entity
+datastore
+  .save(user)
+  .then(() => {
+    console.log(`Saved ${user.key.name}: ${user.data.description}`);
+  })
+  .catch(err => {
+    console.error('ERROR:', err);
+  });
