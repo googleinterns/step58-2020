@@ -7,6 +7,7 @@ const express   = require('express');
 const exphbs    = require('express-handlebars');
 const fs        = require('fs');
 const app       = express();
+const userData  = require('./modules/datastore.js');
 
 /**
  * Recursively import all route handlers in /routes.
@@ -53,6 +54,9 @@ app.get('/problems', function(request, response) {
   };
   response.render('problems', hardcodedProblems);
 });
+
+
+//app.post('/storeSubmission')
 
 /**
  * Responds to requests for routes by giving html files with the same name if possible.

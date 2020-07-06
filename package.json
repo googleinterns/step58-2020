@@ -17,6 +17,10 @@
   },
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    "@google-cloud/datastore": "^6.0.0",
+>>>>>>> Everything needed for User's information to be stored is completed
     "express": "^4.16.3",
 <<<<<<< HEAD
     "express-handlebars": "^4.0.4"
@@ -26,8 +30,12 @@
 >>>>>>> Example of User Datasore
 =======
     "express-handlebars": "^4.0.4",
+<<<<<<< HEAD
     "@google-cloud/datastore": "^6.0.0"
 >>>>>>> Example of User Datasore
+=======
+    "google-auth-library": "^6.0.2"
+>>>>>>> Everything needed for User's information to be stored is completed
   },
   "devDependencies": {
     "mocha": "^8.0.0",
