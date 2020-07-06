@@ -1,5 +1,5 @@
 // Imports the Google Cloud client library
-const Datastore = require('@google-cloud/datastore');
+const {Datastore} = require('@google-cloud/datastore');
 
 const projectId = 'cloud-ad-step-2020';
 
