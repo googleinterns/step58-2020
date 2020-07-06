@@ -1,4 +1,4 @@
-const SAMPLE_CODE       = 'function myScript(){return 100;}\n';
+const INITIAL_CODE_ID   = 'initial-code';
 const CODE_AREA_ID      = 'code-area';
 const CODE_OUTPUT_ID    = 'code-output';
 const RUN_BUTTON_ID     = 'run-button';
@@ -24,7 +24,7 @@ window.addEventListener('load', function() {
  **/
 function setupCodeMirror() {
   codeMirror = CodeMirror(document.getElementById(CODE_AREA_ID), {
-    value: SAMPLE_CODE,
+    value: document.getElementById(INITIAL_CODE_ID).value,
     mode:  'javascript',
     lineNumbers: true,
   });
