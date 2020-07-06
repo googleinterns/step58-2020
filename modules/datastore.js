@@ -8,28 +8,57 @@ const datastore = new Datastore({
   projectId: projectId,
 });
 
-// The kind for the new entity
-const kind = 'User';
-// The name for the new entity
-const name = 'sampleUser1';
-// The Cloud Datastore key for the new entity
-const userKey = datastore.key([kind, name]);
+//This is the function for saving user's data
+async function userData(){
+    //The kind for the new entity being the user info
+    const kind = 'User';
+    //The name that the username for the new entity
+    const name = 'sampleUser1';
+    //The Cloud Datastore key for the new entity
+    const userKey = datastore.key([kind, name]);
 
-// Prepares the new entity
-const user = {
-  key: userKey,
-  data: {
-    description: 'User Key',
-    email: 'user@gmail.com'
-  },
-};
+    //Preparing the new entity
+    const user = {
+        key: userKey,
+        data: {
+            description: 'User Key',
+            email: 'user@gmail.com'
+        },
+    };
 
-// Saves the entity
-datastore
-  .save(user)
-  .then(() => {
-    console.log(`Saved ${user.key.name}: ${user.data.description}, ${user.data.email}`);
-  })
-  .catch(err => {
-    console.error('ERROR:', err);
-  });
+    //Saving the user entity
+    datastore
+        .save(user)
+        .then(() => {
+            console.log(`Saved ${user.key.name}: ${user.data.description}, ${user.data.email}`);
+        })
+        .catch(err => {
+            console.error('ERROR:', err);
+        });
+}
+userData();
+
+
+/*async function problemData() {
+  // The kind for the new entity
+  const kind = 'Task';
+
+  // The name/ID for the new entity
+  const name = 'sampletask1';
+
+  // The Cloud Datastore key for the new entity
+  const taskKey = datastore.key([kind, name]);
+
+  // Prepares the new entity
+  const task = {
+    key: taskKey,
+    data: {
+      description: 'Buy milk',
+    },
+  };
+
+  // Saves the entity
+  await datastore.save(task);
+  console.log(`Saved ${task.key.name}: ${task.data.description}`);
+}
+problemData();*/
