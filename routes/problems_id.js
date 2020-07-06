@@ -1,5 +1,10 @@
 module.exports = function(app) {
-  app.get('/problems/:id', function (req, res) {
-    res.send(req.params.id);
+  app.get('/problems/:id', function (request, response) {
+    let dynamicContent = {
+      'question-title': 'Placeholder title for /problems/' + request.params.id,
+      'question-text' : 'Placeholder text for /problems/' + request.params.id
+    }
+
+    response.render('solve', dynamicContent);
   });
 }
