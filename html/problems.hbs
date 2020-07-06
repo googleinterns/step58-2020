@@ -1,0 +1,12 @@
+<div class="container" id="problems-container">
+  <div class="card-deck mt-3">
+    {{#each problems}}
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">{{this.text}}</p>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>
