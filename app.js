@@ -4,9 +4,16 @@ const PORT      = process.env.PORT || 8080;
 
 const path      = require('path'); 
 const express   = require('express');
+const bodyParser = require('body-parser');
 const exphbs    = require('express-handlebars');
 const app       = express();
 const userData  = require('./modules/datastore.js');
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 /**
 * Setup express handlebars as our templating engine.
@@ -24,11 +31,11 @@ app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')));
 app.use('/lib', express.static(path.join(__dirname, 'lib')));
 
 //Handeling GET and POST request in Express
-app.post('/addUser',(request,response) => {
+app.post('/user',(request,response) => {
     //code to perform particular action.
-    console.log(request.query.name);
-    console.log(request.query.email);
-    userData(request.query.name, request.query.email);
+    const user = request.body;
+    console.log(request.body);
+    userData(user.name, user.email);
 });
 
 //app.post('/storeSubmission')
