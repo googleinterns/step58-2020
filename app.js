@@ -46,9 +46,9 @@ app.use('/lib', express.static(path.join(__dirname, 'lib')));
 app.get('/problems', function(request, response) {
   const hardcodedProblems = {
     problems: [
-      {title: "problem 1", text: "text for problem 1"},
-      {title: "problem 2", text: "text for problem 2"},
-      {title: "problem 3", text: "text for problem 3"}
+      {title: 'problem 1', text: 'text for problem 1'},
+      {title: 'problem 2', text: 'text for problem 2'},
+      {title: 'problem 3', text: 'text for problem 3'}
     ]
   };
   response.render('problems', hardcodedProblems);
