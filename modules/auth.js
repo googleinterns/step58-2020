@@ -31,3 +31,5 @@ async function getUser(token) {
     return null;
   }
 }
+
+module.exports.getUser = getUser;
