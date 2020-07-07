@@ -4,10 +4,17 @@ const PORT      = process.env.PORT || 8080;
 
 const path      = require('path'); 
 const express   = require('express');
+const bodyParser = require('body-parser');
 const exphbs    = require('express-handlebars');
 const fs        = require('fs');
 const app       = express();
 const userData  = require('./modules/datastore.js');
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 /**
  * Recursively import all route handlers in /routes.
@@ -53,18 +60,3 @@ app.get('/problems', function(request, response) {
     ]
   };
   response.render('problems', hardcodedProblems);
-});
-
-
-//app.post('/storeSubmission')
-
-/**
- * Responds to requests for routes by giving html files with the same name if possible.
- * Ex: When the route /hello is requested, the server will render the file hello.hbs
- **/
-app.use('/', function(request, response, next) {
-  response.render(request.originalUrl.slice(1));
-});
-
-app.listen(PORT, () => console.log(`App listening on port ${PORT}`))
-module.exports = app;

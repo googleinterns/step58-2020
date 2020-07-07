@@ -7,8 +7,12 @@ function onSignIn(googleUser) {
     const name = profile.getName();
     const email = profile.getEmail();
     //To send the information to the server
-    const request = new Request("/addUser?name=" + name + "&email=" + email, {method: "POST"}); 
-    fetch(request);
+    var user = new Object();
+    user.name = name;
+    user.email = email;
+    
+    //const request = new Request("/user", {method: "POST", body: JSON.stringify(user)}); 
+    fetch("/user", {method: "POST", body: JSON.stringify(user)});
 }
  
 function signOut(){

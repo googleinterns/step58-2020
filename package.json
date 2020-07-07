@@ -20,7 +20,11 @@
 <<<<<<< HEAD
 =======
     "@google-cloud/datastore": "^6.0.0",
+<<<<<<< HEAD
 >>>>>>> Everything needed for User's information to be stored is completed
+=======
+    "body-parser": "^1.19.0",
+>>>>>>> Added changes made for comments
     "express": "^4.16.3",
 <<<<<<< HEAD
     "express-handlebars": "^4.0.4"
