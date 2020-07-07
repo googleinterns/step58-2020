@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "express-handlebars": "^4.0.4"
+    "express-handlebars": "^4.0.4",
+    "js-yaml": "^3.14.0"
   },
   "devDependencies": {
     "mocha": "^8.0.0",
