@@ -46,12 +46,13 @@ function addFromProblemsDir(dirName) {
   });
 }
 
+function readYamlFile(filePath) {
+  const fileBuffer = fs.readFileSync(filePath);
+  return yaml.safeLoad(fileBuffer);
+}
+
 module.exports = {
   addProblem: addProblem,
   addFromProblemsDir: addFromProblemsDir
 };
 
-function readYamlFile(filePath) {
-  const fileBuffer = fs.readFileSync(filePath);
-  return yaml.safeLoad(fileBuffer);
-}
