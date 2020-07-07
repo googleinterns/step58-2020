@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
+app.use(express.json());
 
 /**
 * Setup express handlebars as our templating engine.
@@ -32,10 +33,7 @@ app.use('/lib', express.static(path.join(__dirname, 'lib')));
 
 //Handeling GET and POST request in Express
 app.post('/user',(request,response) => {
-    //code to perform particular action.
-    const user = request.body;
-    console.log(request.body);
-    userData(user.name, user.email);
+    userData(idToken);
 });
 
 //app.post('/storeSubmission')
