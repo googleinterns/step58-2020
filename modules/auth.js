@@ -36,7 +36,6 @@ async function verify(token) {
 }
 
 /**
- * 
  * @param {string} token 
  * @returns {Promise} Returns Promise resolving to a User object
  */
