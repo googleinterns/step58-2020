@@ -8,12 +8,12 @@ const datastore = new Datastore({
   projectId: projectId,
 });
 
-//This is the function for saving user's data
-async function userData(){
+/**This is the function for saving user's data
+    
+ */
+async function userData(name, email){
     //The kind for the new entity being the user info
     const kind = 'User';
-    //The name that the username for the new entity
-    const name = 'sampleUser1';
     //The Cloud Datastore key for the new entity
     const userKey = datastore.key([kind, name]);
 
@@ -21,8 +21,8 @@ async function userData(){
     const user = {
         key: userKey,
         data: {
-            description: 'User Key',
-            email: 'user@gmail.com'
+            description: 'User\'s profile information',
+            email: email
         },
     };
 
@@ -37,7 +37,7 @@ async function userData(){
         });
 }
 userData();
-
+module.exports = userData;
 
 /*async function problemData() {
   // The kind for the new entity
