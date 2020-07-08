@@ -1,24 +1,59 @@
+'use strict';
+
 const path          = require('path'); 
 const fs            = require('fs');
 const yaml          = require('js-yaml');
+const datastore     = require('./datastore.js');
 
 const PROBLEMS_DIR  = path.join(__dirname, '../problems');
+const PROBLEMS_KIND = 'Problem';
 
 /**
- * Placeholder function that will be replaced once Datastore functionality
- * is ready.
- *
- * When implementing this functionality once Datastore is ready, make sure to
- * guarantee idempotency as it is likely that mass updating problems will be
- * a common operation.
- * Ex   : User added 20 new problems but there is still 5 old problems in /problems
- *        that should not create duplicate problems.
- *
- * Separated into its own function in case if we want to support adding problems
- * by other means than files in /problems such as using form in the web application.
+ * Adds a new problem to the Datastore given a problem object.
+ * Asserts that the problem is valid using problemIsValid
+ * and guarantees idempotency.
  **/
-function addProblem(problemObject) {
-  console.log(problemObject);
+async function addProblem(problemObject) {
+  if (!problemIsValid(problemObject))
+    return;
+
+  const key = await generateKey(problemObject);
+  datastore.store(key, problemObject);
+}
+
+/**
+ * Generates key given a problem object to guarantee idempotency.
+ * If a problem with the same id already exists, it will give the
+ * entity's key such that it could be updated.
+ * Otherwise, PROBLEMS_KIND is simply returned, indicating
+ * that a new entity should be created.
+ **/
+async function generateKey(problemObject) {
+  const query = datastore
+    .createQuery(PROBLEMS_KIND)
+    .filter('id', '=', problemObject.id);
+
+  const [problems] = await datastore.runQuery(query);
+
+  if (problems.length == 0) {
+    return PROBLEMS_KIND;
+  } else {
+    return problems[0][datastore.KEY];
+  }
+}
+
+/**
+ * Determines whether a problem object is valid or not.
+ * A valid problem is currently defined as one that contains
+ * id, title, text, code, tests, and solution.
+ **/
+function problemIsValid(problemObject) {
+  return problemObject.hasOwnProperty('id')     && 
+    problemObject.hasOwnProperty('title')       &&
+    problemObject.hasOwnProperty('text')        &&
+    problemObject.hasOwnProperty('code')        &&
+    problemObject.hasOwnProperty('tests')       &&
+    problemObject.hasOwnProperty('solution');
 }
 
 /**
@@ -28,7 +63,7 @@ function addProblem(problemObject) {
  * This is done recursively to allow users to better structure their problems
  * by separating them into directories, etc.
  **/
-function addFromProblemsDir(dirName) {
+async function addFromProblemsDir(dirName) {
   dirName = dirName || PROBLEMS_DIR;
   fs.readdirSync(dirName).forEach(function(fileName) {
 
