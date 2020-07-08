@@ -4,17 +4,11 @@ const PORT      = process.env.PORT || 8080;
 
 const path      = require('path'); 
 const express   = require('express');
-const bodyParser = require('body-parser');
 const exphbs    = require('express-handlebars');
 const fs        = require('fs');
 const app       = express();
 const saveUser  = require('./modules/datastore.js');
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
-app.use(bodyParser.json());
 app.use(express.json());
 
 /**
