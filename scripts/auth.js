@@ -2,7 +2,6 @@
 function onSignIn(googleUser) {
     //ID-TOKEN
     var idToken = googleUser.getAuthResponse().id_token;
-    console.log(idToken);
     //To send the information to the server
     const type = new Blob([JSON.stringify({authToken: idToken})], {type : 'application/json'});
     //const request = new Request("/user", {method: "POST", body: JSON.stringify(user)}); 
