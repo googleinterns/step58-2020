@@ -2,6 +2,8 @@
 
 const datastore     = require('../modules/datastore.js');
 const problemUtil   = require('../modules/problem_util.js');
+const analyze       = require('../modules/code_metrics.js');
+const sandbox       = require('../modules/code_sandbox_manager.js');
 
 const PROBLEMS_KIND = 'Problem';
 
@@ -35,5 +37,16 @@ module.exports = function(app) {
     }
 
     response.render('solve', dynamicContent);
+  });
+
+  app.post('/problems/:id', function(request, response) {
+    /** TODO (b/160783943)
+     * Test code: get problem object from datastore and combine submitted source code with provided
+     * test cases. If there are no errors, store as new submission along with analysis and redirect 
+     * to updated rankings page. Otherwise, send response with failing test cases so client can alert user.
+     **/
+    console.log(request.body.code);
+    console.log(analyze(request.body.code));
+    response.send(false);
   });
 }
