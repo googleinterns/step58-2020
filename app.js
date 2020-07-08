@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const exphbs    = require('express-handlebars');
 const fs        = require('fs');
 const app       = express();
-const userData  = require('./modules/datastore.js');
+const saveUser  = require('./modules/datastore.js');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -58,13 +58,13 @@ app.get('/problems', function(request, response) {
       {title: 'problem 1', text: 'text for problem 1'},
       {title: 'problem 2', text: 'text for problem 2'},
       {title: 'problem 3', text: 'text for problem 3'}
-    ]
-  };
-  response.render('problems', hardcodedProblems);
+    ]};
+  response.render('problems', hardcodedProblems)
+});
 
 //Handeling GET and POST request in Express
 app.post('/user',(request,response) => {
-    userData(idToken);
+    saveUser(idToken);
 });
 
 //app.post('/storeSubmission')

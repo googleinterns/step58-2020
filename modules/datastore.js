@@ -11,7 +11,7 @@ const datastore = new Datastore({
 /**This is the function for saving user's data
     
  */
-async function userData(name, email){
+async function saveUser(name, email){
     //The kind for the new entity being the user info
     const kind = 'User';
     //The Cloud Datastore key for the new entity
@@ -36,8 +36,8 @@ async function userData(name, email){
             console.error('ERROR:', err);
         });
 }
-userData();
-module.exports = userData;
+saveUser();
+module.exports = saveUser;
 
 /*async function problemData() {
   // The kind for the new entity
