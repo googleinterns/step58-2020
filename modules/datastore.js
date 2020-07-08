@@ -1,39 +1,29 @@
-// Imports the Google Cloud client library
 const {Datastore} = require('@google-cloud/datastore');
- 
-const projectId = 'cloud-ad-step-2020';
- 
-// Creates a client
+
 const datastore = new Datastore({
-  projectId: projectId,
+  projectId: 'cloud-ad-step-2020',
 });
- 
-/**This is the function for saving user's data
-    
- */
-async function saveUser(name, email){
-    //The kind for the new entity being the user info
-    const kind = 'User';
-    //The Cloud Datastore key for the new entity
-    const userKey = datastore.key([kind, name]);
- 
-    //Preparing the new entity
-    const user = {
-        key: userKey,
-        data: {
-            description: 'User\'s profile information',
-            email: email
-        },
-    };
- 
-    //Saving the user entity
-    datastore
-        .save(user)
-        .then(() => {
-            console.log(`Saved ${user.key.name}: ${user.data.description}, ${user.data.email}`);
-        })
-        .catch(err => {
-            console.error('ERROR:', err);
-        });
+
+/**
+ * Saves a new entity given a key and a hashmap of parameters.
+ * If key defines only the Kind of the enitity, a new entity will be created.
+ * If key defines both the Kind and the id of an existing entity, it will be updated.
+ *
+ * Creates a new function for datastore to avoid code repetition.
+ **/
+datastore.store = async function(key, parameters) {
+  const entityKey = datastore.isKey(key) ? key : datastore.key(key);
+
+  const entity = {
+    key : entityKey,
+    data: parameters
+  };
+
+  try {
+    await datastore.save(entity);
+  } catch(error) {
+    throw error;
+  }
 }
-module.exports = saveUser;
+
+module.exports = datastore;
