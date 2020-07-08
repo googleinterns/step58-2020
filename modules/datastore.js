@@ -36,7 +36,6 @@ async function saveUser(name, email){
             console.error('ERROR:', err);
         });
 }
-saveUser();
 module.exports = saveUser;
 
 /*async function problemData() {
