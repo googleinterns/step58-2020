@@ -1,3 +1,4 @@
+id: 1
 title: FizzBuzz
 text: |
   Write a function called fizzBuzz that takes in one integer as an argument.
@@ -6,6 +7,10 @@ text: |
   If the number is a multiple of 3, return 'Fizz' instead of the number.
   Similarly, if the number is a multiple of 5, return 'Buzz'.
   Lastly, if the number is a multiple of both 3 and 5, return 'FizzBuzz'.
+code: |
+  function fizzBuzz(num) {
+    return num;
+  }
 tests:
   - assert(fizzBuzz(1) === 1);
   - assert(fizzBuzz(3) === 'Fizz');
