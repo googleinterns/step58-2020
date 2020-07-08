@@ -152,3 +152,19 @@ function runStaticAnalysis(code) {
       The total cyclomatic compexity is ${totalComplexity}.`
   document.getElementById('analysis-output').innerText = metricsString;
 }
+
+function submitSolution() {
+  const submitButton = document.getElementById('submit-button');
+  submitButton.disabled = true;
+  submitButton.innerHTML = 
+    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...';
+  const solution = new Blob([JSON.stringify({code: codeMirror.getValue()})], {type: 'application/json'});
+
+  fetch(`${location.pathname}/solutions`, {method: 'POST', body: solution}).then((res) => {
+    return res.json();
+  }).then((errors) => {
+      submitButton.innerText = "Submit";
+      submitButton.disabled = false;
+      console.log(errors);
+  });
+}
