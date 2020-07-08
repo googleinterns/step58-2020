@@ -1,0 +1,31 @@
+id: 2
+title: Fibonacci
+text: |
+  Write a function called Fibonacci that takes in an integer.
+  given an input N, this function should return the Nth number in the Fibonacci sequence.
+  
+  Fibonacci sequence is defined as
+  F(0) = 0   
+  F(1) = 1
+  F(N) = F(N - 1) + F(N - 2), for N > 1.
+
+
+Example:
+code: |
+  function fibonacci(num) {
+    return num;
+  }
+tests:
+  - assert(fibonacci(0) === 0);
+  - assert(fibonacci(1) === 1);
+  - assert(fibonacci(2) === 1);
+  - assert(fibonacci(3) === 2);
+  - assert(fibonacci(4) === 3);
+  - assert(fibonacci(5) === 5);
+solution: |
+  function fibonacci(num) {
+    if (num <= 1)
+        return num;
+    
+    return fibonacci(num - 1) + fibonacci(num - 2);
+  };
