@@ -8,6 +8,8 @@ const exphbs    = require('express-handlebars');
 const fs        = require('fs');
 const app       = express();
 
+app.use(express.json());
+
 /**
  * Recursively import all route handlers in /routes.
  **/
