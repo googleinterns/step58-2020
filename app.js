@@ -43,17 +43,6 @@ app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')));
 app.use('/lib', express.static(path.join(__dirname, 'lib')));
 
-app.get('/problems', function(request, response) {
-  const hardcodedProblems = {
-    problems: [
-      {title: 'problem 1', text: 'text for problem 1'},
-      {title: 'problem 2', text: 'text for problem 2'},
-      {title: 'problem 3', text: 'text for problem 3'}
-    ]
-  };
-  response.render('problems', hardcodedProblems);
-});
-
 /**
  * Responds to requests for routes by giving html files with the same name if possible.
  * Ex: When the route /hello is requested, the server will render the file hello.hbs
