@@ -169,7 +169,7 @@ function submitSolution() {
   const payload = new Blob([JSON.stringify({authToken: idToken, code: codeMirror.getValue()})], {type: 'application/json'});
 
   fetch(`${location.pathname}`, {method: 'POST', body: payload}).then((res) => {
-    return res.json();
+    return res;
   }).then((errors) => {
       submitButton.innerText = "Submit";
       submitButton.disabled = false;
