@@ -1,3 +1,4 @@
+<script src="/scripts/solutions.js"></script>
 <div class="container mt-3">
   <table class="table table-striped">
     <thead class="thead-dark">
@@ -14,9 +15,17 @@
         <th scope="row" class="align-middle">{{math @index "+" 1}}</th>
         <td class="align-middle">{{this.email}}</td>
         <td class="align-middle">{{this.complexity}}</td>
-        <td class="align-middle"><a href="" class="btn btn-warning">View</a></td>
+        <td class="align-middle">
+          <a class="btn btn-warning" data-toggle="collapse" href="#collapse{{@index}}" role="button" aria-expanded="false" aria-controls="collapse{{@index}}">
+              View
+          </a>
+          <div class="collapse-area" id="collapse{{@index}}">
+            <textarea class="code-area">{{this.code}}</textarea>
+          </div>
+        </td>
       </tr>
       {{/each}}
     </tbody>
   </table>
 </div>
+
