@@ -12,7 +12,8 @@ const datastore = new Datastore({
  * Creates a new function for datastore to avoid code repetition.
  **/
 datastore.store = async function(key, parameters) {
-  const entityKey = datastore.isKey(key) ? key : datastore.key(key);
+  const entityKey       = datastore.isKey(key) ? key : datastore.key(key);
+  parameters.timestamp  = new Date(); 
 
   const entity = {
     key : entityKey,
