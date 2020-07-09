@@ -1,0 +1,22 @@
+<div class="container mt-3">
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Author</th>
+        <th scope="col">Complexity</th>
+        <th scope="col">Submission</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each solutions}}
+      <tr>
+        <th scope="row" class="align-middle">{{math @index "+" 1}}</th>
+        <td class="align-middle">{{this.email}}</td>
+        <td class="align-middle">{{this.complexity}}</td>
+        <td class="align-middle"><a href="" class="btn btn-warning">View</a></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
