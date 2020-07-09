@@ -1,0 +1,6 @@
+indexes:
+
+- kind: Solution
+  properties:
+  - name: problemId
+  - name: complexity
