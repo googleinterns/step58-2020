@@ -153,26 +153,25 @@ function runStaticAnalysis(code) {
   const results = JSHINT.data();
   results.functions.forEach(fn => totalComplexity += fn.metrics.complexity);
 
-  unusedNames = results.unused ? results.unused.map(element => element.name) : [];
+  const unusedNames = results.unused ? results.unused.map(element => element.name) : [];
   // TODO(@ifeomi) revisit this once we have clarity on how test cases will be provided
   let unused = unusedNames.filter(x => x !== SOLUTION_FUNCTION);
 
-  metricsString = `Number of functions: ${results.functions.length}
+  const metricsString = `Number of functions: ${results.functions.length}
       Unused functions and variables: ${unused.length > 0 ? unused.join(', ') : 'none'}
-      The total cyclomatic compexity is ${totalComplexity}.`
+      The total cyclomatic complexity is ${totalComplexity}.`
   document.getElementById('analysis-output').innerText = metricsString;
 }
 
-function submitSolution() {
-  submitButton.disabled = true;
-  submitButton.innerHTML = LOADING_BUTTON;
+async function submitSolution() {
+  submitButton.disabled     = true;
+  submitButton.innerHTML    = LOADING_BUTTON;
   const payload = new Blob([JSON.stringify({authToken: idToken, code: codeMirror.getValue()})], {type: 'application/json'});
 
-  fetch(`${location.pathname}`, {method: 'POST', body: payload}).then((res) => {
-    return res;
-  }).then((errors) => {
-      submitButton.innerText = "Submit";
-      submitButton.disabled = false;
-      console.log(errors);
-  });
+  const response        = await fetch(`${location.pathname}`, {method: 'POST', body: payload})
+  const responseText    = await response.text();
+
+  alert(responseText);
+  submitButton.innerText    = "Submit";
+  submitButton.disabled     = false;
 }
