@@ -6,7 +6,7 @@ const datastore = new Datastore({
 
 /**
  * Saves a new entity given a key and a hashmap of parameters.
- * If key defines only the Kind of the enitity, a new entity will be created.
+ * If key defines only the Kind of the entity, a new entity will be created.
  * If key defines both the Kind and the id of an existing entity, it will be updated.
  *
  * Creates a new function for datastore to avoid code repetition.
@@ -19,11 +19,7 @@ datastore.store = async function(key, parameters) {
     data: parameters
   };
 
-  try {
-    await datastore.save(entity);
-  } catch(error) {
-    throw error;
-  }
+  await datastore.save(entity);
 }
 
 module.exports = datastore;
