@@ -1,16 +1,21 @@
+import { idToken } from './auth.js';
+
 const INITIAL_CODE_ID   = 'initial-code';
 const CODE_AREA_ID      = 'code-area';
 const CODE_OUTPUT_ID    = 'code-output';
 const RUN_BUTTON_ID     = 'run-button';
 const STOP_BUTTON_ID    = 'stop-button';
+const SUBMIT_BUTTON_ID  = 'submit-button';
 const HIDDEN_ATTRIBUTE  = 'hidden';
 const NEWLINE           = '\n';
 const SOLUTION_FUNCTION = 'solution';
+const LOADING_BUTTON    = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...';
 
 let codeMirror;
 let outputArea;
 let runButton;
 let stopButton;
+let submitButton;
 let keepRunningCode;
 
 window.addEventListener('load', function() {
@@ -38,6 +43,11 @@ function setupElements() {
   outputArea    = document.getElementById(CODE_OUTPUT_ID);
   runButton     = document.getElementById(RUN_BUTTON_ID);
   stopButton    = document.getElementById(STOP_BUTTON_ID);
+  submitButton  = document.getElementById(SUBMIT_BUTTON_ID)
+  
+  runButton.addEventListener('click', executeCode);
+  stopButton.addEventListener('click', stopRunningCode);
+  submitButton.addEventListener('click', submitSolution);
 }
 
 /**
@@ -81,8 +91,8 @@ function executeCode() {
   updateButtons();
 
   try {
-    let code    = codeMirror.getValue();
-    interpreter = new Interpreter(code, overrideFunctions);
+    let code        = codeMirror.getValue();
+    let interpreter = new Interpreter(code, overrideFunctions);
     startRunningCode(interpreter); 
   } catch (error) {
     outputArea.innerHTML += error + NEWLINE;
@@ -154,13 +164,11 @@ function runStaticAnalysis(code) {
 }
 
 function submitSolution() {
-  const submitButton = document.getElementById('submit-button');
   submitButton.disabled = true;
-  submitButton.innerHTML = 
-    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...';
-  const solution = new Blob([JSON.stringify({code: codeMirror.getValue()})], {type: 'application/json'});
+  submitButton.innerHTML = LOADING_BUTTON;
+  const payload = new Blob([JSON.stringify({authToken: idToken, code: codeMirror.getValue()})], {type: 'application/json'});
 
-  fetch(`${location.pathname}`, {method: 'POST', body: solution}).then((res) => {
+  fetch(`${location.pathname}`, {method: 'POST', body: payload}).then((res) => {
     return res.json();
   }).then((errors) => {
       submitButton.innerText = "Submit";

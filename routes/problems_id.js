@@ -45,6 +45,7 @@ module.exports = function(app) {
      * test cases. If there are no errors, store as new submission along with analysis and redirect 
      * to updated rankings page. Otherwise, send response with failing test cases so client can alert user.
      **/
+    
     console.log(request.body.code);
     console.log(analyze(request.body.code));
     response.send(false);
