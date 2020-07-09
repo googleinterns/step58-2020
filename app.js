@@ -33,7 +33,21 @@ importRoutes(path.join(__dirname, 'routes'));
 /**
  * Setup express handlebars as our templating engine.
  **/
-app.engine('hbs', exphbs({defaultLayout: 'main', extname: 'hbs'}));
+app.engine('hbs', exphbs({defaultLayout: 'main', extname: 'hbs', helpers: {
+  // Helper to do mathematical operations in handlebars
+  math: function(firstValue, operator, secondValue) { 
+      firstValue  = parseFloat(firstValue);
+      secondValue = parseFloat(secondValue);
+      return {
+          "+": firstValue + secondValue,
+          "-": firstValue - secondValue,
+          "*": firstValue * secondValue,
+          "/": firstValue / secondValue,
+          "%": firstValue % secondValue
+      }[operator];
+    }
+  }
+}));
 app.set('views', path.join(__dirname, 'html'));
 app.set('view engine', 'hbs');
 
