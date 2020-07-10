@@ -54,7 +54,7 @@ module.exports = function(app) {
     const hasPrivilege  = await accessControl.hasSubmission(user, request.params.id);
 
     if (!hasPrivilege) {
-      response.send('You have not solved this problem yet');
+      response.sendStatus(401);
     } else {
       const code = await getSubmittedCode(request.params.id, request.body.email);
       response.send(code);
