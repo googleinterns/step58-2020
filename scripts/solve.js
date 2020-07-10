@@ -160,11 +160,13 @@ function submitSolution() {
     '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...';
   const solution = new Blob([JSON.stringify({code: codeMirror.getValue()})], {type: 'application/json'});
 
-  fetch(`${location.pathname}/solutions`, {method: 'POST', body: solution}).then((res) => {
-    return res.json();
-  }).then((errors) => {
+  fetch(`${location.pathname}/solutions`, {method: 'POST', body: solution}).then(res => res.json())
+    .finally(() => {
+      // If there is an error with the request, we should allow user to resubmit.
       submitButton.innerText = "Submit";
       submitButton.disabled = false;
-      console.log(errors);
-  });
+    })  
+    .then(json => {
+      console.log(json);
+    });
 }
