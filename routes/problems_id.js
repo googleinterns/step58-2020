@@ -73,7 +73,10 @@ module.exports = function(app) {
 
     const analysisResult    = analyze(code);
     const executionResult   = await sandbox.run(code + tests.join('\n'));
-
+    if (executionResult.signal === 'SIGTERM') {
+      response.send('Code execution timed out');
+      return;
+    }
     if (executionResult.stderr) {
       response.send('Code did not pass all test cases');
       return;
