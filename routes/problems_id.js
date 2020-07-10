@@ -38,7 +38,6 @@ async function hasSubmitted(user, problemId) {
     .filter('email', '=', user.email);
 
   const [problems] = await datastore.runQuery(query);
-  console.log(problems);
   return problems.length != 0;
 }
 
