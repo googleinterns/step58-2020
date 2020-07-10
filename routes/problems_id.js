@@ -5,6 +5,7 @@ const problemUtil   = require('../modules/problem_util.js');
 const analyze       = require('../modules/code_metrics.js');
 const sandbox       = require('../modules/code_sandbox_manager.js');
 const auth          = require('../modules/auth.js');
+const accessControl = require('../modules/access_control.js');
 
 const PROBLEMS_KIND = 'Problem';
 const SOLUTION_KIND = 'Solution';
@@ -23,22 +24,6 @@ async function getProblem(id) {
 
   const [problems] = await datastore.runQuery(query);
   return problems[0];
-}
-
-/**
- * Checks if a user has submitted an accepted solution before.
- * This is done to prevent users from submitting other people's
- * code they see after solving a problem for the first time,
- * causing an influx in duplicate top answers.
- **/
-async function hasSubmitted(user, problemId) {
-  const query = datastore
-    .createQuery(SOLUTION_KIND)
-    .filter('problemId', '=', parseInt(problemId))
-    .filter('email', '=', user.email);
-
-  const [problems] = await datastore.runQuery(query);
-  return problems.length != 0;
 }
 
 /**
@@ -77,7 +62,7 @@ module.exports = function(app) {
       return;
     }
 
-    if (await hasSubmitted(user, request.params.id)) {
+    if (await accessControl.hasSubmission(user, request.params.id)) {
       response.send('Multiple submissions are not allowed');
       return;
     }
