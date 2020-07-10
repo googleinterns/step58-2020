@@ -54,10 +54,13 @@ app.set('view engine', 'hbs');
 /**
  * Binds the routes /scripts, /stylesheets, and /lib with their corresponding directory.
  * Ex: client will get /scripts/hello.js when sending request to /scripts/client.js
+ * Also serves the website icon.
  **/
 app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')));
 app.use('/lib', express.static(path.join(__dirname, 'lib')));
+app.use('/favicon.ico', express.static(path.join(__dirname, 'html/images/YellowBrickCodeLogo.png')));
+
 
 /**
  * Responds to requests for routes by giving html files with the same name if possible.
