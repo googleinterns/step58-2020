@@ -20,8 +20,8 @@
           <button class="btn btn-warning" id="{{this.email}}-button" data-toggle="collapse" href="#collapse{{@index}}" role="button" aria-expanded="false" aria-controls="collapse{{@index}}">
               View
           </button>
-          <div class="collapse" id="collapse{{@index}}">
-            <textarea id="{{this.email}}-code-area"></textarea>
+          <div class="collapse code-area" id="collapse{{@index}}">
+            <textarea id="{{this.email}}-code-area" hidden></textarea>
           </div>
         </td>
       </tr>
