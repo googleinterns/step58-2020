@@ -1,12 +1,10 @@
-<div class="container" id="problems-container">
-  <div class="card-deck mt-3">
-    {{#each problems}}
-    <div class="card">
-      <div class="card-body">
-        <a href="/problems/{{this.id}}"><h5 class="card-title">{{this.title}}</h5></a>
-        <p class="card-text">{{this.text}}</p>
-      </div>
+<div class="container my-5" id="problems-container">
+  {{#each problems}}
+  <div class="card mb-3">
+    <div class="card-body">
+      <a href="/problems/{{this.id}}"><h5 class="card-title">{{this.title}}</h5></a>
+      <p class="card-text">{{this.text}}</p>
     </div>
-    {{/each}}
   </div>
+  {{/each}}
 </div>

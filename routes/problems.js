@@ -20,6 +20,7 @@ class Problem {
 
 module.exports = function(app) {
   app.get('/problems', async function(request, response) {
+    // TODO (@ifeomi) Post-MVP add limit to query and support pagination.
     const query = datastore.createQuery(PROBLEMS_KIND);
     const [entities] = await datastore.runQuery(query);
     const problems = entities.map((entity) => {
