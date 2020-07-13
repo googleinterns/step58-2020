@@ -11,3 +11,11 @@ html, body {
 .CodeMirror {
   height: 100%;
 }
+
+.highlighted { 
+  background-color: #FDDF7E; 
+}
+
+.pre-scrollable {
+  max-height: 100%;
+}
