@@ -17,6 +17,8 @@ let runButton;
 let stopButton;
 let submitButton;
 let keepRunningCode;
+let interpreter;
+let lastMarking;
 
 window.addEventListener('load', function() {
   setupCodeMirror();
@@ -44,7 +46,7 @@ function setupElements() {
   runButton     = document.getElementById(RUN_BUTTON_ID);
   stopButton    = document.getElementById(STOP_BUTTON_ID);
   submitButton  = document.getElementById(SUBMIT_BUTTON_ID)
-  
+
   runButton.addEventListener('click', executeCode);
   stopButton.addEventListener('click', stopRunningCode);
   submitButton.addEventListener('click', submitSolution);
@@ -66,7 +68,7 @@ function overrideFunctions(interpreter, scope) {
     if (!isTrue) {
       outputArea.innerHTML += message || "Assertion failed";
       keepRunningCode = false;
-      updateButtons();
+      updateInterface();
     }
   }
 
@@ -88,7 +90,7 @@ function overrideFunctions(interpreter, scope) {
 function executeCode() {
   outputArea.innerHTML  = '';
   keepRunningCode       = true;
-  updateButtons();
+  updateInterface();
 
   try {
     let code        = codeMirror.getValue();
@@ -97,17 +99,19 @@ function executeCode() {
   } catch (error) {
     outputArea.innerHTML += error + NEWLINE;
     keepRunningCode = false;
-    updateButtons();
+    updateInterface();
   }
 }
 
-function updateButtons() {
+function updateInterface() {
   if (keepRunningCode) {
     runButton.setAttribute(HIDDEN_ATTRIBUTE, true);
     stopButton.removeAttribute(HIDDEN_ATTRIBUTE);
+    codeMirror.setOption('readOnly', true);
   } else {
     stopButton.setAttribute(HIDDEN_ATTRIBUTE, true);
     runButton.removeAttribute(HIDDEN_ATTRIBUTE);
+    codeMirror.setOption('readOnly', false);
   }
 }
 
@@ -124,10 +128,11 @@ function updateButtons() {
 function startRunningCode(interpreter) {
   function nextStep() {
     if (keepRunningCode && tryStep(interpreter)) {
+      highlightCode(interpreter);
       setTimeout(nextStep, 0);
     } else {
       keepRunningCode = false;
-      updateButtons();
+      updateInterface();
     }
   }
   nextStep();
@@ -144,7 +149,7 @@ function tryStep(interpreter) {
 
 function stopRunningCode() {
   keepRunningCode = false;
-  updateButtons();
+  updateInterface();
 }
 
 function runStaticAnalysis(code) {
@@ -174,4 +179,46 @@ async function submitSolution() {
   alert(responseText);
   submitButton.innerText    = "Submit";
   submitButton.disabled     = false;
+}
+
+/**
+ * Helper function to calculate position in a codemirror instance.
+ * Takes in a character position given by JS-interpreter and
+ * calculates its line and character position in a codemirror instance.
+ * Returns position as a {line: num, ch: num} object as needed by codemirror.
+ **/
+function calculatePosition(charPosition) {
+  let doc = codeMirror.getDoc();
+
+  for (let i = 0; i < doc.lineCount(); ++i) {
+    // Adds + 1 to account for newline character
+    let currentLineLength = doc.getLine(i).length + 1;
+
+    if (currentLineLength >= charPosition) {
+      return {line: i, ch: charPosition};
+    } else {
+      charPosition -= currentLineLength;
+    }
+  }
+}
+
+/**
+ * Highlights code section that the interpreter is currently parsing.
+ **/
+function highlightCode(interpreter) {
+  let start = 0;
+  let end = 0;
+
+  if (interpreter.stateStack.length) {
+    let node    = interpreter.stateStack[interpreter.stateStack.length - 1].node;
+    start       = node.start;
+    end         = node.end;
+  }
+
+  start = calculatePosition(start);
+  end   = calculatePosition(end);
+
+  if (lastMarking)
+    lastMarking.clear();
+  lastMarking = codeMirror.getDoc().markText(start, end, {className: 'highlighted'});
 }
