@@ -33,6 +33,8 @@ function setupCodeMirror() {
   codeMirror = CodeMirror(document.getElementById(CODE_AREA_ID), {
     value: document.getElementById(INITIAL_CODE_ID).value,
     mode:  'javascript',
+    gutters: ["CodeMirror-lint-markers"],
+    lint: true,
     lineNumbers: true,
   });
 
