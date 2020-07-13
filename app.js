@@ -60,6 +60,7 @@ app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
 app.use('/stylesheets', express.static(path.join(__dirname, 'stylesheets')));
 app.use('/lib', express.static(path.join(__dirname, 'lib')));
 app.use('/favicon.ico', express.static(path.join(__dirname, 'html/images/YellowBrickCodeLogo.png')));
+app.use('/html/images/YellowBrickCodeLogo.png', express.static(path.join(__dirname, 'html/images/YellowBrickCodeLogo.png')));
 
 
 /**
