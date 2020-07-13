@@ -1,4 +1,6 @@
-export let idToken = null; 
+export let idToken    = null; 
+
+const SIGNOUT_LINK_ID = 'signout-link';
 
 // Scope functions to global scope
 window.onSignIn = onSignIn;
@@ -17,12 +19,14 @@ async function onSignIn(googleUser) {
     document.getElementById('registerForm').addEventListener('submit', formSubmit);
     $('#registerModal').modal('show');
   }
+  toggleSignOutLink();
 }
  
 function signOut() {
   const auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function() {
     idToken = null;
+    toggleSignOutLink();
   });
 }
 
@@ -48,4 +52,9 @@ async function formSubmit(event) {
   } else {
     form.classList.add('was-validated');
   }
+}
+
+function toggleSignOutLink() {
+  document.getElementById(SIGNOUT_LINK_ID).hidden = 
+      !document.getElementById(SIGNOUT_LINK_ID).hidden;
 }
