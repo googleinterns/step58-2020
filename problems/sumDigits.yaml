@@ -1,0 +1,32 @@
+id: 3
+title: SumDigits
+text: |
+  Write a function called sumDigits that takes in a non-negative ineteger.
+  given an input N, and returns that sum of all its digits. If the number.
+  is negative, the first digit should count as the only negative.
+  
+  Refer to example below.
+  
+  sumDigits(123456) = 1 + 2 + 3 + 4 + 5 + 6 = 21
+  sumDigits(-123456) = -1 + 2 + 3 + 4 + 5 + 6 = 19
+code: |
+  function sumDigits(num) {
+    return num;
+  }
+tests:
+  - assert(sumDigits(0) === 0);
+  - assert(sumDigits(123) === 6);
+  - assert(sumDigits(456) === 15);
+  - assert(sumDigits(789) === 24);
+  - assert(sumDigits(-123) === 0);
+  - assert(sumDigits(-456) === 0);
+solution: |
+    function sumDigits(num) {
+      let sum = 0;
+      while (n) {
+          digit = n % 10;
+          sum += digit;
+          n = (n - digit) / 10;
+        }
+        return sum;
+    };
