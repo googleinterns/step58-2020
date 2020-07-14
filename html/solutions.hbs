@@ -1,6 +1,8 @@
 <script src="/scripts/solutions.js" type="module"></script>
 
 <div class="container mt-3">
+  <h1>Solutions for <a href="/problems/{{problemId}}">{{problemTitle}}</a></h1>
+  {{#if solutions}}
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>
@@ -28,5 +30,8 @@
       {{/each}}
     </tbody>
   </table>
+  {{else}}
+  <p>No solutions yet &mdash; be the first!</p>
+  {{/if}}
 </div>
 
