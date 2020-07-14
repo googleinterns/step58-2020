@@ -1,0 +1,26 @@
+id: 4
+title: ReverseString
+text: |
+  Write a function called reverseString that takes a string parameter 
+  and returns the reverse version of said string.
+  
+  Refer to example below.
+  
+  reverseString(YellowBrickCode) = edoCkcirBwolleY
+  reverseString(Google) = elgooG
+code: |
+  function reverseString(str) {
+    return str;
+  }
+tests:
+  - assert(reverseString('hello') === 'olleh');
+  - assert(reverseString('Hello World') === 'dlroW olleH');
+  - assert(reverseString('YellowBrickCode') === 'edoCkcirBwolleY');
+solution: |
+    function reverseString(str) {
+        var newString = "";
+        for (var i = str.length - 1; i >= 0; i--) {
+            newString += str[i];
+        }
+      return newString;
+    };
