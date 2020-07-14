@@ -12,7 +12,7 @@ code: |
   function reverseString(str) {
     return str;
   }
-  
+
   assert(reverseString('hello') === 'olleh');
   assert(reverseString('Hello World') === 'dlroW olleH');
   assert(reverseString('YellowBrickCode') === 'edoCkcirBwolleY');
@@ -22,10 +22,10 @@ tests:
   - assert(reverseString('Hello World') === 'dlroW olleH');
   - assert(reverseString('YellowBrickCode') === 'edoCkcirBwolleY');
 solution: |
-    function reverseString(str) {
-        var newString = "";
-        for (var i = str.length - 1; i >= 0; i--) {
-            newString += str[i];
-        }
-      return newString;
-    };
+  function reverseString(str) {
+    var newString = "";
+    for (var i = str.length - 1; i >= 0; i--) {
+      newString += str[i];
+    }
+    return newString;
+  };
