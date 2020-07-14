@@ -4,7 +4,10 @@ text: |
   Write a function called Fibonacci that takes in an integer.
   given an input N, this function should return the Nth number in the Fibonacci sequence.
   
-  Fibonacci sequence is defined as F(0) = 0, F(1) = 1, and F(N) = F(N - 1) + F(N - 2), for N > 1.
+  Fibonacci sequence is defined as 
+  F(0) = 0
+  F(1) = 1
+  F(N) = F(N - 1) + F(N - 2), for N > 1.
 code: |
   function fibonacci(num) {
     return num;
