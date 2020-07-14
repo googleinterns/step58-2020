@@ -32,4 +32,4 @@ solution: |
       return num;
 
     return str;
-  };
+  }
