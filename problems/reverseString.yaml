@@ -6,21 +6,21 @@ text: |
   
   Refer to example below.
   
-  reverseString('YellowBrickCode') = edoCkcirBwolleY
-  reverseString('Google') = elgooG
+  reverseString('YellowBrickCode') = 'edoCkcirBwolleY'
+  reverseString('Google') = 'elgooG'
 code: |
   function reverseString(str) {
     return str;
   }
 
-  assert(reverseString('hello') === olleh);
-  assert(reverseString('Hello World') === dlroW olleH);
-  assert(reverseString('YellowBrickCode') === edoCkcirBwolleY);
+  assert(reverseString('hello') === 'olleh');
+  assert(reverseString('Hello World') === 'dlroW olleH');
+  assert(reverseString('YellowBrickCode') === 'edoCkcirBwolleY');
   alert('Passed all test cases!');
 tests:
-  - assert(reverseString('hello') === olleh);
-  - assert(reverseString('Hello World') === dlroW olleH);
-  - assert(reverseString('YellowBrickCode') === edoCkcirBwolleY);
+  - assert(reverseString('hello') === 'olleh');
+  - assert(reverseString('Hello World') === 'dlroW olleH');
+  - assert(reverseString('YellowBrickCode') === 'edoCkcirBwolleY');
 solution: |
   function reverseString(str) {
     return str.split('').reverse().join('');
