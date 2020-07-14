@@ -6,6 +6,7 @@ const CODE_OUTPUT_ID    = 'code-output';
 const RUN_BUTTON_ID     = 'run-button';
 const STOP_BUTTON_ID    = 'stop-button';
 const SUBMIT_BUTTON_ID  = 'submit-button';
+const KEYBIND_CLASS     = 'keybind';
 const HIDDEN_ATTRIBUTE  = 'hidden';
 const NEWLINE           = '\n';
 const SOLUTION_FUNCTION = 'solution';
@@ -23,6 +24,7 @@ let lastMarking;
 window.addEventListener('load', function() {
   setupCodeMirror();
   setupElements();
+  setupKeybind();
 });
 
 /**
@@ -57,6 +59,16 @@ function setupElements() {
   runButton.addEventListener('click', executeCode);
   stopButton.addEventListener('click', stopRunningCode);
   submitButton.addEventListener('click', submitSolution);
+}
+
+function setupKeybind() {
+  const keybindButtons = document.getElementsByClassName(KEYBIND_CLASS);
+
+  for (let button of keybindButtons) {
+    button.addEventListener('click', function() {
+      codeMirror.setOption('keyMap', button.innerText.toLowerCase());
+    });
+  }
 }
 
 /**
