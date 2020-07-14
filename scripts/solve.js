@@ -41,6 +41,11 @@ function setupCodeMirror() {
   codeMirror.on('change', function() {
     runStaticAnalysis(codeMirror.getValue());
   });
+
+  codeMirror.on('focus', function() {
+    if (lastMarking)
+      lastMarking.clear();
+  });
 }
 
 function setupElements() {
