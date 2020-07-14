@@ -1,8 +1,8 @@
 id: 3
 title: SumDigits
 text: |
-  Write a function called sumDigits that takes in a non-negative integer,
-  given an input num, and returns that sum of all its digits. If the number
+  Write a function called sumDigits that takes in an integer,
+  and returns that sum of all its digits. If the number
   is negative, the first digit should count as the only negative.
   
   Refer to example below.
@@ -13,6 +13,14 @@ code: |
   function sumDigits(num) {
     return num;
   }
+
+  assert(sumDigits(0) === 0);
+  assert(sumDigits(123) === 6);
+  assert(sumDigits(456) === 15);
+  assert(sumDigits(789) === 24);
+  assert(sumDigits(-123) === 0);
+  assert(sumDigits(-456) === 0);
+  alert('Passed all test cases!');
 tests:
   - assert(sumDigits(0) === 0);
   - assert(sumDigits(123) === 6);
@@ -21,12 +29,12 @@ tests:
   - assert(sumDigits(-123) === 0);
   - assert(sumDigits(-456) === 0);
 solution: |
-    function sumDigits(num) {
-        let sum = 0;
-        while (n) {
-            digit = n % 10;
-            sum += digit;
-            n = (n - digit) / 10;
-        }
-        return sum;
+  function sumDigits(num) {
+    let sum = 0;
+    while (num) {
+      digit = num % 10;
+      sum += digit;
+      num = (num - digit) / 10;
     }
+    return sum;
+  }
