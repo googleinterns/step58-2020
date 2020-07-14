@@ -1,7 +1,7 @@
 id: 3
 title: SumDigits
 text: |
-  Write a function called sumDigits that takes in a non-negative ineteger,
+  Write a function called sumDigits that takes in a non-negative integer,
   given an input num, and returns that sum of all its digits. If the number
   is negative, the first digit should count as the only negative.
   
