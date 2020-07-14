@@ -31,3 +31,4 @@ solution: |
     
     return fibonacci(num - 1) + fibonacci(num - 2);
   };
+timeout: 1000
