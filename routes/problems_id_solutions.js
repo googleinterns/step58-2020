@@ -16,7 +16,7 @@ const DEFAULT_IS_DESCENDING = false;
  * handled by POST request handler, which will check if the client
  * has enough privilege to view the code.
  **/
-async function getSolutions(problemId, limit, sortBy, isDescending) {
+async function listSolutions(problemId, limit, sortBy, isDescending) {
   const query = datastore
     .createQuery(SOLUTION_KIND)
     .filter('problemId', '=', parseInt(problemId))
@@ -45,7 +45,7 @@ module.exports = function(app) {
    * to the problem id given in the request parameter.
    **/
   app.get('/problems/:id/solutions', async function(request, response) {
-    const solutions = await getSolutions(request.params.id, DEFAULT_LIMIT, DEFAULT_SORT, DEFAULT_IS_DESCENDING);
+    const solutions = await listSolutions(request.params.id, DEFAULT_LIMIT, DEFAULT_SORT, DEFAULT_IS_DESCENDING);
     response.render('solutions', {solutions: solutions});
   });
 
