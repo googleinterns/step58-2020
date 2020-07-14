@@ -67,12 +67,15 @@ module.exports = function(app) {
       return;
     }
 
-    const email = user.email;
-    const code  = request.body.code;
-    const tests = (await getProblem(request.params.id)).tests;
+    const email     = user.email;
+    const code      = request.body.code;
+    const problem   = (await getProblem(request.params.id));
+    const tests     = problem.tests;
+    const timeout   = problem.timeout;
 
     const analysisResult    = analyze(code);
-    const executionResult   = await sandbox.run(code + tests.join('\n'));
+    const executionResult   = await sandbox.run(code + tests.join('\n'), timeout);
+
     if (executionResult.signal === 'SIGTERM') {
       response.send('Code execution timed out');
       return;
