@@ -5,6 +5,7 @@ const auth                  = require('../modules/auth.js');
 const accessControl         = require('../modules/access_control.js');
 
 const SOLUTION_KIND         = 'Solution';
+const PROBLEM_KIND          = 'Problem';
 const DEFAULT_LIMIT         = 15;
 const DEFAULT_SORT          = 'complexity';
 const DEFAULT_IS_DESCENDING = false;
@@ -39,14 +40,31 @@ async function getSubmittedCode(problemId, email) {
   return (await datastore.runQuery(query))[0];
 }
 
+async function getProblemTitle(problemId) {
+  const query = datastore
+      .createQuery(PROBLEM_KIND)
+      .filter('id', '=', parseInt(problemId))
+      .select('title');
+
+  const [results] = (await datastore.runQuery(query))[0];
+  return results.title;
+}
+
 module.exports = function(app) {
   /**
    * GET handler that displays problem dynamically according
    * to the problem id given in the request parameter.
    **/
   app.get('/problems/:id/solutions', async function(request, response) {
-    const solutions = await listSolutions(request.params.id, DEFAULT_LIMIT, DEFAULT_SORT, DEFAULT_IS_DESCENDING);
-    response.render('solutions', {solutions: solutions});
+    const problemId = request.params.id;
+    const problemTitle = await getProblemTitle(problemId);
+    const solutions = await listSolutions(problemId, DEFAULT_LIMIT, DEFAULT_SORT, DEFAULT_IS_DESCENDING);
+
+    response.render('solutions', {
+      problemId: problemId,
+      problemTitle: problemTitle,
+      solutions: solutions
+    });
   });
 
   app.post('/problems/:id/solutions', async function(request, response) {
