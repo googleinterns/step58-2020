@@ -18,16 +18,16 @@ code: |
   assert(sumDigits(123) === 6);
   assert(sumDigits(456) === 15);
   assert(sumDigits(789) === 24);
-  assert(sumDigits(-123) === 0);
-  assert(sumDigits(-456) === 0);
+  assert(sumDigits(-123) === 4);
+  assert(sumDigits(-456) === 7);
   alert('Passed all test cases!');
 tests:
   - assert(sumDigits(0) === 0);
   - assert(sumDigits(123) === 6);
   - assert(sumDigits(456) === 15);
   - assert(sumDigits(789) === 24);
-  - assert(sumDigits(-123) === 0);
-  - assert(sumDigits(-456) === 0);
+  - assert(sumDigits(-123) === 4);
+  - assert(sumDigits(-456) === 7);
 solution: |
   function sumDigits(num) {
     let sum = 0;
