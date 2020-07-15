@@ -4,6 +4,7 @@ const multer  = require('multer');
 
 const USER_KIND = "User";
 
+// TODO (b/161373767) Add further validation.
 async function isValid(username) {
   const usernameQuery = datastore
       .createQuery(USER_KIND)
