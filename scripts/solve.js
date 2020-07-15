@@ -45,9 +45,7 @@ function setupCodeMirror() {
   codeMirror.on('change', function() {
     document.getElementById(ANALYSIS_TAB_ID).click();
     runStaticAnalysis(codeMirror.getValue());
-  });
 
-  codeMirror.on('focus', function() {
     if (lastMarking)
       lastMarking.clear();
   });
