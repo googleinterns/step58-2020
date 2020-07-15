@@ -7,6 +7,8 @@ const RUN_BUTTON_ID     = 'run-button';
 const STOP_BUTTON_ID    = 'stop-button';
 const SUBMIT_BUTTON_ID  = 'submit-button';
 const KEYBIND_CLASS     = 'keybind';
+const OUTPUT_TAB_ID     = 'output-tab';
+const ANALYSIS_TAB_ID   = 'analysis-tab';
 const HIDDEN_ATTRIBUTE  = 'hidden';
 const NEWLINE           = '\n';
 const SOLUTION_FUNCTION = 'solution';
@@ -41,6 +43,7 @@ function setupCodeMirror() {
   });
 
   codeMirror.on('change', function() {
+    document.getElementById(ANALYSIS_TAB_ID).click();
     runStaticAnalysis(codeMirror.getValue());
   });
 
@@ -109,6 +112,7 @@ function overrideFunctions(interpreter, scope) {
 function executeCode() {
   outputArea.innerHTML  = '';
   keepRunningCode       = true;
+  document.getElementById(OUTPUT_TAB_ID).click();
   updateInterface();
 
   try {
