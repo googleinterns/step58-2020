@@ -2,12 +2,29 @@
 
   <div class="col-3">
     <div class="card fill">
-      <div class="card-header small">
+      <div class="card-header">
         Submit your solution in Javascript.
+        <br>
+        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="problem-tab" data-toggle="tab" href="#problem" role="tab" aria-controls="problem" aria-selected="true">Problem</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="help-tab" data-toggle="tab" href="#help" role="tab" aria-controls="help" aria-selected="false">Help</a>
+          </li>
+        </ul>
       </div>
       <div class="card-body pre-scrollable">
-        <h5 class="card-title" id="question-title">{{ question-title }}</h5>
-        <pre class="card-text" id="question-text">{{ question-text }}</pre>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="problem" role="tabpanel" aria-labelledby="problem-tab">
+            <h5 class="card-title" id="question-title">{{ question-title }}</h5>
+            <pre class="card-text" id="question-text">{{ question-text }}</pre>
+          </div>
+
+          <div class="tab-pane fade" id="help" role="tabpanel" aria-labelledby="help-tab">
+            {{> help}}
+          </div>
+        </div>
       </div>
     </div>
   </div>
