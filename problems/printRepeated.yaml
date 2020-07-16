@@ -2,12 +2,12 @@ id: 5
 title: PrintRepeated
 text: |
   Write the function called printRepeated that, given a string str, an integer a, 
-  and an integer named b, prints out the String str a times, 
-  where each string is repeated b times.
+  and an integer named b, prints out the String str b times, 
+  where each string is repeated a times.
   
   Refer to example below.
   
-  printRepeated('hello', 3, 4) =
+  printRepeated('hello', 4, 3) =
   'hellohellohellohello'
   'hellohellohellohello'
   'hellohellohellohello'
@@ -16,29 +16,25 @@ code: |
     return str;
   }
 
-  assert(printRepeated('hello', 3, 4) === 
-    'hellohellohellohello'
-    'hellohellohellohello'
-    'hellohellohellohello');
-  assert(printRepeated('YellowBrickCode', 4, 2) === 
-    'YellowBrickCodeYellowBrickCode'
-    'YellowBrickCodeYellowBrickCode'
-    'YellowBrickCodeYellowBrickCode'
-    'YellowBrickCodeYellowBrickCode');
+
+  /* Hint- Helper fucntion may be used */
+
+  assert(printRepeated('hello', 4, 3) === 'hellohellohellohello\nhellohellohellohello\nhellohellohellohello');
+  assert(printRepeated('YellowBrickCode', 2, 4) === 'YellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode');
   alert('Passed all test cases!');
 tests:
-  - assert(printRepeated('hello', 3, 4) === 
-    'hellohellohellohello'
-    'hellohellohellohello'
-    'hellohellohellohello');
-  - assert(printRepeated('YellowBrickCode', 4, 2) === 
-    'YellowBrickCodeYellowBrickCode'
-    'YellowBrickCodeYellowBrickCode'
-    'YellowBrickCodeYellowBrickCode'
-    'YellowBrickCodeYellowBrickCode');
+  - assert(printRepeated('hello', 4, 3) === 'hellohellohellohello\nhellohellohellohello\nhellohellohellohello');
+  - assert(printRepeated('YellowBrickCode', 2, 4) === 'YellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode');
 solution:
-  function printRepeated(str, a, b){
-    for(){
+  function repeatString(str, repeatNum){
+    var newStr = '';
 
+    for(var i = 0; i < repeatNum; i++){
+        newStr += str;
     }
+  }
+
+  function printRepeated(str, a, b){
+    var firstRepeat = repeatString(str, a);
+    return repeatString(firstRepeat + '\n', b).trim();
   }
