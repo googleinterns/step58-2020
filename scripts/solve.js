@@ -6,6 +6,7 @@ const CODE_OUTPUT_ID    = 'code-output';
 const RUN_BUTTON_ID     = 'run-button';
 const STOP_BUTTON_ID    = 'stop-button';
 const SUBMIT_BUTTON_ID  = 'submit-button';
+const RESET_BUTTON_ID   = 'reset-button';
 const KEYBIND_CLASS     = 'keybind';
 const OUTPUT_TAB_ID     = 'output-tab';
 const ANALYSIS_TAB_ID   = 'analysis-tab';
@@ -19,6 +20,7 @@ let outputArea;
 let runButton;
 let stopButton;
 let submitButton;
+let resetButton;
 let keepRunningCode;
 let interpreter;
 let lastMarking;
@@ -46,7 +48,6 @@ function setupCodeMirror() {
     document.getElementById(ANALYSIS_TAB_ID).click();
     runStaticAnalysis(codeMirror.getValue());
     sessionStoreCode();
-  });
 
     if (lastMarking)
       lastMarking.clear();
@@ -58,10 +59,12 @@ function setupElements() {
   runButton     = document.getElementById(RUN_BUTTON_ID);
   stopButton    = document.getElementById(STOP_BUTTON_ID);
   submitButton  = document.getElementById(SUBMIT_BUTTON_ID)
+  resetButton   = document.getElementById(RESET_BUTTON_ID);
 
   runButton.addEventListener('click', executeCode);
   stopButton.addEventListener('click', stopRunningCode);
   submitButton.addEventListener('click', submitSolution);
+  resetButton.addEventListener('click', resetCode);
 }
 
 function setupKeybind() {
