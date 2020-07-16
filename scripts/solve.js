@@ -272,6 +272,7 @@ function sessionRetrieveCode() {
  * value change will triger the session storage update.
  **/
 function resetCode() {
+  keepRunningCode = false;
   let initialCode = document.getElementById(INITIAL_CODE_ID).value;
   codeMirror.setValue(initialCode);
 }
