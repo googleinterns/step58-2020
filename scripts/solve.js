@@ -44,6 +44,9 @@ function setupCodeMirror() {
     gutters: ["CodeMirror-lint-markers"],
     lint: true,
     lineNumbers: true,
+    extraKeys: {
+      "Ctrl-Space": "autocomplete"
+    }
   });
 
   codeMirror.on('change', function() {
