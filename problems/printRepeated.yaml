@@ -1,0 +1,44 @@
+id: 5
+title: PrintRepeated
+text: |
+  Write the function called printRepeated that, given a string str, an integer a, 
+  and an integer named b, prints out the String str a times, 
+  where each string is repeated b times.
+  
+  Refer to example below.
+  
+  printRepeated('hello', 3, 4) =
+  'hellohellohellohello'
+  'hellohellohellohello'
+  'hellohellohellohello'
+code: |
+  function printRepeated(str, a, b) {
+    return str;
+  }
+
+  assert(printRepeated('hello', 3, 4) === 
+    'hellohellohellohello'
+    'hellohellohellohello'
+    'hellohellohellohello');
+  assert(printRepeated('YellowBrickCode', 4, 2) === 
+    'YellowBrickCodeYellowBrickCode'
+    'YellowBrickCodeYellowBrickCode'
+    'YellowBrickCodeYellowBrickCode'
+    'YellowBrickCodeYellowBrickCode');
+  alert('Passed all test cases!');
+tests:
+  - assert(printRepeated('hello', 3, 4) === 
+    'hellohellohellohello'
+    'hellohellohellohello'
+    'hellohellohellohello');
+  - assert(printRepeated('YellowBrickCode', 4, 2) === 
+    'YellowBrickCodeYellowBrickCode'
+    'YellowBrickCodeYellowBrickCode'
+    'YellowBrickCodeYellowBrickCode'
+    'YellowBrickCodeYellowBrickCode');
+solution:
+  function printRepeated(str, a, b){
+    for(){
+
+    }
+  }
