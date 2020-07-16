@@ -10,7 +10,13 @@
             <a class="nav-link active" id="problem-tab" data-toggle="tab" href="#problem" role="tab" aria-controls="problem" aria-selected="true">Problem</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="help-tab" data-toggle="tab" href="#help" role="tab" aria-controls="help" aria-selected="false">Help</a>
+            <a class="nav-link" id="syntax-tab" data-toggle="tab" href="#syntax" role="tab" aria-controls="syntax" aria-selected="false">Syntax</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="shortcuts-tab" data-toggle="tab" href="#shortcuts" role="tab" aria-controls="shortcuts" aria-selected="false">Shortcuts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="tips-tab" data-toggle="tab" href="#tips" role="tab" aria-controls="tips" aria-selected="false">Tips</a>
           </li>
         </ul>
       </div>
@@ -21,9 +27,18 @@
             <pre class="card-text" id="question-text">{{ question-text }}</pre>
           </div>
 
-          <div class="tab-pane fade" id="help" role="tabpanel" aria-labelledby="help-tab">
-            {{> help}}
+          <div class="tab-pane fade" id="syntax" role="tabpanel" aria-labelledby="syntax-tab">
+            {{> syntax}}
           </div>
+
+          <div class="tab-pane fade" id="shortcuts" role="tabpanel" aria-labelledby="shortcuts-tab">
+            {{> shortcuts}}
+          </div>
+
+          <div class="tab-pane fade" id="tips" role="tabpanel" aria-labelledby="tips-tab">
+            {{> tips}}
+          </div>
+
         </div>
       </div>
     </div>
