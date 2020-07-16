@@ -4,13 +4,12 @@ const auth = require('../modules/auth.js');
 
 const USER_KIND = 'User';
 
-async function isRegistered(user) {
+async function getUsername(user) {
   const userQuery = datastore
       .createQuery(USER_KIND)
-      .filter('email', '=', user.email)
-      .select('__key__');
+      .filter('email', '=', user.email);
   const [users] = await datastore.runQuery(userQuery);
-  return users.length > 0; 
+  return users.length > 0 ? users[0].username : null;
 }
 
 module.exports = function(app) {
@@ -23,11 +22,11 @@ module.exports = function(app) {
     }
 
     try {
-      const registered = await isRegistered(user);
-      if (!registered) {
+      const username = await getUsername(user);
+      if (!username) {
         response.status(200).send(user);
       } else {
-        response.sendStatus(203);
+        response.status(203).send(username);
       }
     } catch(error) {
       response.sendStatus(500);
