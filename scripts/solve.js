@@ -35,7 +35,7 @@ window.addEventListener('load', function() {
  **/
 function setupCodeMirror() {
   codeMirror = CodeMirror(document.getElementById(CODE_AREA_ID), {
-    value: document.getElementById(INITIAL_CODE_ID).value,
+    value: sessionRetrieveCode() || document.getElementById(INITIAL_CODE_ID).value,
     mode:  'javascript',
     gutters: ["CodeMirror-lint-markers"],
     lint: true,
@@ -45,6 +45,8 @@ function setupCodeMirror() {
   codeMirror.on('change', function() {
     document.getElementById(ANALYSIS_TAB_ID).click();
     runStaticAnalysis(codeMirror.getValue());
+    sessionStoreCode();
+  });
 
     if (lastMarking)
       lastMarking.clear();
@@ -242,4 +244,31 @@ function highlightCode(interpreter) {
   if (lastMarking)
     lastMarking.clear();
   lastMarking = codeMirror.getDoc().markText(start, end, {className: 'highlighted'});
+}
+
+/**
+ * Saves current code with current location as a key.
+ **/
+function sessionStoreCode() {
+  let key   = window.location.href;
+  let value = codeMirror.getValue();
+  window.sessionStorage.setItem(key, value);
+}
+
+/**
+ * Retrieves saved code with current location as a key.
+ **/
+function sessionRetrieveCode() {
+  let key   = window.location.href;
+  return window.sessionStorage.getItem(key);
+}
+
+/**
+ * Reset initial code of codemirror.
+ * Session storage does not need to be handled here as codemirror
+ * value change will triger the session storage update.
+ **/
+function resetCode() {
+  let initialCode = document.getElementById(INITIAL_CODE_ID).value;
+  codeMirror.setValue(initialCode);
 }
