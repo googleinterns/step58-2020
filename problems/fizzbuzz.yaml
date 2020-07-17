@@ -3,7 +3,7 @@ title: FizzBuzz
 text: |
   Write a function called fizzBuzz that takes in one integer as an argument.
   The function should return the integer that it was given, except when it is a multiple of 3 or 5.
-
+  
   If the number is a multiple of 3, return 'Fizz' instead of the number.
   Similarly, if the number is a multiple of 5, return 'Buzz'.
   Lastly, if the number is a multiple of both 3 and 5, return 'FizzBuzz'.
