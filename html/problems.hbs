@@ -2,6 +2,7 @@
   <h1>Problems</h1>
   <p>Solutions are ranked by their <a href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">
   cyclomatic complexity</a>.
+
   {{#each problems}}
   <div class="card mb-3">
     <div class="card-body">
@@ -11,4 +12,25 @@
     </div>
   </div>
   {{/each}}
+
+  <nav aria-label="Select Page">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&lsaquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      {{#each paginationArray}}
+      <li class="page-item"><a class="page-link" href="?pageIndex={{this}}">{{this}}</a></li>
+      {{/each}}
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&rsaquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
 </div>
