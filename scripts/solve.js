@@ -46,7 +46,8 @@ function setupCodeMirror() {
     lineNumbers: true,
     extraKeys: {
       "Ctrl-Space": "autocomplete"
-    }
+    },
+    autoCloseBrackets: true,
   });
 
   codeMirror.on('change', function() {
