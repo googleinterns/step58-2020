@@ -1,0 +1,40 @@
+id: 5
+title: GenerateRepeated
+text: |
+  Write the function called generateRepeated that, given a string str, an integer a, 
+  and an integer named b, generates the String str b times, 
+  where each string is repeated a times.
+  
+  Refer to example below.
+  
+  generateRepeated('hello', 4, 3) =
+  'hellohellohellohello'
+  'hellohellohellohello'
+  'hellohellohellohello'
+code: |
+  function generateRepeated(str, a, b) {
+    return str;
+  }
+
+
+  /* Hint- Helper function may be used */
+
+  assert(generateRepeated('hello', 4, 3) === 'hellohellohellohello\nhellohellohellohello\nhellohellohellohello');
+  assert(generateRepeated('YellowBrickCode', 2, 4) === 'YellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode');
+  alert('Passed all test cases!');
+tests:
+  - assert(generateRepeated('hello', 4, 3) === 'hellohellohellohello\nhellohellohellohello\nhellohellohellohello');
+  - assert(generateRepeated('YellowBrickCode', 2, 4) === 'YellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode');
+solution:
+  function repeatString(str, repeatNum){
+    var newStr = '';
+    for(var i = 0; i < repeatNum; i++){
+        newStr += str;
+    }
+    return newStr;
+  }
+
+  function generateRepeated(str, a, b){
+    var firstRepeat = repeatString(str, a);
+    return repeatString(firstRepeat + '\n', b).trim();
+  }
