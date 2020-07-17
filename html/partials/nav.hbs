@@ -14,8 +14,9 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
-      <a class="nav-link" href="#" onclick="signOut();">Sign out</a>
+      <div class="g-signin2" id="signin-link" data-onsuccess="onSignIn"></div>
+      <a class="nav-link" href="#" id="profile-link" hidden>Profile</div>
+      <a class="nav-link" href="#" onclick="signOut();" id="signout-link" hidden>Sign out</a>
     </form>
   </div>
 </nav>
