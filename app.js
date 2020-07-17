@@ -45,7 +45,10 @@ app.engine('hbs', exphbs({defaultLayout: 'main', extname: 'hbs', helpers: {
           "/": firstValue / secondValue,
           "%": firstValue % secondValue
       }[operator];
-    }
+    },
+  eq: function(arg1, arg2) {
+    return arg1 == arg2;
+  }
   }
 }));
 app.set('views', path.join(__dirname, 'html'));
