@@ -37,7 +37,7 @@ window.addEventListener('load', function() {
  **/
 function setupCodeMirror() {
   codeMirror = CodeMirror(document.getElementById(CODE_AREA_ID), {
-    value: sessionRetrieveCode() || document.getElementById(INITIAL_CODE_ID).value,
+    value: restoreLocalCode() || document.getElementById(INITIAL_CODE_ID).value,
     mode:  'javascript',
     gutters: ["CodeMirror-lint-markers"],
     lint: true,
@@ -47,7 +47,7 @@ function setupCodeMirror() {
   codeMirror.on('change', function() {
     document.getElementById(ANALYSIS_TAB_ID).click();
     runStaticAnalysis(codeMirror.getValue());
-    sessionStoreCode();
+    saveLocalCode();
 
     if (lastMarking)
       lastMarking.clear();
@@ -64,7 +64,7 @@ function setupElements() {
   runButton.addEventListener('click', executeCode);
   stopButton.addEventListener('click', stopRunningCode);
   submitButton.addEventListener('click', submitSolution);
-  resetButton.addEventListener('click', resetCode);
+  resetButton.addEventListener('click', resetLocalCode);
 }
 
 function setupKeybind() {
@@ -252,26 +252,26 @@ function highlightCode(interpreter) {
 /**
  * Saves current code with current location as a key.
  **/
-function sessionStoreCode() {
+function saveLocalCode() {
   let key   = window.location.href;
   let value = codeMirror.getValue();
-  window.sessionStorage.setItem(key, value);
+  window.localStorage.setItem(key, value);
 }
 
 /**
  * Retrieves saved code with current location as a key.
  **/
-function sessionRetrieveCode() {
-  let key   = window.location.href;
-  return window.sessionStorage.getItem(key);
+function restoreLocalCode() {
+  let key = window.location.href;
+  return window.localStorage.getItem(key);
 }
 
 /**
  * Reset initial code of codemirror.
  * Session storage does not need to be handled here as codemirror
- * value change will triger the session storage update.
+ * value change will trigger the local storage update.
  **/
-function resetCode() {
+function resetLocalCode() {
   keepRunningCode = false;
   let initialCode = document.getElementById(INITIAL_CODE_ID).value;
   codeMirror.setValue(initialCode);
