@@ -30,11 +30,17 @@ tests:
   - assert(sumDigits(-456) === 7);
 solution: |
   function sumDigits(num) {
-    let sum = 0;
-    while (num) {
-      digit = num % 10;
-      sum += digit;
-      num = (num - digit) / 10;
+    var total = 0;
+    var newString = num.toString().split('');
+    for (var i = 0; i < newString.length; i ++) {
+      if(newString[i]==='-') { 
+        i++; 
+        var converted =  parseInt(newString[i]); 
+        total -= converted;
+        continue;
+      }
+      var converted = parseInt(newString[i]);
+      total += converted;
     }
-    return sum;
+    return total;
   }
