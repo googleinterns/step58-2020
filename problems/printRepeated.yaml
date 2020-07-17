@@ -28,10 +28,10 @@ tests:
 solution:
   function repeatString(str, repeatNum){
     var newStr = '';
-
     for(var i = 0; i < repeatNum; i++){
         newStr += str;
     }
+    return newStr;
   }
 
   function printRepeated(str, a, b){
