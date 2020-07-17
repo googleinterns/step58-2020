@@ -6,6 +6,9 @@ const CODE_OUTPUT_ID    = 'code-output';
 const RUN_BUTTON_ID     = 'run-button';
 const STOP_BUTTON_ID    = 'stop-button';
 const SUBMIT_BUTTON_ID  = 'submit-button';
+const KEYBIND_CLASS     = 'keybind';
+const OUTPUT_TAB_ID     = 'output-tab';
+const ANALYSIS_TAB_ID   = 'analysis-tab';
 const HIDDEN_ATTRIBUTE  = 'hidden';
 const NEWLINE           = '\n';
 const SOLUTION_FUNCTION = 'solution';
@@ -23,6 +26,7 @@ let lastMarking;
 window.addEventListener('load', function() {
   setupCodeMirror();
   setupElements();
+  setupKeybind();
 });
 
 /**
@@ -39,10 +43,9 @@ function setupCodeMirror() {
   });
 
   codeMirror.on('change', function() {
+    document.getElementById(ANALYSIS_TAB_ID).click();
     runStaticAnalysis(codeMirror.getValue());
-  });
 
-  codeMirror.on('focus', function() {
     if (lastMarking)
       lastMarking.clear();
   });
@@ -57,6 +60,16 @@ function setupElements() {
   runButton.addEventListener('click', executeCode);
   stopButton.addEventListener('click', stopRunningCode);
   submitButton.addEventListener('click', submitSolution);
+}
+
+function setupKeybind() {
+  const keybindButtons = document.getElementsByClassName(KEYBIND_CLASS);
+
+  for (let button of keybindButtons) {
+    button.addEventListener('click', function() {
+      codeMirror.setOption('keyMap', button.innerText.toLowerCase());
+    });
+  }
 }
 
 /**
@@ -97,6 +110,7 @@ function overrideFunctions(interpreter, scope) {
 function executeCode() {
   outputArea.innerHTML  = '';
   keepRunningCode       = true;
+  document.getElementById(OUTPUT_TAB_ID).click();
   updateInterface();
 
   try {
