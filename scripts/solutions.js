@@ -1,15 +1,15 @@
 import { idToken } from './auth.js';
 
 const CODE_AREA_JQUERY_CLASS  = '.code-area';
-const EMAIL_CLASS             = 'email';
+const USERNAME_CLASS          = 'username';
 
 window.addEventListener('load', function() {
-  const emails = document.getElementsByClassName(EMAIL_CLASS);
+  const usernames = document.getElementsByClassName(USERNAME_CLASS);
 
-  for (let email of emails) {
-    const buttonElement = document.getElementById(email.innerText + '-button');
+  for (let username of usernames) {
+    const buttonElement = document.getElementById(username.innerText + '-button');
     buttonElement.addEventListener('click', function() {
-      displayCode(email.innerText)
+      displayCode(username.innerText)
     }, {once: true});
   }
 });
@@ -29,8 +29,8 @@ function setupCodeArea(elementId, code) {
   });
 }
 
-async function displayCode(email) {
-  const payload         = new Blob([JSON.stringify({authToken: idToken, email: email})], {type: 'application/json'});
+async function displayCode(username) {
+  const payload         = new Blob([JSON.stringify({authToken: idToken, username: username})], {type: 'application/json'});
   const response        = await fetch(`${location.pathname}`, {method: 'POST', body: payload})
   if (!response.ok) {
     alert('Solve this problem to view others\' solutions.');
@@ -38,6 +38,6 @@ async function displayCode(email) {
   }
   const responseJson    = await response.json();
   const code            = responseJson[0].code;
-  const elementId       = email + '-code-area';
+  const elementId       = username + '-code-area';
   setupCodeArea(elementId, code);
 }

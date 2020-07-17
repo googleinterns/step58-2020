@@ -50,8 +50,7 @@ async function getUser(token) {
   } catch(error) {
     // The API returns one of various errors indicating 
     // that the token is invalid in some way
-    throw error;
-    // return null;
+    return null;
   }
 }
 
