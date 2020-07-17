@@ -23,4 +23,11 @@ datastore.store = async function(key, parameters) {
   await datastore.save(entity);
 }
 
+datastore.countKind = async function(kind) {
+  const query = datastore.createQuery(kind).select('__key__');
+  const [entities] = await datastore.runQuery(query);
+
+  return entities.length;
+}
+
 module.exports = datastore;
