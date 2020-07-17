@@ -1,3 +1,6 @@
+<script src="/scripts/share.js" type="module"></script>
+<link rel="stylesheet" href="/stylesheets/user.css">
+
 <div class="container mt-5">
   <h1>{{username}}</h1>
   {{#if solutions}}
@@ -7,6 +10,17 @@
     <li><a href="/problems/{{this.problemId}}/solutions">{{this.problemTitle}}</a> with complexity {{this.complexity}}</li>
     {{/each}}
   </ul>
+  <div class="container">
+    <button>Share</button>
+  </div>
+
+  <div class="overlay"></div>
+  <div class="share">
+    <h2>Share now</h2>
+    <button>Social Link</button>
+    <button>Social Link</button>
+    <button>Social Link</button>
+  </div>
   {{else}}
   <p>{{username}} hasn't solved any problems yet.</p>
   {{/if}}

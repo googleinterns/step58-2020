@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+}
+
+.overlay {
+    opacity: 1;
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,.5);
+}
+
+.share {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30%;
+    margin: auto;
+    width: 50%;
+    z-index: 1;
+    padding: 1em;
+    background: white;
+}
+
+.share.h2 {
+
+}
+
+.share.button{
+    border: none;
+    padding: .8em 1.2em;
+    margin-top: 3em;
+    width: 32%;
+    cursor: pointer;
+}
