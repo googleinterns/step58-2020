@@ -13,6 +13,7 @@ const ANALYSIS_TAB_ID   = 'analysis-tab';
 const HIDDEN_ATTRIBUTE  = 'hidden';
 const NEWLINE           = '\n';
 const SOLUTION_FUNCTION = 'solution';
+const KEYBIND_KEY       = 'keybind';
 const LOADING_BUTTON    = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...';
 
 let codeMirror;
@@ -38,6 +39,7 @@ window.addEventListener('load', function() {
 function setupCodeMirror() {
   codeMirror = CodeMirror(document.getElementById(CODE_AREA_ID), {
     value: restoreLocalCode() || document.getElementById(INITIAL_CODE_ID).value,
+    keyMap: window.localStorage.getItem(KEYBIND_KEY) || 'default',
     mode:  'javascript',
     gutters: ["CodeMirror-lint-markers"],
     lint: true,
@@ -73,6 +75,7 @@ function setupKeybind() {
   for (let button of keybindButtons) {
     button.addEventListener('click', function() {
       codeMirror.setOption('keyMap', button.innerText.toLowerCase());
+      window.localStorage.setItem(KEYBIND_KEY, button.innerText.toLowerCase());
     });
   }
 }
