@@ -20,9 +20,9 @@
 
           <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+            <input type="text" class="form-control" id="username" name="username" pattern="[a-zA-Z0-9_]+" required>
             <div class="invalid-feedback" id="invalid-feedback">
-              Please provide your username.
+              Please provide your username. Usernames should only contain alphanumeric characters and underscores.
             </div>
           </div>
         </div>
