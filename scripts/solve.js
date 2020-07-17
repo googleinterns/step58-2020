@@ -6,12 +6,14 @@ const CODE_OUTPUT_ID    = 'code-output';
 const RUN_BUTTON_ID     = 'run-button';
 const STOP_BUTTON_ID    = 'stop-button';
 const SUBMIT_BUTTON_ID  = 'submit-button';
+const RESET_BUTTON_ID   = 'reset-button';
 const KEYBIND_CLASS     = 'keybind';
 const OUTPUT_TAB_ID     = 'output-tab';
 const ANALYSIS_TAB_ID   = 'analysis-tab';
 const HIDDEN_ATTRIBUTE  = 'hidden';
 const NEWLINE           = '\n';
 const SOLUTION_FUNCTION = 'solution';
+const KEYBIND_KEY       = 'keybind';
 const LOADING_BUTTON    = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...';
 
 let codeMirror;
@@ -19,6 +21,7 @@ let outputArea;
 let runButton;
 let stopButton;
 let submitButton;
+let resetButton;
 let keepRunningCode;
 let interpreter;
 let lastMarking;
@@ -35,7 +38,8 @@ window.addEventListener('load', function() {
  **/
 function setupCodeMirror() {
   codeMirror = CodeMirror(document.getElementById(CODE_AREA_ID), {
-    value: document.getElementById(INITIAL_CODE_ID).value,
+    value: restoreLocalCode() || document.getElementById(INITIAL_CODE_ID).value,
+    keyMap: window.localStorage.getItem(KEYBIND_KEY) || 'default',
     mode:  'javascript',
     gutters: ["CodeMirror-lint-markers"],
     lint: true,
@@ -45,6 +49,7 @@ function setupCodeMirror() {
   codeMirror.on('change', function() {
     document.getElementById(ANALYSIS_TAB_ID).click();
     runStaticAnalysis(codeMirror.getValue());
+    saveLocalCode();
 
     if (lastMarking)
       lastMarking.clear();
@@ -56,10 +61,12 @@ function setupElements() {
   runButton     = document.getElementById(RUN_BUTTON_ID);
   stopButton    = document.getElementById(STOP_BUTTON_ID);
   submitButton  = document.getElementById(SUBMIT_BUTTON_ID)
+  resetButton   = document.getElementById(RESET_BUTTON_ID);
 
   runButton.addEventListener('click', executeCode);
   stopButton.addEventListener('click', stopRunningCode);
   submitButton.addEventListener('click', submitSolution);
+  resetButton.addEventListener('click', resetLocalCode);
 }
 
 function setupKeybind() {
@@ -68,6 +75,7 @@ function setupKeybind() {
   for (let button of keybindButtons) {
     button.addEventListener('click', function() {
       codeMirror.setOption('keyMap', button.innerText.toLowerCase());
+      window.localStorage.setItem(KEYBIND_KEY, button.innerText.toLowerCase());
     });
   }
 }
@@ -242,4 +250,32 @@ function highlightCode(interpreter) {
   if (lastMarking)
     lastMarking.clear();
   lastMarking = codeMirror.getDoc().markText(start, end, {className: 'highlighted'});
+}
+
+/**
+ * Saves current code with current location as a key.
+ **/
+function saveLocalCode() {
+  let key   = window.location.href;
+  let value = codeMirror.getValue();
+  window.localStorage.setItem(key, value);
+}
+
+/**
+ * Retrieves saved code with current location as a key.
+ **/
+function restoreLocalCode() {
+  let key = window.location.href;
+  return window.localStorage.getItem(key);
+}
+
+/**
+ * Reset initial code of codemirror.
+ * Session storage does not need to be handled here as codemirror
+ * value change will trigger the local storage update.
+ **/
+function resetLocalCode() {
+  keepRunningCode = false;
+  let initialCode = document.getElementById(INITIAL_CODE_ID).value;
+  codeMirror.setValue(initialCode);
 }
