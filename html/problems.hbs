@@ -1,10 +1,13 @@
 <div class="container my-5" id="problems-container">
+  <h1>Problems</h1>
+  <p>Solutions are ranked by their <a href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">
+  cyclomatic complexity</a>.
   {{#each problems}}
   <div class="card mb-3">
     <div class="card-body">
       <a href="/problems/{{this.id}}"><h5 class="card-title">{{this.title}}</h5></a>
       <p class="card-text">{{this.text}}</p>
-      <a href="/problems/{{this.id}}/solutions"><p class="card-text">{{this.title}} Solutions</p></a>
+      <a href="/problems/{{this.id}}/solutions"><p class="card-text">{{this.title}} Solution Rankings</p></a>
     </div>
   </div>
   {{/each}}

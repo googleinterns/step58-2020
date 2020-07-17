@@ -1,0 +1,36 @@
+<div class="modal fade" id="registerModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="registerLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registerLabel">Register</h5>
+      </div>
+      <form id="registerForm" class="needs-validation" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" readonly>
+          </div>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" readonly>
+            <small class="form-text text-muted">
+              Sign in with a different Google account to change your name or email.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+            <div class="invalid-feedback" id="invalid-feedback">
+              Please provide your username.
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

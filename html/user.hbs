@@ -1,0 +1,13 @@
+<div class="container mt-5">
+  <h1>{{username}}</h1>
+  {{#if solutions}}
+  <h3>{{username}}'s Solved Problems</h3>
+  <ul>
+    {{#each solutions}}
+    <li><a href="/problems/{{this.problemId}}/solutions">{{this.problemTitle}}</a> with complexity {{this.complexity}}</li>
+    {{/each}}
+  </ul>
+  {{else}}
+  <p>{{username}} hasn't solved any problems yet.</p>
+  {{/if}}
+</div>
