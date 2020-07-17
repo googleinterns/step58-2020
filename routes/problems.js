@@ -48,7 +48,8 @@ module.exports = function(app) {
 
     response.render('problems', {
       problems: problems,
-      paginationArray: paginationArray
+      paginationArray: paginationArray,
+      currIndex: clientPageIndex
     });
   });
 }
