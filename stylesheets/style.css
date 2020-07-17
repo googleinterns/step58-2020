@@ -1,3 +1,9 @@
+/* Set z-indexes to make sure images aren't inverted */
 img {
   max-height: 350px;
+  z-index: 1300;
+}
+
+.darkmode-layer, .darkmode-toggle {
+  z-index: 1200;
 }
