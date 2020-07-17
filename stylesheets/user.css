@@ -1,5 +1,22 @@
 body {
     margin: 0;
+    font-family: 'Nunito';
+    font-size: 24px;
+}
+
+.container {
+    width: 80%;
+    margin: 4em auto;
+}
+
+.container button {
+    border: none;
+    outline: none;
+    padding: 1em 1.5em;
+    font-size: 1rem;
+    margin-top: 2em;
+    cursor: pointer;
+    background: rgb(158, 0, 250);
 }
 
 .overlay {
@@ -13,6 +30,15 @@ body {
     background: rgba(0,0,0,.5);
 }
 
+.share, .overlay {
+    display: none;
+}
+
+.show-share {
+    display: block;
+}
+
+
 .share {
     position: absolute;
     left: 0;
@@ -25,11 +51,11 @@ body {
     background: white;
 }
 
-.share.h2 {
-
+.share h2 {
+    margin: 0;
 }
 
-.share.button{
+.share button{
     border: none;
     padding: .8em 1.2em;
     margin-top: 3em;

@@ -15,6 +15,12 @@ shareButton.addEventLustener('click', () => {
         })
         .catch(console.error);
     } else {
-        overlay.classList.add('show-share')
+        overlay.classList.add('show-share');
+        shareModal.classList.add('show-share');
     }
+})
+
+overlay.addEventListener('click', () => {
+    overlay.classList.remove('show-share');
+    shareModal.classList.remove('show-share');
 })
