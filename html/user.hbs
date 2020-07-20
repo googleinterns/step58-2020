@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/stylesheets/user.css">
+<script src="/scripts/share.js" type="module"></script>
 
 <div class="container mt-5">
   <h1>{{username}}</h1>
@@ -9,46 +10,14 @@
     <li><a href="/problems/{{this.problemId}}/solutions">{{this.problemTitle}}</a> with complexity {{this.complexity}}</li>
     {{/each}}
   </ul>
-  <div class="container">
-    <button>Share</button>
+  <p>Share your profile! &#8681</p>
+  <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_linkedin"></a>
+    <a class="a2a_button_pinterest"></a>
   </div>
-
-  <div class="overlay"></div>
-  <div class="share">
-    <h2>Share now</h2>
-    <button>Social Link</button>
-    <button>Social Link</button>
-    <button>Social Link</button>
-  </div>
-
-  <script>
-    const shareButton = document.querySelector('button');
-    const overlay = document.querySelector('.overlay');
-    const shareModal = document.querySelector('.share');
-
-    const title = window.document.title;
-    const url = window.document.location.href;
-
-    shareButton.addEventLustener('click', () => {
-        if(navigator.share){
-            navigator.share({
-                title: `${tittle}`,
-                url: `${url}`
-            }).then(() => {
-                console.log('Thanks for sharing!');
-            })
-            .catch(console.error);
-        } else {
-            overlay.classList.add('show-share');
-            shareModal.classList.add('show-share');
-        }
-    })
-
-    overlay.addEventListener('click', () => {
-        overlay.classList.remove('show-share');
-        shareModal.classList.remove('show-share');
-    })
-  </script>
+  <script async src="https://static.addtoany.com/menu/page.js"></script>
   {{else}}
   <p>{{username}} hasn't solved any problems yet.</p>
   {{/if}}
