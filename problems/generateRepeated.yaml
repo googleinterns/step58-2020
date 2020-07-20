@@ -20,11 +20,11 @@ code: |
   /* Hint- Helper function may be used */
 
   assert(generateRepeated('hello', 4, 3) === 'hellohellohellohello\nhellohellohellohello\nhellohellohellohello');
-  assert(generateRepeated('YellowBrickCode', 2, 4) === 'YellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode');
+  assert(generateRepeated('World', 2, 4) === 'WorldWorld\nWorldWorld\nWorldWorld\nWorldWorld');
   alert('Passed all test cases!');
 tests:
   - assert(generateRepeated('hello', 4, 3) === 'hellohellohellohello\nhellohellohellohello\nhellohellohellohello');
-  - assert(generateRepeated('YellowBrickCode', 2, 4) === 'YellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode\nYellowBrickCodeYellowBrickCode');
+  - assert(generateRepeated('World', 2, 4) === 'WorldWorld\nWorldWorld\nWorldWorld\nWorldWorld');
 solution:
   function repeatString(str, repeatNum){
     var newStr = '';
