@@ -205,7 +205,13 @@ async function submitSolution() {
   const response        = await fetch(`${location.pathname}`, {method: 'POST', body: payload})
   const responseText    = await response.text();
 
-  alert(responseText);
+  if (response.ok) {
+    let solutionUrl = `${location.pathname}` + '/solutions';
+    redirectAlert(responseText, solutionUrl);
+  } else {
+    alert(responseText);
+  }
+
   submitButton.innerText    = "Submit";
   submitButton.disabled     = false;
 }
@@ -278,4 +284,14 @@ function resetLocalCode() {
   keepRunningCode = false;
   let initialCode = document.getElementById(INITIAL_CODE_ID).value;
   codeMirror.setValue(initialCode);
+}
+
+/**
+ * Helper function to display message in an alert box
+ * that redirects the user to redirectUrl if they click on OK.
+ **/
+function redirectAlert(message, redirectUrl) {
+  if (confirm(message)) {
+    window.location = redirectUrl;
+  }
 }
