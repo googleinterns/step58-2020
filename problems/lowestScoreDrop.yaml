@@ -1,0 +1,39 @@
+id: 6
+title: LowestScoreDrop
+text: |
+  Write a program that calculates the average of a group of test scores, 
+  where the lowest score in the group is dropped. 
+  It should use the following functions...
+
+  -getScores() should first ask the user for a list of 5 test scores to be entered.
+  -findLowest() should find and return the lowest of the 5 scores passed to it.
+  -calcAverage() should calculate and display the average of the highest 4 scores.
+
+  Input Validation = Should not accept test scores lower than 0 or higher than 100.
+  
+  Refer to example below.
+  
+  lowestScoreDrop() = 
+  lowestScoreDrop() = 
+code: |
+  function lowestScoreDrop(num) {
+    return num;
+  }
+
+  assert(lowestScoreDrop(0) === 0);
+  assert(lowestScoreDrop(123) === 6);
+  assert(lowestScoreDrop(456) === 15);
+  assert(lowestScoreDrop(789) === 24);
+  assert(lowestScoreDrop(-123) === 4);
+  assert(lowestScoreDrop(-456) === 7);
+  alert('Passed all test cases!');
+tests:
+  - assert(lowestScoreDrop(0) === 0);
+  - assert(lowestScoreDrop(123) === 6);
+  - assert(lowestScoreDrop(456) === 15);
+  - assert(lowestScoreDrop(789) === 24);
+  - assert(lowestScoreDrop(-123) === 4);
+  - assert(lowestScoreDrop(-456) === 7);
+solution: |
+  function lowestScoreDrop(num) {
+  }
