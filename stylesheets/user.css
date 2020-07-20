@@ -1,4 +1,4 @@
-body {
+/*body {
     margin: 0;
     font-family: 'Nunito';
     font-size: 24px;
@@ -16,7 +16,14 @@ body {
     font-size: 1rem;
     margin-top: 2em;
     cursor: pointer;
-    background: rgb(158, 0, 250);
+    background: rgba(31, 111, 216, 0.753);
+    color: white;
+    font-weight: bold;
+    will-change: background;
+    transition: background 1s;
+}
+.container button:hover {
+    background: rgba(29, 176, 245, 0.301);        
 }
 
 .overlay {
@@ -58,7 +65,7 @@ body {
 .share button{
     border: none;
     padding: .8em 1.2em;
-    margin-top: 3em;
+    margin-top: 2em;
     width: 32%;
     cursor: pointer;
-}
+}*/
