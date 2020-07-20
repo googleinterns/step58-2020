@@ -58,8 +58,7 @@ module.exports = function(app) {
   app.post('/problems/:id', async function(request, response) {
     const user  = await auth.getUser(request.body.authToken);
     if (user == null) {
-      response.status(400);
-      response.send('Not Authenticated');
+      response.status(401).send('Not Authenticated');
       return;
     }
 
@@ -81,13 +80,11 @@ module.exports = function(app) {
     const executionResult   = await sandbox.run(code + tests.join('\n'), timeout);
 
     if (executionResult.signal === 'SIGTERM') {
-      response.status(400);
-      response.send('Code execution timed out');
+      response.status(400).send('Code execution timed out');
       return;
     }
     if (executionResult.stderr) {
-      response.status(400);
-      response.send('Code did not pass all test cases');
+      response.status(400).send('Code did not pass all test cases');
       return;
     } 
 
