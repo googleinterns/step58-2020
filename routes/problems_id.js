@@ -58,12 +58,16 @@ module.exports = function(app) {
   app.post('/problems/:id', async function(request, response) {
     const user  = await auth.getUser(request.body.authToken);
     if (user == null) {
+      response.status(400);
       response.send('Not Authenticated');
       return;
     }
 
     if (await accessControl.hasSubmission(user, request.params.id)) {
-      response.send('Multiple submissions are not allowed');
+      response.send(
+        'You have already submitted a solution.\n' +
+        'Click OK to compare it to other solutions!'
+      );
       return;
     }
 
@@ -77,15 +81,20 @@ module.exports = function(app) {
     const executionResult   = await sandbox.run(code + tests.join('\n'), timeout);
 
     if (executionResult.signal === 'SIGTERM') {
+      response.status(400);
       response.send('Code execution timed out');
       return;
     }
     if (executionResult.stderr) {
+      response.status(400);
       response.send('Code did not pass all test cases');
       return;
     } 
 
     await saveSubmission(user, code, analysisResult, request.params.id);
-    response.send('Your code passed all test cases!');
+    response.send(
+      'Your code passed all test cases.\n' +
+      'Click OK to compare it to other solutions!'
+    );
   });
 }
