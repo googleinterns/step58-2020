@@ -1,4 +1,4 @@
-const jshint = require('../lib/jshint-2.11.1/jshint.js')
+const escomplex = require('escomplex');
 
 /**
  * Performs static analysis on code 
@@ -7,14 +7,15 @@ const jshint = require('../lib/jshint-2.11.1/jshint.js')
  */
 
 function analyze(code) {
-  jshint.JSHINT(code);
-  result = jshint.JSHINT.data();
-  
-  // Get total complexity from result object
-  complexity = result.functions
-    .map(item => item.metrics.complexity)
-    .reduce((acc, curr) => acc + curr, 0);
-  return {'complexity': complexity};
+  const result = escomplex.analyse(code);
+
+  // Round to 3 decimal places if needed
+  roundedDifficulty = +(result.aggregate.halstead.difficulty.toFixed(3));
+  return {
+    cyclomatic: result.aggregate.cyclomatic,
+    lloc: result.aggregate.sloc.logical,
+    difficulty: roundedDifficulty
+  };
 }
 
 module.exports = analyze;
