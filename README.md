@@ -1,3 +1,19 @@
+# Yellow Brick Code
+![Yellow Brick Code Logo](https://raw.githubusercontent.com/googleinterns/step58-2020/master/html/images/YellowBrickCodeLogo.png)
+
+## About
+This repo contains the source code for La'Zshane', Nick, and Ife's STEP capstone project. Yellow Brick Code is a web app that aims to teach coders to write healthy and maintainable code.
+
+## Contributors
+Authors:
+- La'Zshane' Hoskins ([@lalaAdasia00](https://github.com/lalaAdasia00))
+- Nick Husin ([@Nicholas2750](https://github.com/Nicholas2750))
+- Ife Omidiran ([@ifeomi](https://github.com/ifeomi))
+
+Hosts:
+- Ian Tay ([@chronologos](https://github.com/chronologos))
+- Mihir Ray ([@raymihir](https://github.com/raymihir))
+
 ## Build Instruction
 
 ```
@@ -46,7 +62,7 @@ npm start
 /lib/               : Client side libraries
 /modules/           : Server side NodeJS modules
 /package.json       : Configurations and scripts of this project
-/scripts/           : client side JavaScript files
-/stylesheets/       : client side CSS files
+/scripts/           : Client side JavaScript files
+/stylesheets/       : Client side CSS files
 /test/              : Test files used to test /app.js and /modules/
 ```
