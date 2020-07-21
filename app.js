@@ -8,6 +8,7 @@ const exphbs    = require('express-handlebars');
 const fs        = require('fs');
 const app       = express();
 
+app.use(express.text());
 app.use(express.json());
 
 /**
