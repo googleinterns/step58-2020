@@ -3,6 +3,7 @@ import { idToken } from './auth.js';
 const INITIAL_CODE_ID   = 'initial-code';
 const CODE_AREA_ID      = 'code-area';
 const CODE_OUTPUT_ID    = 'code-output';
+const ANALYSIS_OUTPUT_ID = 'analysis-output'
 const RUN_BUTTON_ID     = 'run-button';
 const STOP_BUTTON_ID    = 'stop-button';
 const SUBMIT_BUTTON_ID  = 'submit-button';
@@ -50,10 +51,10 @@ function setupCodeMirror() {
     autoCloseBrackets: true,
   });
 
-  codeMirror.on('change', function() {
-    document.getElementById(ANALYSIS_TAB_ID).click();
-    runStaticAnalysis(codeMirror.getValue());
+  codeMirror.on('change', async function() {
     saveLocalCode();
+    await runStaticAnalysis(codeMirror.getValue());
+    document.getElementById(ANALYSIS_TAB_ID).click();
 
     if (lastMarking)
       lastMarking.clear();
@@ -185,20 +186,34 @@ function stopRunningCode() {
   updateInterface();
 }
 
-function runStaticAnalysis(code) {
-  let totalComplexity = 0;
+async function runStaticAnalysis(code) {
+  const response = await fetch('/analysis', {method: 'POST', body: code});
+  if (!response.ok) {
+    // Allow user to keep coding; errors in their code will be caught during execution
+    return;
+  }
+
+  const analysis = await response.json();
+
   JSHINT(code);
   const results = JSHINT.data();
-  results.functions.forEach(fn => totalComplexity += fn.metrics.complexity);
+  const unused = results.unused ? results.unused.map(element => element.name) : [];
 
-  const unusedNames = results.unused ? results.unused.map(element => element.name) : [];
-  // TODO(@ifeomi) revisit this once we have clarity on how test cases will be provided
-  let unused = unusedNames.filter(x => x !== SOLUTION_FUNCTION);
+  const metrics = {
+    numFunctions: `Number of functions: ${results.functions.length}`,
+    unused: `Unused functions and variables: ${unused.length > 0 ? unused.join(', ') : 'none'}.`,
+    cyclomatic: `The total cyclomatic complexity is ${analysis.cyclomatic}.`,
+    difficulty: `The Halstead difficulty is ${analysis.difficulty}.`,
+    lloc: `${analysis.lloc} logical lines of code.`
+  }
 
-  const metricsString = `Number of functions: ${results.functions.length}
-      Unused functions and variables: ${unused.length > 0 ? unused.join(', ') : 'none'}
-      The total cyclomatic complexity is ${totalComplexity}.`
-  document.getElementById('analysis-output').innerText = metricsString;
+  document.getElementById(ANALYSIS_OUTPUT_ID).innerHTML = '';
+  for (const metric in metrics) {
+    let metricListItem = document.createElement('li');
+    metricListItem.innerHTML = metrics[metric];
+    metricListItem.className = 'list-group-item';
+    document.getElementById(ANALYSIS_OUTPUT_ID).appendChild(metricListItem);
+  }
 }
 
 async function submitSolution() {
