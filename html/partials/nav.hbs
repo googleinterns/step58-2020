@@ -13,10 +13,17 @@
           <a class="nav-link" href="/problems">Problems</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <div class="g-signin2" id="signin-link" data-onsuccess="onSignIn"></div>
-      <a class="nav-link" href="#" id="profile-link" hidden>Profile</div>
-      <a class="nav-link" href="#" onclick="signOut();" id="signout-link" hidden>Sign out</a>
-    </form>
+
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <div class="g-signin2" id="signin-link" data-onsuccess="onSignIn"></div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" id="profile-link" hidden>Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" onclick="signOut();" id="signout-link" hidden>Sign out</a>
+      </li>
+    </ul>
   </div>
 </nav>
