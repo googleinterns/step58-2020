@@ -94,4 +94,14 @@ module.exports = function(app) {
       'Click OK to compare it to other solutions!'
     );
   });
+
+  app.post('/analysis', function(request, response) {
+    try {
+      const results = analyze(request.body);
+      response.send(results);
+    } catch (error) {
+      // Library throws error if it can't parse the source code.
+      response.sendStatus(400);
+    }
+  });
 }
