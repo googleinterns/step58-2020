@@ -1,21 +1,23 @@
 import { idToken } from './auth.js';
 
-const INITIAL_CODE_ID   = 'initial-code';
-const CODE_AREA_ID      = 'code-area';
-const CODE_OUTPUT_ID    = 'code-output';
-const ANALYSIS_OUTPUT_ID = 'analysis-output'
-const RUN_BUTTON_ID     = 'run-button';
-const STOP_BUTTON_ID    = 'stop-button';
-const SUBMIT_BUTTON_ID  = 'submit-button';
-const RESET_BUTTON_ID   = 'reset-button';
-const KEYBIND_CLASS     = 'keybind';
-const OUTPUT_TAB_ID     = 'output-tab';
-const ANALYSIS_TAB_ID   = 'analysis-tab';
-const HIDDEN_ATTRIBUTE  = 'hidden';
-const NEWLINE           = '\n';
-const SOLUTION_FUNCTION = 'solution';
-const KEYBIND_KEY       = 'keybind';
-const LOADING_BUTTON    = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...';
+const INITIAL_CODE_ID    = 'initial-code';
+const CODE_AREA_ID       = 'code-area';
+const CODE_OUTPUT_ID     = 'code-output';
+const ANALYSIS_OUTPUT_ID = 'analysis-output';
+const RUN_BUTTON_ID      = 'run-button';
+const STOP_BUTTON_ID     = 'stop-button';
+const SUBMIT_BUTTON_ID   = 'submit-button';
+const RESET_BUTTON_ID    = 'reset-button';
+const KEYBIND_CLASS      = 'keybind';
+const OUTPUT_TAB_ID      = 'output-tab';
+const ANALYSIS_TAB_ID    = 'analysis-tab';
+const HIDDEN_ATTRIBUTE   = 'hidden';
+const NEWLINE            = '\n';
+const KEYBIND_KEY        = 'keybind';
+const LOADING_BUTTON     = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...';
+const DIFFICULTY_DESC    = 'Halstead difficulty is a metric calculated based on the number of operands and operators in the function. The higher the number, the more difficult a program is to understand (e.g. in a code review).';
+const LLOC_DESC          = 'Logical lines of code is a measure of the number of imperative statements in the program.';
+const CYCLOMATIC_DESC    = 'Cyclomatic complexity is a measure of the number linearly independent paths through a program.';
 
 let codeMirror;
 let outputArea;
@@ -186,6 +188,14 @@ function stopRunningCode() {
   updateInterface();
 }
 
+function generateTooltipHTMLString(title, alignment) {
+  let HTMLString = `<button type="button" class="close text-${alignment}" aria-label="Help"
+                    data-toggle="tooltip" title="${title}">
+                      <span aria-hidden="true">?</span>
+                    </button>`
+  return HTMLString;
+}
+
 async function runStaticAnalysis(code) {
   const response = await fetch('/analysis', {method: 'POST', body: code});
   if (!response.ok) {
@@ -202,9 +212,12 @@ async function runStaticAnalysis(code) {
   const metrics = {
     numFunctions: `Number of functions: ${results.functions.length}`,
     unused: `Unused functions and variables: ${unused.length > 0 ? unused.join(', ') : 'none'}.`,
-    cyclomatic: `The total cyclomatic complexity is ${analysis.cyclomatic}.`,
-    difficulty: `The Halstead difficulty is ${analysis.difficulty}.`,
-    lloc: `${analysis.lloc} logical lines of code.`
+    cyclomatic: `The total cyclomatic complexity is ${analysis.cyclomatic}.
+      ${generateTooltipHTMLString(CYCLOMATIC_DESC, 'right')}`,
+    difficulty: `The Halstead difficulty is ${analysis.difficulty}.
+      ${generateTooltipHTMLString(DIFFICULTY_DESC, 'right')}`,
+    lloc: `${analysis.lloc} logical lines of code.
+      ${generateTooltipHTMLString(LLOC_DESC, 'right')}`
   }
 
   document.getElementById(ANALYSIS_OUTPUT_ID).innerHTML = '';
@@ -214,6 +227,7 @@ async function runStaticAnalysis(code) {
     metricListItem.className = 'list-group-item';
     document.getElementById(ANALYSIS_OUTPUT_ID).appendChild(metricListItem);
   }
+  $('[data-toggle="tooltip"]').tooltip('enable');
 }
 
 async function submitSolution() {
