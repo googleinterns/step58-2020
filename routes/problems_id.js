@@ -32,7 +32,7 @@ async function getProblem(id) {
  **/
 async function saveSubmission(user, code, analysisResult, problemId) {
   const data        = analysisResult;
-  data.email        = user.email;
+  data.author       = user.username;
   data.code         = code;
   data.problemId    = parseInt(problemId);
 
@@ -70,7 +70,6 @@ module.exports = function(app) {
       return;
     }
 
-    const email     = user.email;
     const code      = request.body.code;
     const problem   = (await getProblem(request.params.id));
     const tests     = problem.tests;

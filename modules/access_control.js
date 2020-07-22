@@ -13,7 +13,7 @@ async function hasSubmission(user, problemId) {
     const query = datastore
       .createQuery(SOLUTION_KIND)
       .filter('problemId', '=', parseInt(problemId))
-      .filter('email', '=', user.email);
+      .filter('username', '=', user.username);
 
     const [problems] = await datastore.runQuery(query);
     return problems.length != 0;

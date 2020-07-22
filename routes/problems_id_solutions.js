@@ -6,6 +6,7 @@ const accessControl         = require('../modules/access_control.js');
 
 const SOLUTION_KIND         = 'Solution';
 const PROBLEM_KIND          = 'Problem';
+const USER_KIND             = 'User';
 const DEFAULT_LIMIT         = 15;
 const DEFAULT_SORT          = 'complexity';
 const DEFAULT_IS_DESCENDING = false;
@@ -25,16 +26,16 @@ async function listSolutions(problemId, limit, sortBy, isDescending) {
       descending: isDescending,
     })
     .limit(parseInt(limit))
-    .select(['email', 'complexity']);
+    .select(['username', 'complexity']);
 
   return (await datastore.runQuery(query))[0];
 }
 
-async function getSubmittedCode(problemId, email) {
+async function getSubmittedCode(problemId, username) {
   const query = datastore
     .createQuery(SOLUTION_KIND)
     .filter('problemId', '=', parseInt(problemId))
-    .filter('email', '=', email)
+    .filter('username', '=', username)
     .select(['code']);
 
   return (await datastore.runQuery(query))[0];
@@ -59,7 +60,6 @@ module.exports = function(app) {
     const problemId = request.params.id;
     const problemTitle = await getProblemTitle(problemId);
     const solutions = await listSolutions(problemId, DEFAULT_LIMIT, DEFAULT_SORT, DEFAULT_IS_DESCENDING);
-
     response.render('solutions', {
       problemId: problemId,
       problemTitle: problemTitle,
@@ -74,7 +74,7 @@ module.exports = function(app) {
     if (!hasPrivilege) {
       response.sendStatus(401);
     } else {
-      const code = await getSubmittedCode(request.params.id, request.body.email);
+      const code = await getSubmittedCode(request.params.id, request.body.username);
       response.send(code);
     }
   });

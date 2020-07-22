@@ -16,14 +16,14 @@
       {{#each solutions}}
       <tr>
         <th scope="row" class="align-middle">{{math @index "+" 1}}</th>
-        <td class="email align-middle">{{this.email}}</td>
+        <td class="username align-middle">{{this.username}}</td>
         <td class="align-middle">{{this.complexity}}</td>
         <td class="align-middle">
-          <button class="btn btn-warning" id="{{this.email}}-button" data-toggle="collapse" href="#collapse{{@index}}" role="button" aria-expanded="false" aria-controls="collapse{{@index}}">
+          <button class="btn btn-warning" id="{{this.username}}-button" data-toggle="collapse" href="#collapse{{@index}}" role="button" aria-expanded="false" aria-controls="collapse{{@index}}">
               View
           </button>
           <div class="collapse code-area" id="collapse{{@index}}">
-            <textarea id="{{this.email}}-code-area" hidden></textarea>
+            <textarea id="{{this.username}}-code-area" hidden></textarea>
           </div>
         </td>
       </tr>
