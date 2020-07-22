@@ -1,3 +1,5 @@
+<script src="/scripts/share.js" type="module"></script>
+
 <div class="container mt-5">
   <h1>{{username}}</h1>
   {{#if solutions}}
@@ -7,6 +9,14 @@
     <li><a href="/problems/{{this.problemId}}/solutions">{{this.problemTitle}}</a> with complexity {{this.complexity}}</li>
     {{/each}}
   </ul>
+  <p>Share your profile! &#8681</p>
+  <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_linkedin"></a>
+    <a class="a2a_button_pinterest"></a>
+  </div>
+  <script async src="https://static.addtoany.com/menu/page.js"></script>
   {{else}}
   <p>{{username}} hasn't solved any problems yet.</p>
   {{/if}}
