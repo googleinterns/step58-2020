@@ -7,3 +7,7 @@ img {
 .darkmode-layer, .darkmode-toggle {
   z-index: 1200;
 }
+
+.modal {
+  z-index:1400;
+}
