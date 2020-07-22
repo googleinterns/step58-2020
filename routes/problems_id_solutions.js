@@ -10,6 +10,14 @@ const USER_KIND             = 'User';
 const DEFAULT_RANK          = 'difficulty';
 const DEFAULT_LIMIT         = 15;
 const DEFAULT_IS_DESCENDING = false;
+const DIFFICULTY_DESC       = 'Halstead difficulty is a metric calculated based on the number of operands and operators in the function. The higher the number, the more difficult a program is to understand (e.g. in a code review).';
+const LLOC_DESC             = 'Logical lines of code is a measure of the number of imperative statements in the program.';
+const CYCLOMATIC_DESC       = 'Cyclomatic complexity is a measure of the number linearly independent paths through a program.';
+const RANKING_MAPPING       = {
+  'difficulty': {'title': 'Halstead Difficulty', 'description': DIFFICULTY_DESC},
+  'cyclomatic': {'title': 'Cyclomatic Complexity', 'description': CYCLOMATIC_DESC},
+  'lloc': {'title': 'Logical Lines of Code', 'description': LLOC_DESC},
+}
 
 /**
  * Utility function to get a list of submitted solutions to display.
@@ -65,7 +73,8 @@ module.exports = function(app) {
     response.render('solutions', {
       problemId: problemId,
       problemTitle: problemTitle,
-      solutions: solutions
+      solutions: solutions,
+      ranking: RANKING_MAPPING[rankBy],
     });
   });
 
