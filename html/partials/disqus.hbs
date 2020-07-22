@@ -1,0 +1,18 @@
+<div class="mt-5" id="disqus_thread"></div>
+
+<script>
+let url = location.hostname;
+let path = location.pathname;
+
+let disqus_config = function () {
+  this.page.url = url;
+  this.page.identifier = path;
+};
+
+(function() {
+  let d = document, s = d.createElement('script');
+  s.src = 'https://yellow-brick-code.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+</script>
