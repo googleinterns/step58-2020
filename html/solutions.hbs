@@ -3,13 +3,21 @@
 <div class="container mt-3">
   <h1>Solutions for <a href="/problems/{{problemId}}">{{problemTitle}}</a></h1>
 
-  <button class="btn btn-primary dropdown-toggle" type="button" id="keybind-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Rank By
-  </button>
-  <div class="dropdown-menu" aria-labelledby="keybind-dropdown">
-    <button class="dropdown-item rank-selection" value="difficulty">Halstead Difficulty</button>
-    <button class="dropdown-item rank-selection" value="cyclomatic">Cyclomatic Complexity</button>
-    <button class="dropdown-item rank-selection" value="lloc">Logical Lines of Code</button>
+  <div class="card mt-3">
+    <div class="card-header">
+      <button class="btn btn-primary dropdown-toggle" type="button" id="keybind-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Rank By
+      </button>
+      <div class="dropdown-menu" aria-labelledby="keybind-dropdown">
+        <button class="dropdown-item rank-selection" value="difficulty">Halstead Difficulty</button>
+        <button class="dropdown-item rank-selection" value="cyclomatic">Cyclomatic Complexity</button>
+        <button class="dropdown-item rank-selection" value="lloc">Logical Lines of Code</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ranking.title}}</h5>
+      {{ranking.description}}
+    </div>
   </div>
 
   {{#if solutions}}
@@ -18,7 +26,7 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Author</th>
-        <th scope="col">Complexity</th>
+        <th scope="col">{{ranking.title}}</th>
         <th scope="col">Submission</th>
       </tr>
     </thead>
@@ -27,7 +35,7 @@
       <tr>
         <th scope="row" class="align-middle">{{math @index "+" 1}}</th>
         <td class="username align-middle">{{this.username}}</td>
-        <td class="align-middle">{{this.complexity}}</td>
+        <td class="align-middle">{{this.difficulty}} {{this.cyclomatic}} {{this.lloc}}</td>
         <td class="align-middle">
           <button class="btn btn-warning" id="{{this.username}}-button" data-toggle="collapse" href="#collapse{{@index}}" role="button" aria-expanded="false" aria-controls="collapse{{@index}}">
             View
