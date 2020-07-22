@@ -14,7 +14,7 @@ describe('Code Metrics Analyzer', function() {
                           }`
       const result = analyze(sourceCode);
       const expected = 2;
-      assert.strictEqual(result.complexity, expected);
+      assert.strictEqual(result.cyclomatic, expected);
     });
   });
 });
