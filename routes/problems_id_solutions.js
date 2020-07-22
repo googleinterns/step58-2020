@@ -7,10 +7,9 @@ const accessControl         = require('../modules/access_control.js');
 const SOLUTION_KIND         = 'Solution';
 const PROBLEM_KIND          = 'Problem';
 const USER_KIND             = 'User';
+const DEFAULT_RANK          = 'difficulty';
 const DEFAULT_LIMIT         = 15;
-const DEFAULT_SORT          = 'complexity';
 const DEFAULT_IS_DESCENDING = false;
-
 
 /**
  * Utility function to get a list of submitted solutions to display.
@@ -18,15 +17,15 @@ const DEFAULT_IS_DESCENDING = false;
  * handled by POST request handler, which will check if the client
  * has enough privilege to view the code.
  **/
-async function listSolutions(problemId, limit, sortBy, isDescending) {
+async function listSolutions(problemId, limit, rankBy, isDescending) {
   const query = datastore
     .createQuery(SOLUTION_KIND)
     .filter('problemId', '=', parseInt(problemId))
-    .order(sortBy, {
+    .order(rankBy, {
       descending: isDescending,
     })
     .limit(parseInt(limit))
-    .select(['username', 'complexity']);
+    .select(['username', rankBy]);
 
   return (await datastore.runQuery(query))[0];
 }
@@ -59,7 +58,10 @@ module.exports = function(app) {
   app.get('/problems/:id/solutions', async function(request, response) {
     const problemId = request.params.id;
     const problemTitle = await getProblemTitle(problemId);
-    const solutions = await listSolutions(problemId, DEFAULT_LIMIT, DEFAULT_SORT, DEFAULT_IS_DESCENDING);
+    const rankBy = request.query.rank || DEFAULT_RANK;
+
+    const solutions = await listSolutions(problemId, DEFAULT_LIMIT, rankBy, DEFAULT_IS_DESCENDING);
+
     response.render('solutions', {
       problemId: problemId,
       problemTitle: problemTitle,
