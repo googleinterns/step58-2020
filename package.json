@@ -22,6 +22,7 @@
     "express": "^4.16.3",
     "express-handlebars": "^4.0.4",
     "google-auth-library": "^6.0.3",
+    "javascript-time-ago": "^2.0.13",
     "js-yaml": "^3.14.0",
     "multer": "^1.4.2"
   },
