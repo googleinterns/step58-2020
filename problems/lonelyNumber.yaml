@@ -1,0 +1,38 @@
+id: 7
+title: LonelyNumber
+text: |
+  Write a function called findLonely that takes in an array of integer.
+  The given array of integer will always have exactly one unique number, called the lonely number.
+
+  Other numbers than the lonely number will always exist in multiples of two.
+  An example of such an array is [2, 2, 1, 5, 5, 5, 5] where 1 is the lonely number
+
+  findLonely should return the value of the lonely number that it finds.
+  
+code: |
+  function findLonely(arr) {
+    return arr[0];
+  }
+
+  assert(findLonely([1]) === 1);
+  assert(findLonely([1, 2, 2, 3, 3]) === 1);
+  assert(findLonely([3, 3, 2, 3, 3]) === 2);
+  assert(findLonely([1, 2, 2, 3, 3, 3, 3]) === 1);
+  alert('Passed all test cases!');
+tests:
+  - assert(findLonely([1]) === 1);
+  - assert(findLonely([1, 2, 2, 3, 3]) === 1);
+  - assert(findLonely([3, 3, 2, 3, 3]) === 2);
+  - assert(findLonely([1, 2, 2, 3, 3, 3, 3]) === 1);
+  - assert(findLonely([3, 3, 2, 3, 3, 3, 3]) === 2);
+solution: |
+  function findLonely(arr) {
+    var lonelyNumber = arr[0];
+
+    for (var i = 1; i < arr.length; ++i) {
+      lonelyNumber = lonelyNumber ^ arr[i];
+    }
+
+    return lonelyNumber;
+  };
+timeout: 2000

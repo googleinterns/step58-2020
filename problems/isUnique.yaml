@@ -1,0 +1,37 @@
+id: 6
+title: IsUnique
+text: |
+  Write a function called isUnique that takes in an array of integers.
+
+  Return true if all the elements of the array are unique.
+  If not, return false.
+code: |
+  function isUnique(arr) {
+    return true;
+  }
+
+  assert(isUnique([1, 2, 3]));
+  assert(!isUnique([1, 2, 3, 1]));
+  alert('Passed all test cases!');
+tests:
+  - assert(isUnique([1]));
+  - assert(isUnique([1, 2]));
+  - assert(isUnique([1, 2, 3]));
+  - assert(isUnique([3, 2, 1]));
+  - assert(!isUnique([1, 1]));
+  - assert(!isUnique([1, 2, 2, 1]));
+  - assert(!isUnique([1, 2, 1, 1]));
+solution: |
+  function isUnique(arr) {
+    var seen = {};
+
+    for (var i = 0; i < arr.length; ++i) {
+      if (arr[i] in seen)
+        return false;
+
+      seen[arr[i]] = true;
+    }
+
+    return true;
+  }
+timeout: 2000
