@@ -49,8 +49,9 @@ section {
 }
 
 .card {
-    float: right;
+    float: left;
     width: 32rem;
+    padding: 5px;
     background-color: #ebeef8;
     display: flex;
     flex-direction: column;
