@@ -13,14 +13,12 @@ a {
     color: #fff;
 }
 
-section {
-    padding: 10rem;
-    background-color: #fff;
-}
-
 .heading {
+    padding: 25px 0px 0px 0px;
     text-transform: uppercase;
     font-size: 3.5rem;
+    font-family: Bradley Hand, cursive;
+    font-weight: 900;
     letter-spacing: 3px;
     margin-right: -3px;
     margin-bottom: 5rem;
@@ -43,7 +41,7 @@ section {
 
 .card-wrapper {
     display: flex;
-    width: 150%;
+    width: 100%;
     align-items: center;
     align-content: center;
     justify-content: center;
@@ -81,33 +79,33 @@ section {
 }
 
 .card h1 {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     color: #333;
-    margin: 1.5rem 0;
+    margin: 1.5rem 0 0 0;
 }
 
 .job-title {
     color: #777;
-    font-size: 1.5rem;
-    font-weight: 300;
+    font-size: 1rem;
+    font-weight: 250;
 }
 
 .about {
-    font-size: 1.5rem;
-    margin: 1.5rem 0;
+    font-size: 1rem;
+    margin: .5rem 0;
     font-style: italic;
     text-align: center;
     color: #333;
 }
 
 .card .btn {
-    padding: 1rem 2.5rem;
+    padding: 1rem 1.5rem;
     background-color: #e9ed5a;
     border-radius: 2rem;
     margin: 1rem 0;
     text-transform: uppercase;
     color: #04323f;
-    font-size: 1.4rem;
+    font-size: 1rem;
     transition: all .5s;
 }
 
@@ -126,7 +124,7 @@ section {
     list-style: none;
     display: flex;
     justify-content: space-evenly;
-    padding: 2rem 0;
+    padding: 2rem 0 0 0;
     margin-top: 1.5rem;
     border-top: 1px solid rgba(0,0,0,.1);
 }
