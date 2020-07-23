@@ -25,3 +25,4 @@ solution: |
   function reverseString(str) {
     return str.split('').reverse().join('');
   }
+timeout: 2500

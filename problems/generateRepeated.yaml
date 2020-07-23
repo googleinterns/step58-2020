@@ -38,3 +38,4 @@ solution:
     var firstRepeat = repeatString(str, a);
     return repeatString(firstRepeat + '\n', b).trim();
   }
+timeout: 2500

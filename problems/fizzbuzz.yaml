@@ -41,4 +41,4 @@ solution: |
 
     return str;
   }
-timeout: 500
+timeout: 2000
