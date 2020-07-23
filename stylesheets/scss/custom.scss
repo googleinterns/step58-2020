@@ -1,0 +1,21 @@
+/*! `Custom` Bootstrap 4 theme */
+@import url(https://fonts.googleapis.com/css?family=Oswald:200,300,400,700);
+$headings-font-family:Oswald; 
+
+$enable-grid-classes:false;
+$primary:#FEC100;
+$secondary:#eed75a;
+$success:#528078;
+$danger:#703B3B;
+$info:#63e792;
+$warning:#FFE869;
+$light:#FDFBF7;
+$dark:#555555;
+$enable-gradients:false;
+$spacer:1rem;
+$border-width:1px;
+$btn-border-radius:.25rem;
+
+@import "node_modules/bootstrap/scss/bootstrap.scss";
+
+// Add SASS theme customizations here..

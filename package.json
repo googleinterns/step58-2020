@@ -12,18 +12,21 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "node app.js",
-    "test": "mocha --exit test/*.test.js"
+    "start": "node-sass -w stylesheets/scss -o stylesheets & node app.js",
+    "test": "mocha --exit test/*.test.js",
+    "scss": "node-sass -w stylesheets/scss -o stylesheets"
   },
   "dependencies": {
     "@google-cloud/datastore": "^6.1.0",
+    "bootstrap": "^4.5.0",
     "darkmode-js": "^1.5.6",
     "escomplex": "^2.0.0-alpha",
     "express": "^4.16.3",
     "express-handlebars": "^4.0.4",
     "google-auth-library": "^6.0.3",
     "js-yaml": "^3.14.0",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "node-sass": "^4.14.1"
   },
   "devDependencies": {
     "mocha": "^8.0.0",
