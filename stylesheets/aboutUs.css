@@ -43,13 +43,14 @@ section {
 
 .card-wrapper {
     display: flex;
+    width: 150%;
     align-items: center;
     align-content: center;
-    flex-direction: column;
+    justify-content: center;
+    flex-direction: row;
 }
 
 .card {
-    float: left;
     width: 32rem;
     padding: 5px;
     background-color: #ebeef8;
