@@ -1,3 +1,8 @@
+const TimeAgo = require('javascript-time-ago');
+const en = require('javascript-time-ago/locale/en');
+TimeAgo.addLocale(en);
+const timeAgo = new TimeAgo('en-US');
+
 const datastore = require('../modules/datastore.js');
 
 const USER_KIND = 'User';
@@ -14,13 +19,10 @@ module.exports = function(app) {
     return users[0];
   }
 
-  /* Helper function to get solutions submitted by a user.
-   * TODO(b/161439920) filter by user ID rather than email. 
-   */
   async function listSolutionsByUser(user) {
     const query = datastore
         .createQuery(SOLUTION_KIND)
-        .filter('email', '=', user.email);
+        .filter('username', '=', user.username);
     const [userSolutions] = await datastore.runQuery(query);
     return userSolutions;
   }
@@ -50,10 +52,11 @@ module.exports = function(app) {
     const solutions = await listSolutionsByUser(user);
     const solvedProblemIds = solutions.map(solution => solution.problemId);
     const solvedProblems = await getProblems(solvedProblemIds);
-    
+
     for (const solution of solutions) {
       solution.problemTitle = 
           solvedProblems.filter(problem => problem.id === solution.problemId)[0].title;
+      solution.timestamp = timeAgo.format(solution.timestamp);
     }
 
     response.render('user', {username: username, solutions: solutions});
