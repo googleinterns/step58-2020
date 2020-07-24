@@ -1,8 +1,8 @@
 id: 7
 title: LonelyNumber
 text: |
-  Write a function called findLonely that takes in an array of integer.
-  The given array of integer will always have exactly one unique number, called the lonely number.
+  Write a function called findLonely that takes in an array of integers.
+  The given array of integers will always have exactly one unique number, called the lonely number.
 
   Other numbers than the lonely number will always exist in multiples of two.
   An example of such an array is [2, 2, 1, 5, 5, 5, 5] where 1 is the lonely number
@@ -34,5 +34,5 @@ solution: |
     }
 
     return lonelyNumber;
-  };
+  }
 timeout: 2000

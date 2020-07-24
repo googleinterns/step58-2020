@@ -5,6 +5,9 @@ text: |
 
   Return true if all the elements of the array are unique.
   If not, return false.
+
+  For example, isUnique([1, 2]) would return true.
+  On the other hand, isUnique([1, 1]) would return false.
 code: |
   function isUnique(arr) {
     return true;
