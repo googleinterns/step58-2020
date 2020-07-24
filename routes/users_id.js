@@ -56,6 +56,6 @@ module.exports = function(app) {
           solvedProblems.filter(problem => problem.id === solution.problemId)[0].title;
     }
 
-    response.render('user', {username: username, solutions: solutions});
+    response.render('user', {username: username, solutions: solutions, pictureURL: user.pictureURL});
   });
 }
