@@ -1,5 +1,3 @@
-import { idToken } from './auth.js';
-
 const INITIAL_CODE_ID    = 'initial-code';
 const CODE_AREA_ID       = 'code-area';
 const CODE_OUTPUT_ID     = 'code-output';
@@ -233,7 +231,7 @@ async function runStaticAnalysis(code) {
 async function submitSolution() {
   submitButton.disabled     = true;
   submitButton.innerHTML    = LOADING_BUTTON;
-  const payload = new Blob([JSON.stringify({authToken: idToken, code: codeMirror.getValue()})], {type: 'application/json'});
+  const payload = new Blob([JSON.stringify({code: codeMirror.getValue()})], {type: 'application/json'});
 
   const response        = await fetch(`${location.pathname}`, {method: 'POST', body: payload})
   const responseText    = await response.text();
