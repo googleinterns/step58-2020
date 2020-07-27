@@ -5,10 +5,8 @@
     <title>Yellow Brick Code</title>
     
     <!--Google Sign in-->
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="1044127873768-lqem54d3ke8hfanpakvb9f88ptlmton4.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="/scripts/auth.js" type="module" ></script>
+    <script src="/scripts/auth.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 
     <!-- CodeMirror, Interpreter, and JSHint JavaScript imports -->
     <script src="/lib/codemirror/lib/codemirror.js"></script>
@@ -27,11 +25,6 @@
     <script src="/lib/codemirror/addon/hint/javascript-hint.js"></script>
     <script src="/lib/js_interpreter/acorn_interpreter.js"></script>
     <script src="/lib/jshint-2.11.1/jshint.js"></script>
-
-    {{!-- <!-- Darkmode JavaScript imports -->
-    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.6/lib/darkmode-js.min.js"></script>
-    <script src="/scripts/darkmode.js"></script> --}}
-
 
     <!-- CodeMirror CSS imports -->
     <link rel="stylesheet" href="/lib/codemirror/addon/lint/lint.css">
