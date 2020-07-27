@@ -1,5 +1,3 @@
-import { idToken } from './auth.js';
-
 const CODE_AREA_JQUERY_CLASS = '.code-area';
 const USERNAME_CLASS = 'username';
 const RANK_CLASS = 'rank-selection';
@@ -25,7 +23,7 @@ function setupCodeArea(elementId, code) {
 }
 
 async function displayCode(username) {
-  const payload         = new Blob([JSON.stringify({authToken: idToken, username: username})], {type: 'application/json'});
+  const payload         = new Blob([JSON.stringify({username: username})], {type: 'application/json'});
   const response        = await fetch(`${location.pathname}`, {method: 'POST', body: payload})
   if (!response.ok) {
     alert('Solve this problem to view others\' solutions.');
