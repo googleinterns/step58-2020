@@ -1,8 +1,9 @@
 'use strict';
 const datastore = require('../modules/datastore.js');
+const auth = require('../modules/auth.js');
 const multer  = require('multer');
 
-const USER_KIND = "User";
+const USER_KIND = 'User';
 
 /**
  * Checks if a username is valid by testing against a regular
@@ -36,15 +37,18 @@ module.exports = function(app) {
       response.sendStatus(500);
     }
     
-    if (validUsername) {
-      try {
-        await datastore.store(USER_KIND, request.body);
-        response.sendStatus(200);
-      } catch(error) {
-        response.sendStatus(500);
-      }
-    } else {
+    if (!validUsername) {
       response.status(403).send('Username is already taken');
+    }
+
+    try {
+      const userResponse = auth.getUser(request.cookies.token);
+      response.cookie('username', request.body.username, {expires: userResponse.expires});
+      await datastore.store(USER_KIND, request.body);
+      response.sendStatus(200);
+    } catch(error) {
+      console.log(error);
+      response.sendStatus(500);
     }
   });
 }
