@@ -79,7 +79,7 @@ module.exports = function(app) {
   });
 
   app.post('/problems/:id/solutions', async function(request, response) {
-    const user          = await auth.getUser(request.body.authToken);
+    const user          = await auth.getUser(request.cookies.token);
     const hasPrivilege  = await accessControl.hasSubmission(user, request.params.id);
 
     if (!hasPrivilege) {
