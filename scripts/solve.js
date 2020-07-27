@@ -18,7 +18,6 @@ const LOADING_BUTTON     = '<span class="spinner-border spinner-border-sm" role=
 const DIFFICULTY_DESC    = 'Halstead difficulty is a metric calculated based on the number of operands and operators in the function. The higher the number, the more difficult a program is to understand (e.g. in a code review).';
 const LLOC_DESC          = 'Logical lines of code is a measure of the number of imperative statements in the program.';
 const CYCLOMATIC_DESC    = 'Cyclomatic complexity is a measure of the number linearly independent paths through a program.';
-const BIGONOTATION_DESC  = 'Big O notation is the most common metric for calculating time complexity. It describes the execution time of a task in relation to the number of steps required to complete it.'
 
 let codeMirror;
 let outputArea;
@@ -218,8 +217,7 @@ async function runStaticAnalysis(code) {
     difficulty: `The Halstead difficulty is ${analysis.difficulty}.
       ${generateTooltipHTMLString(DIFFICULTY_DESC, 'right')}`,
     lloc: `${analysis.lloc} logical lines of code.
-      ${generateTooltipHTMLString(LLOC_DESC, 'right')}`,
-    bigOnotation: ``
+      ${generateTooltipHTMLString(LLOC_DESC, 'right')}`
   }
 
   document.getElementById(ANALYSIS_OUTPUT_ID).innerHTML = '';
