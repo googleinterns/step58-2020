@@ -7,9 +7,11 @@ const express   = require('express');
 const exphbs    = require('express-handlebars');
 const fs        = require('fs');
 const app       = express();
+const cookieParser = require('cookie-parser');
 
 app.use(express.text());
 app.use(express.json());
+app.use(cookieParser());
 
 /**
  * Recursively import all route handlers in /routes.
