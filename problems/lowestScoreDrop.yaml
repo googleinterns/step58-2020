@@ -1,39 +1,54 @@
-id: 6
-title: LowestScoreDrop
+id: 8
+title: LowestScore
 text: |
-  Write a program that calculates the average of a group of test scores, 
-  where the lowest score in the group is dropped. 
-  It should use the following functions...
+  Write a function called lowestScore that takes in an array of integers [test scores]
+  and returns the lowest integer [test score] in the array.
 
-  -getScores() should first ask the user for a list of 5 test scores to be entered.
-  -findLowest() should find and return the lowest of the 5 scores passed to it.
-  -calcAverage() should calculate and display the average of the highest 4 scores.
-
-  Input Validation = Should not accept test scores lower than 0 or higher than 100.
+  If the test scores are all the same, return that score. 
+  If the input includes a negative number, return 'invalid'.
   
   Refer to example below.
   
-  lowestScoreDrop() = 
-  lowestScoreDrop() = 
+  lowestScore([80, 100, 75, 99, 52]) = 52
+  lowestScore([99, 99, 99, 99]) = 99
+  lowestScore([-80, 100, 97]) = 'invalid'
 code: |
-  function lowestScoreDrop(num) {
+  function lowestScore(arr) {
     return num;
   }
 
-  assert(lowestScoreDrop(0) === 0);
-  assert(lowestScoreDrop(123) === 6);
-  assert(lowestScoreDrop(456) === 15);
-  assert(lowestScoreDrop(789) === 24);
-  assert(lowestScoreDrop(-123) === 4);
-  assert(lowestScoreDrop(-456) === 7);
+  assert(lowestScore([70, 20, 90, 40, 80]) === 20);
+  assert(lowestScore([60, 100, 30, 10]) === 10);
+  assert(lowestScore([50, 50, 50, 50]) === 50);
+  assert(lowestScore([-80, 100, 97]) === 'invalid');
+
   alert('Passed all test cases!');
 tests:
-  - assert(lowestScoreDrop(0) === 0);
-  - assert(lowestScoreDrop(123) === 6);
-  - assert(lowestScoreDrop(456) === 15);
-  - assert(lowestScoreDrop(789) === 24);
-  - assert(lowestScoreDrop(-123) === 4);
-  - assert(lowestScoreDrop(-456) === 7);
+  - assert(lowestScore([70, 20, 90, 40, 80]) === 20);
+  - assert(lowestScore([60, 100, 30, 10]) === 10);
+  - assert(lowestScore([50, 50, 50, 50]) === 50);
+  - assert(lowestScore([100, 100, 85, 64, 32]) === 32);
+  - assert(lowestScore([-80, 100, 97]) === 'invalid');
 solution: |
-  function lowestScoreDrop(num) {
+  function lowestScore(arr) {
+    var num = arr[0];
+    var next;
+    var after;
+    for(var i = 0; i < arr.length-1; i++){
+      next = arr[i];
+      after = arr[i+1];
+      if(num < 0){
+          return 'invalid';
+      }
+      else {
+        if(after < next){
+          num = after;
+        }
+        else {
+          num = next;
+        }
+      }
+    }
+    return num;
   }
+timeout: 2500
