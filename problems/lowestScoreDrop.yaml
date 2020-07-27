@@ -31,24 +31,11 @@ tests:
   - assert(lowestScore([-80, 100, 97]) === 'invalid');
 solution: |
   function lowestScore(arr) {
-    var num = arr[0];
-    var next;
-    var after;
-    for(var i = 0; i < arr.length-1; i++){
-      next = arr[i];
-      after = arr[i+1];
-      if(num < 0){
-          return 'invalid';
-      }
-      else {
-        if(after < next){
-          num = after;
-        }
-        else {
-          num = next;
-        }
-      }
+    var lowestScore = Math.min.apply(Math, arr);
+    
+    if (lowestScore < 0){
+        return 'invalid';
     }
-    return num;
+    return lowestScore;
   }
 timeout: 2500
