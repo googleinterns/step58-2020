@@ -31,6 +31,11 @@ async function getProblem(id) {
  * Fields in data are not nested to allow easier filtering.
  **/
 async function saveSubmission(user, code, analysisResult, problemId) {
+  // Store Halstead difficulty as a double since it can be a float
+  if (analysisResult.difficulty) {
+    analysisResult.difficulty = datastore.double(analysisResult.difficulty);
+  }
+
   const data        = analysisResult;
   data.username     = user.username;
   data.code         = code;
