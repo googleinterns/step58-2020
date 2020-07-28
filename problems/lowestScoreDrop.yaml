@@ -1,0 +1,41 @@
+id: 8
+title: LowestScore
+text: |
+  Write a function called lowestScore that takes in an array of integers [test scores]
+  and returns the lowest integer [test score] in the array.
+
+  If the test scores are all the same, return that score. 
+  If the input includes a negative number, return 'invalid'.
+  
+  Refer to example below.
+  
+  lowestScore([80, 100, 75, 99, 52]) = 52
+  lowestScore([99, 99, 99, 99]) = 99
+  lowestScore([-80, 100, 97]) = 'invalid'
+code: |
+  function lowestScore(arr) {
+    return num;
+  }
+
+  assert(lowestScore([70, 20, 90, 40, 80]) === 20);
+  assert(lowestScore([60, 100, 30, 10]) === 10);
+  assert(lowestScore([50, 50, 50, 50]) === 50);
+  assert(lowestScore([-80, 100, 97]) === 'invalid');
+
+  alert('Passed all test cases!');
+tests:
+  - assert(lowestScore([70, 20, 90, 40, 80]) === 20);
+  - assert(lowestScore([60, 100, 30, 10]) === 10);
+  - assert(lowestScore([50, 50, 50, 50]) === 50);
+  - assert(lowestScore([100, 100, 85, 64, 32]) === 32);
+  - assert(lowestScore([-80, 100, 97]) === 'invalid');
+solution: |
+  function lowestScore(arr) {
+    var lowestScore = Math.min.apply(Math, arr);
+    
+    if (lowestScore < 0){
+        return 'invalid';
+    }
+    return lowestScore;
+  }
+timeout: 2500
