@@ -11,35 +11,35 @@ const escodegen = require('escodegen');
 const BLOCK_STATEMENT = 'BlockStatement';
 
 /**
-* Function that wraps optional single-liner in BlockStatement Node.
-* Takes in an Abstract Syntax Tree node and its parent,
-* and returns the appropriate replacement of the node.
-*
-* For example, given an AST node that represents doTask() in:
-* if (x == y)
-*   doTask();
-*
-* This code will return an AST node representing:
-* {
-*   doTask();
-* }
-*
-* Such that its caller can replace the AST node and generate:
-* if (x == y) {
-*   doTask();
-* }
-*
-* This function is needed so that further code instrumentation
-* will not accidentally change the behaviour of the original code
-* due to accidents such as:
-* if (x == y)
-*   doTask();
-*
-* turning into:
-* if (x == y)
-*   detectBranchCoverage();
-* doTask();
-**/
+ * Function that wraps optional single-liner in BlockStatement Node.
+ * Takes in an Abstract Syntax Tree node and its parent,
+ * and returns the appropriate replacement of the node.
+ *
+ * For example, given an AST node that represents doTask() in:
+ * if (x == y)
+ *   doTask();
+ *
+ * This code will return an AST node representing:
+ * {
+ *   doTask();
+ * }
+ *
+ * Such that its caller can replace the AST node and generate:
+ * if (x == y) {
+ *   doTask();
+ * }
+ *
+ * This function is needed so that further code instrumentation
+ * will not accidentally change the behaviour of the original code
+ * due to accidents such as:
+ * if (x == y)
+ *   doTask();
+ *
+ * turning into:
+ * if (x == y)
+ *   detectBranchCoverage();
+ * doTask();
+ **/
 function wrapInBlockStatement(node, parent) {
   const wrappedNode = acorn.parse('{' + escodegen.generate(node) + '}');
 
