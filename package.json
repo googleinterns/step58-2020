@@ -20,6 +20,7 @@
     "cookie-parser": "^1.4.5",
     "acorn": "^7.3.1",
     "darkmode-js": "^1.5.6",
+    "escodegen": "^1.14.3",
     "escomplex": "^2.0.0-alpha",
     "estraverse": "^5.1.0",
     "express": "^4.16.3",
