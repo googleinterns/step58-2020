@@ -195,4 +195,66 @@ describe('Code Instrumentation module', () => {
       assert.equal(stripSpace(expectedCode), stripSpace(generatedCode));
     });
   });
+
+  describe('generateInstrumentedCode()', () => {
+    it('should generate code that includes the instrumentation header', () => {
+      const code = `
+      function solve() {
+        return 1;
+      }
+      `;
+
+      const instrumentationResult = codeInstrumenter.generateInstrumentedCode(code);
+      const instrumentedCode = instrumentationResult.code;
+
+      assert.ok(instrumentedCode.includes(codeInstrumenter.INSTRUMENTATION_HEADER));
+    });
+
+    it('should generate code that includes the instrumentation footer', () => {
+      const code = `
+      function solve() {
+        return 1;
+      }
+      `;
+
+      const instrumentationResult = codeInstrumenter.generateInstrumentedCode(code);
+      const instrumentedCode = instrumentationResult.code;
+
+      assert.ok(instrumentedCode.includes(codeInstrumenter.INSTRUMENTATION_FOOTER));
+    });
+
+    it('should handle one-liner statements properly', () => {
+      const code = `
+      function solve() {
+        if (true)
+          doThis(); doThat();
+
+        return 1;
+      }
+      `;
+
+      const expectedCode = `
+      ${codeInstrumenter.INSTRUMENTATION_HEADER}
+      function solve() {
+        coverageReport.recordExecutedStatement(34);
+        if (true) {
+          coverageReport.recordExecutedStatement(54);
+          doThis();
+        }
+
+        coverageReport.recordExecutedStatement(64);
+        doThat();
+
+        coverageReport.recordExecutedStatement(83);
+        return 1;
+      }
+      ${codeInstrumenter.INSTRUMENTATION_FOOTER}
+      `;
+
+      const instrumentationResult = codeInstrumenter.generateInstrumentedCode(code);
+      const instrumentedCode = instrumentationResult.code;
+
+      assert.equal(stripSpace(expectedCode), stripSpace(instrumentedCode));
+    });
+  });
 });
