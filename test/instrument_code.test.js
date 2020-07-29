@@ -251,10 +251,14 @@ describe('Code Instrumentation module', () => {
       ${codeInstrumenter.INSTRUMENTATION_FOOTER}
       `;
 
+      const expectedStatementCount = 4;
+
       const instrumentationResult = codeInstrumenter.generateInstrumentedCode(code);
       const instrumentedCode = instrumentationResult.code;
+      const totalStatementCount = instrumentationResult.totalStatementCount;
 
       assert.equal(stripSpace(expectedCode), stripSpace(instrumentedCode));
+      assert.equal(expectedStatementCount, totalStatementCount);
     });
   });
 });
