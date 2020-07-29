@@ -119,4 +119,80 @@ describe('Code Instrumentation module', () => {
       assert.equal(stripSpace(expectedCode), stripSpace(generatedCode));
     });
   });
+
+  describe('addStatementCoverageDetection()', () => {
+    it('add instrumentation functions before a statement rather than after', () => {
+      const originalCode = `
+      function solution() {
+        return 1;
+      }
+      `;
+
+      const expectedCode = `
+      function solution() {
+        coverageReport.recordExecutedStatement(37);
+        return 1;
+      }
+      `;
+
+      const generatedCode = 
+        instrumentCode(originalCode, codeInstrumenter.addStatementCoverageDetection);
+
+      assert.equal(stripSpace(expectedCode), stripSpace(generatedCode));
+    });
+
+    it('should not be affected by multiple statements in one line', () => {
+      const originalCode = `
+      function solution() {
+        var x = 1; return x;
+      }
+      `;
+
+      const expectedCode = `
+      function solution() {
+        coverageReport.recordExecutedStatement(37);
+        var x = 1;
+
+        coverageReport.recordExecutedStatement(48);
+        return x;
+      }
+      `;
+
+      const generatedCode = 
+        instrumentCode(originalCode, codeInstrumenter.addStatementCoverageDetection);
+
+      assert.equal(stripSpace(expectedCode), stripSpace(generatedCode));
+    });
+
+    it('should generate instrumented functions with unique arguments', () => {
+      const originalCode = `
+      function solution() {
+        var x = 1;
+        x = 2;
+        x = 3;
+        
+        return x;
+      }
+      `;
+
+      const expectedCode = `
+      function solution() {
+        coverageReport.recordExecutedStatement(37);
+        var x = 1;
+        coverageReport.recordExecutedStatement(56);
+        x = 2;
+        coverageReport.recordExecutedStatement(71);
+        x = 3;
+
+        coverageReport.recordExecutedStatement(95);
+        return x;
+      }
+      `;
+
+      const generatedCode = 
+        instrumentCode(originalCode, codeInstrumenter.addStatementCoverageDetection);
+
+      assert.equal(stripSpace(expectedCode), stripSpace(generatedCode));
+    });
+  });
 });
