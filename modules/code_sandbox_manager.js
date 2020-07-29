@@ -45,10 +45,13 @@ const path          = require('path');
 const util          = require('util');
 const execFile      = util.promisify(require('child_process').execFile);
 
+const codeInstrumenter  = require('./instrument_code.js');
+
 const CHILD_SCRIPT      = path.join(__dirname, 'code_sandbox_worker.js');
 const DEFAULT_TIMEOUT   = 1500;
+const FULL_COVERAGE     = 100;
 
-async function run(code, timeout) {
+async function run(code, timeout, doInstrumentation) {
   // Sets a timeout (in milliseconds) if given, uses DEFAULT_TIMEOUT otherwise.
   let execOption    = {
     timeout: timeout || DEFAULT_TIMEOUT
@@ -58,10 +61,32 @@ async function run(code, timeout) {
   // Also uses execFile rather than exec to prevent shell process
   // from spawning, making this execution more efficient.
   try {
-    return await execFile(CHILD_SCRIPT, [code], execOption);
+    return await execFile(CHILD_SCRIPT, [code, doInstrumentation], execOption);
   } catch (error) {
     return error;
   }
 }
 
-module.exports.run = run;
+async function calculateCodeCoverage(code, timeout) {
+  const instrumentationResult = codeInstrumenter.generateInstrumentedCode(code);
+  const instrumentedCode = instrumentationResult.code;
+  const totalStatementCount = instrumentationResult.totalStatementCount;
+
+  const executionResult = await run(instrumentedCode, null, true);
+  const executedStatement = parseInt(executionResult.stdout);
+
+  const statementCoverage = executedStatement / totalStatementCount * FULL_COVERAGE;
+
+  // We get NaN if totalStatementCount is 0, in which case we return
+  // 100 percent coverage by default.
+  if (isNaN(statementCoverage)) {
+    return FULL_COVERAGE;
+  }
+
+  return statementCoverage;
+}
+
+module.exports = {
+  run: run,
+  calculateCodeCoverage: calculateCodeCoverage,
+};
