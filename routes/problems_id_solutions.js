@@ -13,10 +13,16 @@ const DEFAULT_IS_DESCENDING = false;
 const DIFFICULTY_DESC       = 'Halstead difficulty is a metric calculated based on the number of operands and operators in the function. The higher the number, the more difficult a program is to understand (e.g. in a code review).';
 const LLOC_DESC             = 'Logical lines of code is a measure of the number of imperative statements in the program.';
 const CYCLOMATIC_DESC       = 'Cyclomatic complexity is a measure of the number linearly independent paths through a program.';
+const PLOC_DESC             = 'Physical lines of code is a measure of the number of lines in a function or a module.';
+const PARAMS_DESC           = 'Number of Parameters metric is a count of the number of parameters to a method. Lower is better.';
+const DENSITY_DESC          = 'Cyclomatic Complexity Density metric that simply re-expresses cycolmatic density as a percentage of the logical lines of code.';
 const RANKING_MAPPING       = {
   'difficulty': {'title': 'Halstead Difficulty', 'description': DIFFICULTY_DESC},
   'cyclomatic': {'title': 'Cyclomatic Complexity', 'description': CYCLOMATIC_DESC},
   'lloc': {'title': 'Logical Lines of Code', 'description': LLOC_DESC},
+  'ploc': {'title': 'Physical Lines of Code', 'description': PLOC_DESC},
+  'params': {'title': 'Number of Parameters', 'description': PARAMS_DESC},
+  'density': {'title': 'Cyclomatic Complexity Density', 'description': DENSITY_DESC},
 }
 
 /**
