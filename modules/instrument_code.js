@@ -99,7 +99,54 @@ function addStatementCoverageDetection(node, parent) {
   return node;
 }
 
+/**
+ * Generates instrumented code.
+ *
+ * Enforces BlockStatement usages beforehand to prevent misinterpretation
+ * of code during instrumentation.
+ *
+ * Adds INSTRUMENTATION_HEADER and INSTRUMENTATION_FOOTER last so the
+ * header and footer will not be instrumented.
+ *
+ * Returns the instrumented code and information on the instrumentation done.
+ **/
+function generateInstrumentedCode(code) {
+  let codeAst = acorn.parse(code);
+  let totalStatementCount = 0;
+
+  estraverse.replace(codeAst, {
+    leave: function (node, parent) {
+      return wrapInBlockStatement(node, parent);
+    }
+  });
+
+  estraverse.replace(codeAst, {
+    leave: function (node, parent) {
+      const newNode = addStatementCoverageDetection(node, parent);
+
+      if (newNode != node) {
+        totalStatementCount += 1;
+      }
+
+      return newNode;
+    }
+  });
+
+  const instrumentedCode = 
+    INSTRUMENTATION_HEADER +
+    escodegen.generate(codeAst) +
+    INSTRUMENTATION_FOOTER;
+
+  return {
+    code: instrumentedCode,
+    totalStatementCount: totalStatementCount,
+  };
+}
+
 module.exports = {
   wrapInBlockStatement: wrapInBlockStatement,
   addStatementCoverageDetection: addStatementCoverageDetection,
+  generateInstrumentedCode: generateInstrumentedCode,
+  INSTRUMENTATION_HEADER: INSTRUMENTATION_HEADER,
+  INSTRUMENTATION_FOOTER: INSTRUMENTATION_FOOTER,
 };
