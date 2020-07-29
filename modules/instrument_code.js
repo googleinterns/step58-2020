@@ -8,10 +8,7 @@ const acorn = require('acorn');
 const estraverse = require('estraverse');
 const escodegen = require('escodegen');
 
-const sandbox = require('./code_sandbox_manager');
-
 const BLOCK_STATEMENT = 'BlockStatement';
-const RETURN_STATEMENT = 'ReturnStatement';
 const IF_STATEMENT = 'IfStatement';
 
 const INSTRUMENTATION_HEADER = `
