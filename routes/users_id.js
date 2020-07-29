@@ -22,7 +22,8 @@ module.exports = function(app) {
   async function listSolutionsByUser(user) {
     const query = datastore
         .createQuery(SOLUTION_KIND)
-        .filter('username', '=', user.username);
+        .filter('username', '=', user.username)
+        .order('timestamp', {descending: true});
     const [userSolutions] = await datastore.runQuery(query);
     return userSolutions;
   }
