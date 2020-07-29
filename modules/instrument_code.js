@@ -8,7 +8,24 @@ const acorn = require('acorn');
 const estraverse = require('estraverse');
 const escodegen = require('escodegen');
 
+const sandbox = require('./code_sandbox_manager');
+
 const BLOCK_STATEMENT = 'BlockStatement';
+const RETURN_STATEMENT = 'ReturnStatement';
+const IF_STATEMENT = 'IfStatement';
+
+const INSTRUMENTATION_HEADER = `
+var coverageReport = {};
+coverageReport.statementExecuted = {};
+
+coverageReport.recordExecutedStatement = function (position) {
+  coverageReport.statementExecuted[position] = true;
+};
+`;
+const INSTRUMENTATION_FOOTER = `
+statementExecutedCount = Object.keys(coverageReport.statementExecuted).length
+printReport(statementExecutedCount);
+`;
 
 /**
  * Function that wraps optional single-liner in BlockStatement Node.
@@ -41,7 +58,9 @@ const BLOCK_STATEMENT = 'BlockStatement';
  * doTask();
  **/
 function wrapInBlockStatement(node, parent) {
-  const wrappedNode = acorn.parse('{' + escodegen.generate(node) + '}');
+  // Generate BlockStatement node containing the old node
+  let wrappedNode = acorn.parse('{}').body[0];
+  wrappedNode.body.push(node);
 
   // Prevents nested BlockStatement wrapping
   if (node.type == BLOCK_STATEMENT) {
@@ -61,8 +80,26 @@ function wrapInBlockStatement(node, parent) {
   return node;
 }
 
+/**
+ * Adds coverageReport.recordExecutedStatement() function before each statement
+ * in the code where its argument is based on the position.
+ *
+ * Giving position as the argument assures that we know exactly which statement
+ * was executed and can avoid problems such as mixing up different statements.
+ **/
+function addStatementCoverageDetection(node, parent) {
+  if (parent.type == BLOCK_STATEMENT) { 
+    const newNode = 
+      acorn.parse(`coverageReport.recordExecutedStatement(${node.start})`);
+    newNode.body.push(node);
+
+    return newNode;
+  }
+
+  return node;
+}
 
 module.exports = {
   wrapInBlockStatement: wrapInBlockStatement,
+  addStatementCoverageDetection: addStatementCoverageDetection,
 };
-
