@@ -12,7 +12,7 @@ global.acorn            = require('../lib/js_interpreter/acorn_interpreter.js');
 const acornInterpreter  = require('../lib/js_interpreter/acorn_interpreter.js');
 const fs                = require('fs');
 const code              = process.argv[2];
-
+const doInstrumentation = process.argv[3] == 'true';
 
 /**
  * Function to override functions call inside the sandbox interpreter.
@@ -21,10 +21,10 @@ const code              = process.argv[2];
  * By overriding alert() in the sandbox for example, we can modify alert()
  * so that its result can be redirected to console.log() in the server node runtime.
  **/
-var overrideFunctions = function(interpreter, scope) {
+let overrideFunctions = function(interpreter, scope) {
   let alertOverride = function(text) {
     console.log(text);
-  };
+  }
 
   let assertOverride = function(isTrue, message) {
     if (!isTrue) {
@@ -32,12 +32,33 @@ var overrideFunctions = function(interpreter, scope) {
     }
   }
 
-  interpreter.setProperty(scope, 'alert', 
-    interpreter.createNativeFunction(alertOverride));
+  let printReportOverride = function(text) {
+    console.log(text);
+  }
+
+  let fakeAlertOverride = function(text) {
+    return;
+  }
+
   interpreter.setProperty(scope, 'assert', 
     interpreter.createNativeFunction(assertOverride));
+
+  // If doing instrumentation, make alert prints nothing and have printReport
+  // print to stdout instead so we can easily parse the instrumentation
+  // result.
+  if (!doInstrumentation) {
+    interpreter.setProperty(scope, 'alert', 
+      interpreter.createNativeFunction(alertOverride));
+  } else {
+    interpreter.setProperty(scope, 'alert', 
+      interpreter.createNativeFunction(fakeAlertOverride));
+    interpreter.setProperty(scope, 'printReport', 
+      interpreter.createNativeFunction(printReportOverride));
+  }
 }
 
 // Execute code received as argument
+let interpreter; 
 interpreter = new acornInterpreter.Interpreter(code, overrideFunctions);
+
 while(interpreter.step());
