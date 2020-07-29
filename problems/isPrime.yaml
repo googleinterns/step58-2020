@@ -15,16 +15,18 @@ code: |
   }
 
   assert(isPrime(5) === true);
+  assert(isPrime(-5) === false);
   assert(isPrime(24) === false);
   assert(isPrime(97) === true);
   alert('Passed all test cases!');
 tests:
   - assert(isPrime(5) === true);
+  - assert(isPrime(-5) === false)
   - assert(isPrime(24) === false);
   - assert(isPrime(97) === true);
 solution: |
   function isPrime(num) {
-    if (num===1){
+    if (num===1 || num < 0){
     return false;
     } else if(num === 2) {
       return true;
