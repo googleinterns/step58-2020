@@ -61,12 +61,13 @@ module.exports = function(app) {
   });
 
   app.post('/problems/:id', async function(request, response) {
-    const user  = (await auth.getUser(request.cookies.token)).user;
-    if (user == null) {
+    const userResponse  = await auth.getUser(request.cookies.token);
+    if (userResponse == null) {
       response.status(401).send('Not Authenticated');
       return;
     }
 
+    const user = userResponse.user;
     if (await accessControl.hasSubmission(user, request.params.id)) {
       response.send(
         'You have already submitted a solution.\n' +
