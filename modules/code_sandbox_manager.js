@@ -73,7 +73,7 @@ async function calculateCodeCoverage(code, timeout) {
   const totalStatementCount = instrumentationResult.totalStatementCount;
 
   const executionResult = await run(instrumentedCode, null, true);
-  const executedStatement = parseInt(executionResult.stdout);
+  const executedStatement = parseFloat(executionResult.stdout);
 
   const statementCoverage = executedStatement / totalStatementCount * FULL_COVERAGE;
 
