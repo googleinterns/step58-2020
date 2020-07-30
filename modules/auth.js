@@ -46,18 +46,22 @@ async function getUser(token) {
     // time token expires (in Unix time) -- multiply by 1000 to get ms
     const expires = new Date(payload.exp * 1000);
     const user = await getUserEntity(payload.email);
-    
-    // User hasn't registered yet
-    if (user === undefined) {
-      return new User(null, null, payload.name, payload.email, payload.picture);
-    }
-    if(user.pictureURL == undefined){
-      datastore.store(user[datastore.KEY], {username: user.username, name: user.name, email: user.email, pictureURL: payload.picture});
-      return new User(user[datastore.KEY], user.username, user.name, user.email, payload.picture);
-    } else {
-      return new User(user[datastore.KEY], user.username, user.name, user.email, user.pictureURL);
 
+    const userResponse = {};
+    userResponse.expires = expires;
+
+    if (user === undefined) {
+      // User hasn't registered yet
+      userResponse.user = new User(null, null, payload.name,payload.email, payload.picture);
+    } else if (user.pictureURL == undefined) {
+      // Picture hasn't been stored yet
+      datastore.store(user[datastore.KEY], {username: user.username, name: user.name, email: user.email, pictureURL: payload.picture});
+      userResponse.user = new User(user[datastore.KEY], user.username, user.name, user.email, payload.picture);
+    } else {
+      userResponse.user = new User(user[datastore.KEY], user.username, user.name, user.email, user.pictureURL);
     }
+
+    return userResponse;
   } catch(error) {
     // The API returns one of various errors indicating 
     // that the token is invalid in some way
