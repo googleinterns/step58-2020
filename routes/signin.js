@@ -12,7 +12,6 @@ module.exports = function(app) {
       user = userResponse.user;
       response.cookie('token', token, { expires: userResponse.expires});
     } catch(error) {
-      console.log(error);
       response.sendStatus(500);
     }
 
