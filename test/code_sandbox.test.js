@@ -119,5 +119,75 @@ describe('Code Sandbox', async() => {
       assert.equal(results[1].signal, 'SIGTERM');
     });
   });
+
+  describe('calculateCodeCoverage()', async() => {
+    describe(`given a code that branches`, async() => {
+      const code = `
+      function solve(num) {
+        if (num == 1)
+          return 1;
+        if (num == 2)
+          return 2;
+        return 3;
+      }
+      `;
+
+      it(`should detect 0% coverage properly`, async() => {
+        const coveragePercent = await sandbox.calculateCodeCoverage(code);
+        assert.equal(coveragePercent, 0);
+      });
+
+      it(`should detect partial coverage properly`, async() => {
+        const tests = `
+        assert(solve(3) == 3);
+        `;
+
+        const coveragePercent = await sandbox.calculateCodeCoverage(code + tests);
+        assert.equal(coveragePercent, 60);
+      });
+
+      it(`should detect full coverage properly`, async() => {
+        const tests = `
+        assert(solve(1) == 1);
+        assert(solve(2) == 2);
+        assert(solve(3) == 3);
+        `;
+
+        const coveragePercent = await sandbox.calculateCodeCoverage(code + tests);
+        assert.equal(coveragePercent, 100);
+      });
+    });
+
+    describe(`given a code that loops`, async() => {
+      const code = `
+      function solve(num) {
+        if (false)
+          return num;
+
+        for (var i = 0; i < 10; i++) {
+          num += num;
+        }
+
+        return num;
+      }
+
+      alert(solve(5));
+      `;
+
+      it(`should not count the same statement multiple times`, async() => {
+        const coveragePercent = await sandbox.calculateCodeCoverage(code);
+        assert.equal(coveragePercent, 80);
+      });
+    });
+
+    describe(`given a code that has no statement`, async() => {
+      const code = ``;
+
+      it(`should default to full coverage`, async() => {
+        const coveragePercent = await sandbox.calculateCodeCoverage(code);
+        assert.equal(coveragePercent, 100);
+      });
+    });
+  });
 });
 
