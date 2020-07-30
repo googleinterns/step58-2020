@@ -43,6 +43,8 @@ async function getUser(token) {
       idToken: token
     });
     const payload = ticket.getPayload();
+    // time token expires (in Unix time) -- multiply by 1000 to get ms
+    const expires = new Date(payload.exp * 1000);
     const user = await getUserEntity(payload.email);
     
     // User hasn't registered yet
@@ -54,6 +56,7 @@ async function getUser(token) {
       return new User(user[datastore.KEY], user.username, user.name, user.email, payload.picture);
     } else {
       return new User(user[datastore.KEY], user.username, user.name, user.email, user.pictureURL);
+
     }
   } catch(error) {
     // The API returns one of various errors indicating 

@@ -31,8 +31,13 @@ async function getProblem(id) {
  * Fields in data are not nested to allow easier filtering.
  **/
 async function saveSubmission(user, code, analysisResult, problemId) {
+  // Store Halstead difficulty as a double since it can be a float
+  if (analysisResult.difficulty) {
+    analysisResult.difficulty = datastore.double(analysisResult.difficulty);
+  }
+
   const data        = analysisResult;
-  data.author       = user.username;
+  data.username     = user.username;
   data.code         = code;
   data.problemId    = parseInt(problemId);
 
@@ -56,7 +61,7 @@ module.exports = function(app) {
   });
 
   app.post('/problems/:id', async function(request, response) {
-    const user  = await auth.getUser(request.body.authToken);
+    const user  = await auth.getUser(request.cookies.token);
     if (user == null) {
       response.status(401).send('Not Authenticated');
       return;
