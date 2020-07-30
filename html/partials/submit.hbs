@@ -1,0 +1,57 @@
+<div class="modal fade" id="submitProblemModal" tabindex="-1" role="dialog" aria-labelledby="registerLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="submitProblemLabel">Submit a problem</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form action="/problems" id="submitProblemForm" method="POST" class="needs-validation" novalidate>
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="title">Problem Title</label>
+              <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+
+            <div class="form-group">
+              <label for="text">Problem Text</label>
+              <textarea class="form-control" id="text" name="text" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="code" required>Starter Code</label>
+              <textarea class="form-control" id="code" name="code"></textarea>
+              <div class="invalid-feedback">
+                Please provide starter code.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="tests" required>Tests</label>
+              <textarea class="form-control" id="tests" name="tests"></textarea>
+              <div class="invalid-feedback">
+                Please provide tests.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="solution" required>Solution</label>
+              <textarea class="form-control" id="solution" name="solution"></textarea>
+              <div class="invalid-feedback">
+                Please provide a solution.
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="scripts/submit.js"></script>
