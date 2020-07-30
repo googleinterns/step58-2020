@@ -58,7 +58,5 @@ let overrideFunctions = function(interpreter, scope) {
 }
 
 // Execute code received as argument
-let interpreter; 
-interpreter = new acornInterpreter.Interpreter(code, overrideFunctions);
-
+let interpreter = new acornInterpreter.Interpreter(code, overrideFunctions);
 while(interpreter.step());
