@@ -10,7 +10,7 @@ function analyze(code) {
   const result = escomplex.analyse(code);
 
   // Round to 3 decimal places if needed
-  roundedDensity = +(result.aggregate.cyclomaticDensity.tofixed(3));
+  roundedDensity = +(result.aggregate.cyclomaticDensity.toFixed(3));
   roundedDifficulty = +(result.aggregate.halstead.difficulty.toFixed(3));
   return {
     cyclomatic: result.aggregate.cyclomatic,
