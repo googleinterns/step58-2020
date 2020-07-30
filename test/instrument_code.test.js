@@ -119,4 +119,146 @@ describe('Code Instrumentation module', () => {
       assert.equal(stripSpace(expectedCode), stripSpace(generatedCode));
     });
   });
+
+  describe('addStatementCoverageDetection()', () => {
+    it('add instrumentation functions before a statement rather than after', () => {
+      const originalCode = `
+      function solution() {
+        return 1;
+      }
+      `;
+
+      const expectedCode = `
+      function solution() {
+        coverageReport.recordExecutedStatement(37);
+        return 1;
+      }
+      `;
+
+      const generatedCode = 
+        instrumentCode(originalCode, codeInstrumenter.addStatementCoverageDetection);
+
+      assert.equal(stripSpace(expectedCode), stripSpace(generatedCode));
+    });
+
+    it('should not be affected by multiple statements in one line', () => {
+      const originalCode = `
+      function solution() {
+        var x = 1; return x;
+      }
+      `;
+
+      const expectedCode = `
+      function solution() {
+        coverageReport.recordExecutedStatement(37);
+        var x = 1;
+
+        coverageReport.recordExecutedStatement(48);
+        return x;
+      }
+      `;
+
+      const generatedCode = 
+        instrumentCode(originalCode, codeInstrumenter.addStatementCoverageDetection);
+
+      assert.equal(stripSpace(expectedCode), stripSpace(generatedCode));
+    });
+
+    it('should generate instrumented functions with unique arguments', () => {
+      const originalCode = `
+      function solution() {
+        var x = 1;
+        x = 2;
+        x = 3;
+        
+        return x;
+      }
+      `;
+
+      const expectedCode = `
+      function solution() {
+        coverageReport.recordExecutedStatement(37);
+        var x = 1;
+        coverageReport.recordExecutedStatement(56);
+        x = 2;
+        coverageReport.recordExecutedStatement(71);
+        x = 3;
+
+        coverageReport.recordExecutedStatement(95);
+        return x;
+      }
+      `;
+
+      const generatedCode = 
+        instrumentCode(originalCode, codeInstrumenter.addStatementCoverageDetection);
+
+      assert.equal(stripSpace(expectedCode), stripSpace(generatedCode));
+    });
+  });
+
+  describe('generateInstrumentedCode()', () => {
+    it('should generate code that includes the instrumentation header', () => {
+      const code = `
+      function solve() {
+        return 1;
+      }
+      `;
+
+      const instrumentationResult = codeInstrumenter.generateInstrumentedCode(code);
+      const instrumentedCode = instrumentationResult.code;
+
+      assert.ok(instrumentedCode.includes(codeInstrumenter.INSTRUMENTATION_HEADER));
+    });
+
+    it('should generate code that includes the instrumentation footer', () => {
+      const code = `
+      function solve() {
+        return 1;
+      }
+      `;
+
+      const instrumentationResult = codeInstrumenter.generateInstrumentedCode(code);
+      const instrumentedCode = instrumentationResult.code;
+
+      assert.ok(instrumentedCode.includes(codeInstrumenter.INSTRUMENTATION_FOOTER));
+    });
+
+    it('should handle one-liner statements properly', () => {
+      const code = `
+      function solve() {
+        if (true)
+          doThis(); doThat();
+
+        return 1;
+      }
+      `;
+
+      const expectedCode = `
+      ${codeInstrumenter.INSTRUMENTATION_HEADER}
+      function solve() {
+        coverageReport.recordExecutedStatement(34);
+        if (true) {
+          coverageReport.recordExecutedStatement(54);
+          doThis();
+        }
+
+        coverageReport.recordExecutedStatement(64);
+        doThat();
+
+        coverageReport.recordExecutedStatement(83);
+        return 1;
+      }
+      ${codeInstrumenter.INSTRUMENTATION_FOOTER}
+      `;
+
+      const expectedStatementCount = 4;
+
+      const instrumentationResult = codeInstrumenter.generateInstrumentedCode(code);
+      const instrumentedCode = instrumentationResult.code;
+      const totalStatementCount = instrumentationResult.totalStatementCount;
+
+      assert.equal(stripSpace(expectedCode), stripSpace(instrumentedCode));
+      assert.equal(expectedStatementCount, totalStatementCount);
+    });
+  });
 });
