@@ -18,7 +18,7 @@ const LLOC_DESC          = 'Logical lines of code is a measure of the number of 
 const CYCLOMATIC_DESC    = 'Cyclomatic complexity is a measure of the number linearly independent paths through a program.';
 const PLOC_DESC          = 'Physical lines of code is a measure of the number of lines in a function or a module.';
 const PARAMS_DESC        = 'Number of Parameters metric is a count of the number of parameters to a method. Lower is better.';
-const DENSITY_DESC       = 'Cyclomatic Complexity Density metric that simply re-expresses cycolmatic density as a percentage of the logical lines of code.';
+const DENSITY_DESC       = 'Cyclomatic Complexity Density metric that simply re-expresses cyclomatic density as a percentage of the logical lines of code.';
 
 
 
