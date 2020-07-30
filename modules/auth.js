@@ -7,15 +7,19 @@ const USER_KIND = 'User';
 
 /**
  * @typedef {Object} User
+ * @param {string} key
+ * @param {string} username
  * @param {string} name
  * @param {string} email
+ * @param {string} pictureURL
  */
 class User {
-  constructor(key, username, name, email) {
-    this.key = key;
-    this.username = username;
-    this.name = name;
-    this.email = email;
+  constructor(key, username, name, email, pictureURL) {
+    this.key        = key;
+    this.username   = username;
+    this.name       = name;
+    this.email      = email;
+    this.pictureURL = pictureURL;
   }
 }
 
@@ -45,9 +49,14 @@ async function getUser(token) {
     
     // User hasn't registered yet
     if (user === undefined) {
-      return {user: new User(null, null, payload.name, payload.email), expires: expires};
+      return new User(null, null, payload.name, payload.email, payload.picture);
+    }
+    if(user.pictureURL == undefined){
+      datastore.store(user[datastore.KEY], {username: user.username, name: user.name, email: user.email, pictureURL: payload.picture});
+      return new User(user[datastore.KEY], user.username, user.name, user.email, payload.picture);
     } else {
-      return {user: new User(user[datastore.KEY], user.username, user.name, user.email), expires: expires};
+      return new User(user[datastore.KEY], user.username, user.name, user.email, user.pictureURL);
+
     }
   } catch(error) {
     // The API returns one of various errors indicating 

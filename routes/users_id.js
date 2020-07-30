@@ -59,6 +59,6 @@ module.exports = function(app) {
       solution.timestamp = timeAgo.format(solution.timestamp);
     }
 
-    response.render('user', {username: username, solutions: solutions});
+    response.render('user', {username: username, solutions: solutions, pictureURL: user.pictureURL});
   });
 }
