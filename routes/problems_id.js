@@ -35,6 +35,10 @@ async function saveSubmission(user, code, analysisResult, problemId) {
   if (analysisResult.difficulty) {
     analysisResult.difficulty = datastore.double(analysisResult.difficulty);
   }
+  // Store Cyclomatic Complexity Density as a double 
+  if(analysisResult.density){
+    analysisResult.density = datastore.double(analysisResult.density);
+  }
 
   const data        = analysisResult;
   data.username     = user.username;
