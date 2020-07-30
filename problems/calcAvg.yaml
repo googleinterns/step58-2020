@@ -1,0 +1,44 @@
+id: 9
+title: CalcAvg
+text: |
+  Write a function called calcAvg that takes in an array of integers
+  and returns the average of all of the integers in the array.
+
+  If the length of the array is zero, return null.
+  This function should work with negative numbers!
+  
+  
+  Refer to example below.
+  
+  calcAvg([5, 123, 12, 24]) = 41
+  calcAvg([-12, 23, 45, 67, -89]) = 6.8
+code: |
+  function calcAvg(arr) {
+    return num;
+  }
+
+  assert(calcAvg([0]) === 0);
+  assert(calcAvg([5, 123, 12, 24]) === 41);
+  assert(calcAvg([-12, 23, 45, 67, -89]) === 6.8);
+  assert(calcAvg([0, 789, 456, 123, -159]) === 241.8);
+  alert('Passed all test cases!');
+tests:
+  - assert(calcAvg([0]) === 0);
+  - assert(calcAvg([]) === null);
+  - assert(calcAvg([5, 123, 12, 24]) === 41);
+  - assert(calcAvg([-12, 23, 45, 67, -89]) === 6.8);
+  - assert(calcAvg([0, 789, 456, 123, -159]) === 241.8);
+solution: |
+  function calcAvg(arr){
+    var sum = 0;
+    if(arr.length == 0){
+        return null;
+    } else {
+      for( var i = 0; i < arr.length; i++ ){
+        sum += parseInt( arr[i], 10 ); 
+      }
+      var avg = sum/arr.length;
+      return avg;
+    }
+  }
+timeout: 2500
