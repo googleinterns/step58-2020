@@ -1,0 +1,42 @@
+id: 10
+title: IsPrime
+text: |
+  Write a function called isPrime that takes in an integer
+  and returns true if the integer is a prime number or 
+  false is the integer is not a prime number. 
+  
+  Refer to example below.
+  
+  isPrime(7) = true
+  isPrime(-12) = false
+code: |
+  function isPrime(num) {
+    return false;
+  }
+
+  assert(isPrime(5) === true);
+  assert(isPrime(-5) === false);
+  assert(isPrime(24) === false);
+  assert(isPrime(97) === true);
+  alert('Passed all test cases!');
+tests:
+  - assert(isPrime(5) === true);
+  - assert(isPrime(-5) === false)
+  - assert(isPrime(24) === false);
+  - assert(isPrime(97) === true);
+solution: |
+  function isPrime(num) {
+    if (num <= 1){
+    return false;
+    } else if (num === 2) {
+      return true;
+    } else {
+      for (var x = 2; x < num; x++) {
+        if (num % x === 0) {
+          return false;
+        }
+      }
+    return true;  
+    }
+  }
+timeout: 2500
