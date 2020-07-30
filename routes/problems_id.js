@@ -61,7 +61,7 @@ module.exports = function(app) {
   });
 
   app.post('/problems/:id', async function(request, response) {
-    const userResponse  = await auth.getUser(request.cookies.token);
+    const userResponse = await auth.getUser(request.cookies.token);
     if (userResponse == null) {
       response.status(401).send('Not Authenticated');
       return;
