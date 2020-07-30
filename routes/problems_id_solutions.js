@@ -9,14 +9,15 @@ const PROBLEM_KIND          = 'Problem';
 const USER_KIND             = 'User';
 const DEFAULT_RANK          = 'difficulty';
 const DEFAULT_LIMIT         = 15;
-const DEFAULT_IS_DESCENDING = false;
 const DIFFICULTY_DESC       = 'Halstead difficulty is a metric calculated based on the number of operands and operators in the function. The higher the number, the more difficult a program is to understand (e.g. in a code review).';
 const LLOC_DESC             = 'Logical lines of code is a measure of the number of imperative statements in the program.';
 const CYCLOMATIC_DESC       = 'Cyclomatic complexity is a measure of the number linearly independent paths through a program.';
+const COVERAGE_DESC         = 'Code coverage indicates the percentage of statements that get executed in your solution. Low percentage of code coverage indicates that your solution might not have been tested sufficiently.';
 const RANKING_MAPPING       = {
-  'difficulty': {'title': 'Halstead Difficulty', 'description': DIFFICULTY_DESC},
-  'cyclomatic': {'title': 'Cyclomatic Complexity', 'description': CYCLOMATIC_DESC},
-  'lloc': {'title': 'Logical Lines of Code', 'description': LLOC_DESC},
+  'difficulty': {'title': 'Halstead Difficulty', 'description': DIFFICULTY_DESC, 'isDescending': false},
+  'cyclomatic': {'title': 'Cyclomatic Complexity', 'description': CYCLOMATIC_DESC, 'isDescending': false},
+  'lloc': {'title': 'Logical Lines of Code', 'description': LLOC_DESC, 'isDescending': false},
+  'coverage': {'title': 'Code Coverage Percent', 'description': COVERAGE_DESC, 'isDescending': true},
 }
 
 /**
@@ -68,7 +69,12 @@ module.exports = function(app) {
     const problemTitle = (await datastore.getProblem(problemId)).title;
     const rankBy = request.query.rank || DEFAULT_RANK;
 
-    const solutions = await listSolutions(problemId, DEFAULT_LIMIT, rankBy, DEFAULT_IS_DESCENDING);
+    const solutions = await listSolutions(
+      problemId, 
+      DEFAULT_LIMIT, 
+      rankBy, 
+      RANKING_MAPPING[rankBy].isDescending
+    );
 
     response.render('solutions', {
       problemId: problemId,
