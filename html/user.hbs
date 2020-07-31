@@ -8,19 +8,40 @@
   <h1>{{username}}</h1>
   {{#if solutions}}
   <h3>{{username}}'s Solved Problems</h3>
+
   <ul class="list-group my-2">
     {{#each solutions}}
-    <li class="list-group-item">
-      <div class="d-flex justify-content-between">
-        <h5 class="mb-1"><a href="/problems/{{this.problemId}}/solutions">{{this.problemTitle}}</a></h5>
-        <small>{{this.timestamp}}</small>
-      </div>
-      <p class="mb-1">Cyclomatic complexity: {{this.cyclomatic}}</p>
-      <p class="mb-1">Halstead difficulty: {{this.difficulty}}</p>
-      <p class="mb-1">Logical lines of code: {{this.lloc}}</p>
-    </li>
+      {{#unless this.userSubmitted}}
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between">
+          <h5 class="mb-1"><a href="/problems/{{this.problemId}}/solutions">{{this.problemTitle}}</a></h5>
+          <small>{{this.timestamp}}</small>
+        </div>
+        <p class="mb-1">Cyclomatic complexity: {{this.cyclomatic}}</p>
+        <p class="mb-1">Halstead difficulty: {{this.difficulty}}</p>
+        <p class="mb-1">Logical lines of code: {{this.lloc}}</p>
+      </li>
+      {{/unless}}
     {{/each}}
   </ul>
+
+  <ul class="list-group my-2">
+    <h4>Unofficial</h4>
+    {{#each solutions}}
+      {{#if this.userSubmitted}}
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between">
+          <h5 class="mb-1"><a href="/problems/{{this.problemId}}/solutions">{{this.problemTitle}}</a></h5>
+          <small>{{this.timestamp}}</small>
+        </div>
+        <p class="mb-1">Cyclomatic complexity: {{this.cyclomatic}}</p>
+        <p class="mb-1">Halstead difficulty: {{this.difficulty}}</p>
+        <p class="mb-1">Logical lines of code: {{this.lloc}}</p>
+      </li>
+      {{/if}}
+    {{/each}}
+  </ul>
+  
   <p>Share your profile! &#8681</p>
   <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
     <a class="a2a_button_facebook"></a>
