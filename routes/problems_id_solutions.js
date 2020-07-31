@@ -65,7 +65,7 @@ module.exports = function(app) {
    **/
   app.get('/problems/:id/solutions', async function(request, response) {
     const problemId = request.params.id;
-    const problemTitle = await getProblemTitle(problemId);
+    const problemTitle = (await datastore.getProblem(problemId)).title;
     const rankBy = request.query.rank || DEFAULT_RANK;
 
     const solutions = await listSolutions(problemId, DEFAULT_LIMIT, rankBy, DEFAULT_IS_DESCENDING);
