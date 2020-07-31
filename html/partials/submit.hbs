@@ -8,7 +8,7 @@
         </button>
       </div>
 
-      <form action="/problems" id="submitProblemForm" method="POST" class="needs-validation" novalidate>
+      <form id="submitProblemForm" method="POST" class="needs-validation" novalidate>
         <div class="modal-body">
             <div class="form-group">
               <label for="title">Problem Title</label>
@@ -23,6 +23,9 @@
             <div class="form-group">
               <label for="code" required>Starter Code</label>
               <textarea class="form-control" id="code" name="code"></textarea>
+              <small id="testsHelp" class="form-text text-muted">
+                Write the name of the function the user should implement.
+              </small>
               <div class="invalid-feedback">
                 Please provide starter code.
               </div>
@@ -31,6 +34,9 @@
             <div class="form-group">
               <label for="tests" required>Tests</label>
               <textarea class="form-control" id="tests" name="tests"></textarea>
+              <small id="testsHelp" class="form-text text-muted">
+                Write assert statements separated by a newline to verify the expected output.
+              </small>
               <div class="invalid-feedback">
                 Please provide tests.
               </div>
