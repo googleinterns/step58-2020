@@ -7,7 +7,6 @@ const datastore = require('../modules/datastore.js');
 
 const USER_KIND = 'User';
 const SOLUTION_KIND = 'Solution';
-const PROBLEM_KIND = 'Problem';
 
 module.exports = function(app) {
   async function getUser(username) {
@@ -29,16 +28,9 @@ module.exports = function(app) {
   }
 
   async function getProblems(problemIds) {
-    let problems = [];
-    for (const id of problemIds) {
-      const query = datastore
-          .createQuery(PROBLEM_KIND)
-          .filter('id', '=', id)
-          .limit(1);
-      let [problem] = await datastore.runQuery(query);
-      problems.push(problem[0])
-    }
-    
+    const problems = await Promise.all(problemIds.map(async (id) => {
+      return await datastore.getProblem(id);
+    }));
     return problems;
   }
 
@@ -55,8 +47,15 @@ module.exports = function(app) {
     const solvedProblems = await getProblems(solvedProblemIds);
 
     for (const solution of solutions) {
-      solution.problemTitle = 
-          solvedProblems.filter(problem => problem.id === solution.problemId)[0].title;
+      const currProblem = solvedProblems.filter((problem) => {
+        if (problem.userSubmitted) {
+          return parseInt(problem[datastore.KEY].id) === solution.problemId
+        }
+        return problem.id === solution.problemId
+      })[0];
+
+      solution.problemTitle = currProblem.title
+      solution.userSubmitted = currProblem.userSubmitted;
       solution.timestamp = timeAgo.format(solution.timestamp);
     }
 
