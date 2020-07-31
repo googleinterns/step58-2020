@@ -43,7 +43,7 @@ async function listProblems(listUserSubmitted, pageIndex, pageSize) {
   if (listUserSubmitted) {
     entities = (await datastore.runQuery(query))[0];
     problems = entities.map((entity) => {
-      return new Problem(entity.id, entity.title, entity.text);
+      return new Problem(entity[datastore.KEY].id, entity.title, entity.text);
     });
     return problems;
   } else {

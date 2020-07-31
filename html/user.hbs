@@ -26,12 +26,11 @@
   </ul>
 
   <ul class="list-group my-2">
-    <h4>Unofficial</h4>
     {{#each solutions}}
       {{#if this.userSubmitted}}
-      <li class="list-group-item">
+      <li class="list-group-item mt-3">
         <div class="d-flex justify-content-between">
-          <h5 class="mb-1"><a href="/problems/{{this.problemId}}/solutions">{{this.problemTitle}}</a></h5>
+          <h5 class="mb-1"><a href="/problems/{{this.problemId}}/solutions">[Unofficial] {{this.problemTitle}}</a></h5>
           <small>{{this.timestamp}}</small>
         </div>
         <p class="mb-1">Cyclomatic complexity: {{this.cyclomatic}}</p>
