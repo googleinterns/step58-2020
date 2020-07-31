@@ -1,5 +1,5 @@
 const SUBMIT_MODAL_ID = 'submitProblemModal';
-const SUBMIT_FORM_ID = 'submitProblemForm';
+const SUBMIT_FORM = document.getElementById('submitProblemForm');
 const opts = {
   mode: 'javascript',
   lineNumbers: true,
@@ -13,7 +13,7 @@ let codeAreas;
 
 $(`#${SUBMIT_MODAL_ID}`).on('shown.bs.modal', function(e) {
   setupCodeAreas();
-  setupValidation(document.getElementById(SUBMIT_FORM_ID));
+  setupValidation(SUBMIT_FORM);
 });
 
 /**
@@ -32,26 +32,41 @@ function setupCodeAreas() {
  * @param {HTMLFormElement} form
  */
 function setupValidation(form) {
-  form.addEventListener('submit', function(event) {
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  form.addEventListener('submit', async function(event) {
+    event.preventDefault();
 
-    codeAreas.forEach(validateCodeArea);
+    if (form.checkValidity() && validateCodeAreas(codeAreas)) {
+      const formData = new FormData(form);
+      const response = await fetch('/problems', {method: 'POST', body: formData});
+      if (!response.ok) {
+        alert(await response.text());
+      } else {
+        $(`#${SUBMIT_MODAL_ID}`).modal('hide');
+        window.location = '/problems?userSubmitted';
+      }
+    }
 
     form.classList.add('was-validated');
   });
 }
 
 /**
- * Validates that a code area has text and toggles
- * the .is-invalid class.
- * @param {CodeMirror} codeArea
+ * Validates that each code area has text and toggles
+ * the .is-invalid class for any that don't.
+ * @param {CodeMirror[]} codeAreas
  */
-function validateCodeArea(codeArea) {
-  const textAreaClassList = codeArea.getTextArea().classList;
-  codeArea.getValue() === '' ?
-      textAreaClassList.add('is-invalid') :
+function validateCodeAreas(codeAreas) {
+  let valid = true;
+
+  for (const codeArea of codeAreas) {
+    const textAreaClassList = codeArea.getTextArea().classList;
+    if (codeArea.getValue() === '') {
+      textAreaClassList.add('is-invalid');
+      valid = false;
+    } else {
       textAreaClassList.remove('is-invalid');
+    }
+  }
+
+  return valid;
 }
