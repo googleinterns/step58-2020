@@ -9,7 +9,7 @@ const estraverse = require('estraverse');
 const escodegen = require('escodegen');
 
 const BLOCK_STATEMENT = 'BlockStatement';
-const IF_STATEMENT = 'IfStatement';
+const EXPRESSION_STATEMENT = 'ExpressionStatement';
 
 const INSTRUMENTATION_HEADER = `
 var coverageReport = {};
@@ -140,10 +140,33 @@ function generateInstrumentedCode(code) {
   };
 }
 
+/**
+ * Utility function that removes all calls from a given piece of code.
+ * For example, given a piece of code:
+ * function hello() {
+ *   toRemove();
+ *   return 1;
+ * }
+ *
+ * toRemove(123); doThis();
+ *
+ * removeCalls, given "toRemove" as a callName
+ * will return a modified code:
+ * function hello() {
+ *   return 1;
+ * }
+ *
+ * doThis();
+ **/
+function removeCalls(code, callName) {
+ return code;
+}
+
 module.exports = {
   wrapInBlockStatement: wrapInBlockStatement,
   addStatementCoverageDetection: addStatementCoverageDetection,
   generateInstrumentedCode: generateInstrumentedCode,
+  removeCalls: removeCalls,
   INSTRUMENTATION_HEADER: INSTRUMENTATION_HEADER,
   INSTRUMENTATION_FOOTER: INSTRUMENTATION_FOOTER,
 };
