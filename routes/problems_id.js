@@ -35,7 +35,7 @@ async function getProblem(id) {
  **/
 async function calculateCodeCoverage(code, timeout) {
   const coverageTimeout = timeout * CODE_COVERAGE_TIMEOUT_MULTIPLIER;
-  const codeCoverage = await sandbox.calculateCodeCoverage(code);
+  const codeCoverage = await sandbox.calculateCodeCoverage(code, coverageTimeout);
 
   return datastore.double(codeCoverage);
 }
