@@ -1,5 +1,6 @@
 const escomplex = require('escomplex');
-
+const instrument = require('./instrument_code.js');
+const ASSERT_CALL_NAME = 'assert';
 /**
  * Performs static analysis on code 
  * @param {string} code source code 
@@ -7,6 +8,7 @@ const escomplex = require('escomplex');
  */
 
 function analyze(code) {
+  code = instrument.removeCalls(code, ASSERT_CALL_NAME);
   const result = escomplex.analyse(code);
 
   // Round to 3 decimal places if needed
@@ -17,5 +19,6 @@ function analyze(code) {
     difficulty: roundedDifficulty
   };
 }
+
 
 module.exports = analyze;
