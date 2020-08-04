@@ -55,7 +55,6 @@ async function saveSubmission(user, code, analysisResult, coverage, problemId) {
   data.code         = code;
   data.problemId    = parseInt(problemId);
   data.coverage     = coverage;
-  console.log(data);
 
   await datastore.store(SOLUTION_KIND, data);
 }
