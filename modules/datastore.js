@@ -1,4 +1,5 @@
 const {Datastore} = require('@google-cloud/datastore');
+const PROBLEMS_KIND = 'Problem';
 
 const datastore = new Datastore({
   projectId: 'cloud-ad-step-2020',
@@ -23,11 +24,39 @@ datastore.store = async function(key, parameters) {
   await datastore.save(entity);
 }
 
-datastore.countKind = async function(kind) {
-  const query = datastore.createQuery(kind).select('__key__');
+/**
+ * Counts number of entities given a kind and filter object.
+ * Filter object should specify property, operator, and value.
+ */
+datastore.countKind = async function countKind(kind, filter) {
+  const query = datastore.createQuery(kind)
+      .select('__key__')
+      .filter(filter.property, filter.operator, filter.value);
   const [entities] = await datastore.runQuery(query);
 
   return entities.length;
+}
+
+/**
+ * Gets problem according to the id given.
+ * Utilizes parseInt() as integer sent through request
+ * may have its typing wrongly inferred by Node.
+ */
+datastore.getProblem = async function getProblem(id) {
+  let query = datastore
+    .createQuery(PROBLEMS_KIND)
+    .filter('id', '=', parseInt(id));
+
+  let [problems] = await datastore.runQuery(query);
+
+  if (problems.length === 0) {
+    query = datastore
+      .createQuery(PROBLEMS_KIND)
+      .filter('__key__', '=', datastore.key([PROBLEMS_KIND, parseInt(id)]));
+    [problems] = await datastore.runQuery(query);
+  }
+
+  return problems[0];
 }
 
 module.exports = datastore;

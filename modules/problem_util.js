@@ -17,6 +17,7 @@ async function addProblem(problemObject) {
   if (!problemIsValid(problemObject))
     return;
 
+  problemObject.userSubmitted = false;
   const key = await generateKey(problemObject);
   datastore.store(key, problemObject);
 }

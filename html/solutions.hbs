@@ -15,6 +15,7 @@
         <button class="dropdown-item rank-selection" value="ploc">Physical Lines of Code</button>
         <button class="dropdown-item rank-selection" value="params">Number of Parameters</button>
         <button class="dropdown-item rank-selection" value="density">Cyclomatic Complexity Density</button>
+        <button class="dropdown-item rank-selection" value="coverage">Code Coverage Percent</button>
       </div>
     </div>
     <div class="card-body">
@@ -38,7 +39,7 @@
       <tr>
         <th scope="row" class="align-middle">{{math @index "+" 1}}</th>
         <td class="username align-middle"><a href="/users/{{this.username}}">{{this.username}}</a></td>
-        <td class="align-middle">{{this.difficulty}} {{this.cyclomatic}} {{this.lloc}} {{this.ploc}} {{this.params}} {{this.density}}</td>
+        <td class="align-middle">{{this.difficulty}} {{this.cyclomatic}} {{this.lloc}} {{this.coverage}} {{this.ploc}} {{this.params}} {{this.density}}</td>
         <td class="align-middle">
           <button class="btn btn-warning" id="{{this.username}}-button" data-toggle="collapse" href="#collapse{{@index}}" role="button" aria-expanded="false" aria-controls="collapse{{@index}}">
             View

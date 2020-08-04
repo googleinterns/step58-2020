@@ -9,6 +9,7 @@ const accessControl = require('../modules/access_control.js');
 
 const PROBLEMS_KIND = 'Problem';
 const SOLUTION_KIND = 'Solution';
+const CODE_COVERAGE_TIMEOUT_MULTIPLIER = 5;
 
 problemUtil.addFromProblemsDir();
 
@@ -27,10 +28,23 @@ async function getProblem(id) {
 }
 
 /**
+ * Helper function that calculates code coverage.
+ * Multiplies the timeout given by CODE_COVERAGE_TIMEOUT_MULTIPLIER
+ * to account for instrumented code taking longer to run
+ * and returns it as a datastore double.
+ **/
+async function calculateCodeCoverage(code, timeout) {
+  const coverageTimeout = timeout * CODE_COVERAGE_TIMEOUT_MULTIPLIER;
+  const codeCoverage = await sandbox.calculateCodeCoverage(code, coverageTimeout);
+
+  return datastore.double(codeCoverage);
+}
+
+/**
  * Helper function to save submission of solution.
  * Fields in data are not nested to allow easier filtering.
  **/
-async function saveSubmission(user, code, analysisResult, problemId) {
+async function saveSubmission(user, code, analysisResult, coverage, problemId) {
   // Store Halstead difficulty as a double since it can be a float
   if (analysisResult.difficulty) {
     analysisResult.difficulty = datastore.double(analysisResult.difficulty);
@@ -45,6 +59,7 @@ async function saveSubmission(user, code, analysisResult, problemId) {
   data.username     = user.username;
   data.code         = code;
   data.problemId    = parseInt(problemId);
+  data.coverage     = coverage;
 
   await datastore.store(SOLUTION_KIND, data);
 }
@@ -55,7 +70,7 @@ module.exports = function(app) {
    * to the problem id given in the request parameter.
    **/
   app.get('/problems/:id', async function(request, response) {
-    const problem = await getProblem(request.params.id);
+    const problem = await datastore.getProblem(request.params.id);
     let dynamicContent = {
       'question-title'  : problem.title,
       'question-text'   : problem.text,
@@ -66,12 +81,13 @@ module.exports = function(app) {
   });
 
   app.post('/problems/:id', async function(request, response) {
-    const user  = await auth.getUser(request.cookies.token);
-    if (user == null) {
+    const userResponse = await auth.getUser(request.cookies.token);
+    if (userResponse == null) {
       response.status(401).send('Not Authenticated');
       return;
     }
 
+    const user = userResponse.user;
     if (await accessControl.hasSubmission(user, request.params.id)) {
       response.send(
         'You have already submitted a solution.\n' +
@@ -81,7 +97,7 @@ module.exports = function(app) {
     }
 
     const code      = request.body.code;
-    const problem   = (await getProblem(request.params.id));
+    const problem   = await datastore.getProblem(request.params.id);
     const tests     = problem.tests;
     const timeout   = problem.timeout;
 
@@ -97,7 +113,9 @@ module.exports = function(app) {
       return;
     } 
 
-    await saveSubmission(user, code, analysisResult, request.params.id);
+    const coverage = await calculateCodeCoverage(code, timeout);
+    await saveSubmission(user, code, analysisResult, coverage, request.params.id);
+
     response.send(
       'Your code passed all test cases.\n' +
       'Click OK to compare it to other solutions!'
