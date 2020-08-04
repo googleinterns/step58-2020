@@ -17,4 +17,30 @@ describe('Code Metrics Analyzer', function() {
       assert.strictEqual(result.cyclomatic, expected);
     });
   });
+
+  describe('Logical lines of code', function() {
+    it('should output the correct logical lines of code', function() {
+      const sourceCode = `function test() {
+        var hello = 5
+        assert(hello === 5);
+        assert();
+      }`
+      const result = analyze(sourceCode);
+      const expected = 2;
+      assert.strictEqual(result.lloc, expected);
+    });
+  });
+
+  describe('Difficulty', function() {
+    it('should output the correct logical lines of code', function() {
+      const sourceCode = `function test() {
+        var hello = 5
+        assert(hello === 5);
+        assert();
+      }`
+      const result = analyze(sourceCode);
+      const expected = 1.5;
+      assert.strictEqual(result.difficulty, expected);
+    });
+  });
 });
