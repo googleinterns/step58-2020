@@ -10,6 +10,7 @@ const escodegen = require('escodegen');
 
 const BLOCK_STATEMENT = 'BlockStatement';
 const EXPRESSION_STATEMENT = 'ExpressionStatement';
+const CALL_EXPRESSION = 'CallExpression'
 
 const INSTRUMENTATION_HEADER = `
 var coverageReport = {};
@@ -159,7 +160,20 @@ function generateInstrumentedCode(code) {
  * doThis();
  **/
 function removeCalls(code, callName) {
- return code;
+  let codeAst = acorn.parse(code);
+
+  estraverse.replace(codeAst, {
+    leave: function (node, parent) {
+      if (node.type === EXPRESSION_STATEMENT &&
+          node.expression.type === CALL_EXPRESSION &&
+          node.expression.callee.name === callName) {
+        return acorn.parse('');
+      }
+      return (node);
+    }
+  });
+
+  return escodegen.generate(codeAst);
 }
 
 module.exports = {
