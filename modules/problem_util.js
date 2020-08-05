@@ -20,7 +20,7 @@ async function addProblem(problemObject, filePath) {
   problemObject.userSubmitted = false;
 
   if (problemObject.id == undefined) {
-    await writeId(problemObject, filePath);
+    await storeProblem(problemObject, filePath);
   } else {
     const key = await getKey(problemObject.id);
     datastore.store(key, problemObject);
@@ -28,21 +28,28 @@ async function addProblem(problemObject, filePath) {
 }
 
 /**
- * Writes the next id to problem provided via a YAML file.
+ * Writes the next id to problem provided and stores problem.
+ * If a file path is provided, writes id to yaml file at that path,
+ * otherwise just stores given problem.
  * Uses a datastore transaction, which uses a reader/writer lock
  * to enforce serializable isolation (i.e. concurrent writes
  * will not occur).
  * @param {Object} problemObject
  * @param {string} filePath
  */
-async function writeId(problemObject, filePath) {
+async function storeProblem(problemObject, filePath) {
   const transaction = datastore.transaction();
 
   try {
     await transaction.run();
-
     problemObject.id = await getHighestId() + 1;
-    writeYamlFile(filePath, problemObject);
+
+    if (filePath !== undefined) {
+      writeYamlFile(filePath, problemObject);
+    } else {
+      problemObject.userSubmitted = true;
+    }
+    
     problemObject.timestamp = new Date();
 
     transaction.save({
@@ -102,11 +109,11 @@ async function getKey(problemId) {
  * id, title, text, code, tests, and solution.
  **/
 function problemIsValid(problemObject) {
-  return problemObject.hasOwnProperty('title')  &&
-    problemObject.hasOwnProperty('text')        &&
-    problemObject.hasOwnProperty('code')        &&
-    problemObject.hasOwnProperty('tests')       &&
-    problemObject.hasOwnProperty('solution');
+  return 'title' in problemObject &&
+         'text' in problemObject &&
+         'code' in problemObject &&
+         'tests' in problemObject &&
+         'solution' in problemObject;
 }
 
 /**
@@ -141,6 +148,8 @@ function readYamlFile(filePath) {
 
 module.exports = {
   addProblem: addProblem,
-  addFromProblemsDir: addFromProblemsDir
+  addFromProblemsDir: addFromProblemsDir,
+  problemIsValid: problemIsValid,
+  storeProblem: storeProblem,
 };
 
