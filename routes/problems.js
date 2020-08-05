@@ -5,10 +5,16 @@ const multer  = require('multer');
 const datastore = require('../modules/datastore.js');
 const auth = require('../modules/auth.js');
 const sandbox = require('../modules/code_sandbox_manager.js');
+const problemUtil   = require('../modules/problem_util.js');
 
 const PROBLEMS_KIND         = 'Problem';
 const DEFAULT_PAGE_SIZE     = 5;
 const DEFAULT_PAGE_INDEX    = 1;
+const LIST_OPTIONS = {
+  ALL: {displayString: 'All', queryString: 'all'},
+  OFFICIAL: {displayString: 'Official', queryString: 'official'},
+  USER_SUBMITTED: {displayString: 'User-Submitted', queryString: 'user'},
+}
 
 /**
  * @typedef {Object} Problem
@@ -25,74 +31,78 @@ class Problem {
 }
 
 /**
- * Lists problems, filtering on whether they are user-submitted.
- * Does not limit user-submitted problems for now, as we need to
- * decide how to approach pagination for user-submitted problems
- * which do not have an incrementing ID.
- * @param {boolean} listUserSubmitted
+ * Lists problems, filtering on the listOption that is requested.
  * @param {number} pageIndex
  * @param {number} pageSize
+ * @param {string} listOption type of problems to list
  */
-async function listProblems(listUserSubmitted, pageIndex, pageSize) {
+async function listProblems(pageIndex, pageSize, listOption) {
   let query = datastore
       .createQuery(PROBLEMS_KIND)
-      .filter('userSubmitted', '=', listUserSubmitted);
+      .order('id')
+      .limit(parseInt(pageSize));
   let entities = [];
   let problems = [];
 
-  if (listUserSubmitted) {
-    entities = (await datastore.runQuery(query))[0];
-    problems = entities.map((entity) => {
-      return new Problem(entity[datastore.KEY].id, entity.title, entity.text);
-    });
-    return problems;
-  } else {
-    const startId = pageSize * (pageIndex - 1);
+  const offset = pageSize * (pageIndex - 1);
+
+  if (listOption === LIST_OPTIONS.ALL.queryString) {
     query = query
-      .filter('id', '>', parseInt(startId))
-      .order('id')
-      .limit(parseInt(pageSize));
-    entities = (await datastore.runQuery(query))[0];
-    problems = entities.map((entity) => {
-      return new Problem(entity.id, entity.title, entity.text);
-    });
+      .filter('id', '>', parseInt(offset))
+  } else {
+    listOption = listOption === LIST_OPTIONS.USER_SUBMITTED.queryString;
+    query = query
+      .filter('userSubmitted', '=', listOption)
+      .offset(offset);
   }
+
+  entities = (await datastore.runQuery(query))[0];
+  problems = entities.map((entity) => {
+    return new Problem(entity.id, entity.title, entity.text);
+  });
+
   return problems;
 }
 
 
 module.exports = function(app) {
-  const userSubmitted = async function(request, response, next) {
-    if (Object.keys(request.query).length === 0 || request.query.userSubmitted === undefined) {
-      return next();
-    }
-
-    const problems = await listProblems(true);
-
-    response.render('problems', {
-      problems: problems,
-      userSubmitted: true,
-    });
-  };
-
-  app.get('/problems', userSubmitted, async function(request, response) {
+  app.get('/problems', async function(request, response) {
     const clientPageIndex   = parseInt(request.query.pageIndex) || DEFAULT_PAGE_INDEX;
     const clientPageSize    = parseInt(request.query.pageSize) || DEFAULT_PAGE_SIZE;
 
-    const problems = await listProblems(false, clientPageIndex, clientPageSize);
+    let problemsCount;
+    let listOption = request.query.list;
 
-    const problemsCount     = await datastore.countKind(PROBLEMS_KIND, {
-      property: 'userSubmitted',
-      operator: '=',
-      value: false}
-    );
+    if (listOption === LIST_OPTIONS.OFFICIAL.queryString || 
+        listOption === LIST_OPTIONS.USER_SUBMITTED.queryString) {
+      const filter = listOption === LIST_OPTIONS.USER_SUBMITTED.queryString;
+      problemsCount = await datastore.countKind(PROBLEMS_KIND, {
+        property: 'userSubmitted',
+        operator: '=',
+        value: filter
+      });
+    } else {
+      listOption = LIST_OPTIONS.ALL.queryString;
+      problemsCount = await datastore.countKind(PROBLEMS_KIND, {
+        property: 'id',
+        operator: '>=',
+        value: 1
+      });
+    }
+
+    const problems = await listProblems(clientPageIndex, clientPageSize, listOption);
     const pageCount         = Math.ceil(problemsCount / clientPageSize);
     const paginationArray   = Array.from(Array(pageCount), (_, i) => i + 1);
+    const listKey = (Object.keys(LIST_OPTIONS).find(key => LIST_OPTIONS[key].queryString === listOption));
+    const displayString = LIST_OPTIONS[listKey].displayString;
 
     response.render('problems', {
       problems: problems,
       paginationArray: paginationArray,
-      currIndex: clientPageIndex
+      currIndex: clientPageIndex,
+      listOption: listOption,
+      display: displayString,
+      LIST_OPTIONS: LIST_OPTIONS,
     });
   });
 
@@ -105,7 +115,7 @@ module.exports = function(app) {
 
     const problem = request.body;
 
-    if (!(problem.title && problem.text && problem.code && problem.tests && problem.solution)) {
+    if (!(problemUtil.problemIsValid(problem))) {
       response.status(400).send('Please fill out all fields.');
       return;
     }
@@ -122,7 +132,7 @@ module.exports = function(app) {
       problem.tests = problem.tests.split('\r\n');
 
       try {
-        await datastore.store(PROBLEMS_KIND, problem);
+        await problemUtil.storeProblem(problem);
         response.sendStatus(200);
       } catch (error) {
         response.status(500).send('Something went wrong.');
