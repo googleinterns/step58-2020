@@ -1,10 +1,15 @@
 <div class="container my-5" id="problems-container">
-  {{#if userSubmitted}}
-  <h1>User-Submitted Problems</h1>
-  {{else}}
-  <h1>Problems</h1>
-  {{/if}}
-
+  <h1>{{display}} Problems</h1>
+  <ul class="nav nav-pills my-2">
+    {{#each LIST_OPTIONS}}
+    <li class="nav-item">
+      <a class="nav-link {{#if (eq this.queryString @root.listOption)}}active{{/if}}" 
+          href="/problems?list={{this.queryString}}">
+        {{this.displayString}}
+      </a>
+    </li>
+    {{/each}}
+  </ul>
   {{#each problems}}
   <div class="card mb-3">
     <div class="card-body">
@@ -19,26 +24,24 @@
     <ul class="pagination">
       {{#each paginationArray}}
         {{#if (eq this @root.currIndex)}}
-        <li class="page-item active"><a class="page-link" href="?pageIndex={{this}}">{{this}}</a></li>
+        <li class="page-item active">
+          <a class="page-link" href="?pageIndex={{this}}&list={{@root.listOption}}">
+            {{this}}
+          </a>
+        </li>
         {{else}}
-        <li class="page-item"><a class="page-link" href="?pageIndex={{this}}">{{this}}</a></li>
+        <li class="page-item">
+          <a class="page-link" href="?pageIndex={{this}}&list={{@root.listOption}}">
+            {{this}}
+          </a>
+        </li>
         {{/if}}
       {{/each}}
     </ul>
   </nav>
 
   {{>submit}}
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitProblemModal">
+  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#submitProblemModal">
     Submit a problem
   </button>
-  {{#if userSubmitted}}
-  <a href="/problems" class="btn btn-secondary" role="button">
-    View official problems
-  </a>
-  {{else}}
-  <a href="/problems?userSubmitted" class="btn btn-secondary" role="button">
-    View user-submitted problems
-  </a>
-  {{/if}}
-
 </div>
