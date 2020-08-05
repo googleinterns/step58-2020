@@ -6,7 +6,7 @@ const datastore = require('../modules/datastore.js');
 const COMMENT_KIND = 'Comment';
 
 /**
- * Fetches a comment given the same comment id and referer.
+ * Fetches a comment given the same comment id and pathname.
  * If none exist, null is returned instead.
  * Referer is used so that each page could have a separate comment thread.
  **/
@@ -14,7 +14,7 @@ async function getComment(commentObject) {
   const query = datastore
     .createQuery(COMMENT_KIND)
     .filter('id', '=', commentObject.id)
-    .filter('referer', '=', commentObject.referer);
+    .filter('pathname', '=', commentObject.pathname);
 
   const [comments] = await datastore.runQuery(query);
 
@@ -37,7 +37,6 @@ module.exports = function(app) {
     // Gets all the important information server-side
     // to prevent users injecting fake dates, etc.
     comment.fullname = userObject.user.username;
-    comment.referer = request.headers.referer;
     comment.created = new Date().toISOString();
     comment.modified = new Date().toISOString();
     comment.profile_picture_url = userObject.user.pictureURL;
@@ -68,11 +67,11 @@ module.exports = function(app) {
   app.get('/comments', async function(request, response) {
     const userObject = await auth.getUser(request.cookies.token);
     const username = userObject.user.username;
-    const referer = request.headers.referer;
+    const pathname = request.query.pathname;
 
     const query = datastore
       .createQuery(COMMENT_KIND)
-      .filter('referer', '=', referer);
+      .filter('pathname', '=', pathname);
 
     const comments = (await datastore.runQuery(query))[0];
 

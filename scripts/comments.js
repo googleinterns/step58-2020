@@ -12,6 +12,9 @@ window.addEventListener('load', function() {
       $.ajax({
         type: 'get',
         url: '/comments/',
+        data: {
+          'pathname': `${window.location.pathname}`,
+        },
         success: function(comments) {
           success(comments)
         },
@@ -20,6 +23,7 @@ window.addEventListener('load', function() {
     },
 
     putComment: function(commentJSON, success, error) {
+      commentJSON.pathname = window.location.pathname;
       $.ajax({
         type: 'post',
         url: '/comments/',
@@ -32,6 +36,7 @@ window.addEventListener('load', function() {
     },
 
     postComment: function(commentJSON, success, error) {
+      commentJSON.pathname = window.location.pathname;
       $.ajax({
         type: 'post',
         url: '/comments/',
