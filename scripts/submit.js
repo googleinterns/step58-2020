@@ -11,8 +11,12 @@ let tests;
 let solution;
 let codeAreas;
 
-$(`#${SUBMIT_MODAL_ID}`).on('shown.bs.modal', function(e) {
+// Only set up code areas once to avoid multiple code mirror instances
+$(`#${SUBMIT_MODAL_ID}`).one('shown.bs.modal', function(e) {
   setupCodeAreas();
+});
+
+$(`#${SUBMIT_MODAL_ID}`).on('shown.bs.modal', function(e) {
   setupValidation(SUBMIT_FORM);
 });
 
