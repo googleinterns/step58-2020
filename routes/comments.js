@@ -74,9 +74,15 @@ module.exports = function(app) {
 
     const comments = (await datastore.runQuery(query))[0];
 
-    for (const comment of comments) {
-      comment.created_by_current_user = 
-        (comment.fullname == userObject.user.username);
+    if (userObject === null) {
+      comments.forEach(comment => comment.created_by_current_user = false);
+      response.send(comments);
+    } else {
+      for (const comment of comments) {
+        comment.created_by_current_user = 
+          (comment.fullname == userObject.user.username);
+      }
+      response.send(comments);
     }
 
     response.send(comments);
