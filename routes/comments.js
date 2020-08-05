@@ -33,6 +33,7 @@ module.exports = function(app) {
   app.post('/comments', async function(request, response) {
     const userObject = await auth.getUser(request.cookies.token);
     const comment = request.body;
+    delete comment.created_by_current_user;
 
     // Gets all the important information server-side
     // to prevent users injecting fake dates, etc.
