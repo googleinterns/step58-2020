@@ -66,7 +66,6 @@ module.exports = function(app) {
    **/
   app.get('/comments', async function(request, response) {
     const userObject = await auth.getUser(request.cookies.token);
-    const username = userObject.user.username;
     const pathname = request.query.pathname;
 
     const query = datastore
@@ -76,7 +75,8 @@ module.exports = function(app) {
     const comments = (await datastore.runQuery(query))[0];
 
     for (const comment of comments) {
-      comment.created_by_current_user = (comment.fullname == username);
+      comment.created_by_current_user = 
+        (comment.fullname == userObject.user.username);
     }
 
     response.send(comments);
