@@ -42,7 +42,7 @@ function setupValidation(form) {
         alert(await response.text());
       } else {
         $(`#${SUBMIT_MODAL_ID}`).modal('hide');
-        window.location = '/problems?userSubmitted';
+        window.location = '/problems?list=user';
       }
     }
 
