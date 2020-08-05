@@ -44,6 +44,8 @@ async function onSignIn(googleUser) {
     document.getElementById('registerForm').addEventListener('submit', formSubmit);
     $('#registerModal').modal('show');
   }
+
+  loadCommentSection();
 }
  
 async function signOut() {
@@ -51,6 +53,7 @@ async function signOut() {
   deleteCookie('username');
   deleteCookie('token');
   toggleNavLinks();
+  loadCommentSection();
 }
 
 async function formSubmit(event) {

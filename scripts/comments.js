@@ -1,4 +1,11 @@
-window.addEventListener('load', function() {
+function loadCommentSection() {
+  let notLoggedIn = true;
+  if (getCookieValue('username')) {
+    notLoggedIn = false;
+  }
+
+  console.log(notLoggedIn);
+
   $('#comments-container').comments({
     enableReplying: false,
     enableUpvoting: false,
@@ -7,6 +14,8 @@ window.addEventListener('load', function() {
     enableHashtags: false,
     enablePinging: false,
     enableDeletingCommentWithReplies: false,
+    readOnly: notLoggedIn,
+
 
     getComments: async function(success, error) {
       $.ajax({
@@ -48,4 +57,6 @@ window.addEventListener('load', function() {
       });
     },
   });
-});
+}
+
+window.addEventListener('load', loadCommentSection);
