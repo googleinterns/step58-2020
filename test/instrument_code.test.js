@@ -4,6 +4,8 @@ const estraverse = require('estraverse');
 const escodegen = require('escodegen');
 const assert = require('assert');
 
+const CALL_TO_REMOVE = 'toRemove';
+
 /**
 * Helper function to delete all whitespaces in code
 * including space characters, tab spaces, and newlines.
@@ -259,6 +261,56 @@ describe('Code Instrumentation module', () => {
 
       assert.equal(stripSpace(expectedCode), stripSpace(instrumentedCode));
       assert.equal(expectedStatementCount, totalStatementCount);
+    });
+  });
+
+  describe('removeCalls()', () => {
+    it('should remove calls, regardless of its argument', () => {
+      const code = `
+      toRemove();
+      toRemove(1);
+      toRemove(a);
+      toRemove(a, b, {'key': 'value'});
+      `;
+
+      const expectedCode = '';
+      const resultCode = codeInstrumenter.removeCalls(code, CALL_TO_REMOVE);
+
+      assert.equal(stripSpace(expectedCode), stripSpace(resultCode));
+    });
+
+    it('should remove calls, regardless of its scoping', () => {
+      const code = `
+      function scope() {
+        toRemove();
+        return 1;
+      }
+      `;
+
+      const expectedCode = `
+      function scope() {
+        return 1;
+      }
+      `;
+
+      const resultCode = codeInstrumenter.removeCalls(code, CALL_TO_REMOVE);
+
+      assert.equal(stripSpace(expectedCode), stripSpace(resultCode));
+    });
+
+    it('should not be affected by one-liners', () => {
+      const code = `
+        doThis(); toRemove(); doThat();
+      `;
+
+      const expectedCode = `
+        doThis();
+        doThat();
+      `;
+
+      const resultCode = codeInstrumenter.removeCalls(code, CALL_TO_REMOVE);
+
+      assert.equal(stripSpace(expectedCode), stripSpace(resultCode));
     });
   });
 });

@@ -11,3 +11,7 @@ img {
 .modal {
   z-index: 1400;
 }
+
+.form-group .CodeMirror {
+  height: 200px;
+}
