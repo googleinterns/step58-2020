@@ -70,6 +70,8 @@ app.use('/favicon.ico', express.static(path.join(__dirname, 'html/images/YellowB
 app.use('/html/images/YellowBrickCodeLogo.png', express.static(path.join(__dirname, 'html/images/YellowBrickCodeLogo.png')));
 app.use('/favicon.ico', express.static(path.join(__dirname, '/html/images/ybc.gif')));
 app.use('/html/images/ybc.gif', express.static(path.join(__dirname, '/html/images/ybc.gif')));
+app.use('/favicon.ico', express.static(path.join(__dirname, 'html/images/Noogler.jpeg')));
+app.use('/html/images/Noogler.jpeg', express.static(path.join(__dirname, 'html/images/Noogler.jpeg')));
 
 
 /**
