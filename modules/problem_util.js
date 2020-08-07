@@ -13,34 +13,94 @@ const PROBLEMS_KIND = 'Problem';
  * Asserts that the problem is valid using problemIsValid
  * and guarantees idempotency.
  **/
-async function addProblem(problemObject) {
+async function addProblem(problemObject, filePath) {
   if (!problemIsValid(problemObject))
     return;
 
   problemObject.userSubmitted = false;
-  const key = await generateKey(problemObject);
-  datastore.store(key, problemObject);
+
+  if (problemObject.id == undefined) {
+    await storeProblem(problemObject, filePath);
+  } else {
+    const key = await getKey(problemObject.id);
+    datastore.store(key, problemObject);
+  }
+}
+
+/**
+ * Writes the next id to problem provided and stores problem.
+ * If a file path is provided, writes id to yaml file at that path,
+ * otherwise just stores given problem.
+ * Uses a datastore transaction, which uses a reader/writer lock
+ * to enforce serializable isolation (i.e. concurrent writes
+ * will not occur).
+ * @param {Object} problemObject
+ * @param {string} filePath
+ */
+async function storeProblem(problemObject, filePath) {
+  const transaction = datastore.transaction();
+
+  try {
+    await transaction.run();
+    problemObject.id = await getHighestId() + 1;
+
+    if (filePath !== undefined) {
+      writeYamlFile(filePath, problemObject);
+    } else {
+      problemObject.userSubmitted = true;
+    }
+    
+    problemObject.timestamp = new Date();
+
+    transaction.save({
+      key: datastore.key(PROBLEMS_KIND),
+      data: problemObject
+    });
+    transaction.commit();
+  } catch (error) {
+    console.error(error);
+    transaction.rollback();
+  }
+}
+
+/**
+ * Helper function to get the highest ID in the datastore.
+ * @returns id
+ */
+async function getHighestId() {
+  const query = datastore
+      .createQuery(PROBLEMS_KIND)
+      .order('id', {descending: true})
+      .select('id')
+      .limit(1);
+  const [results] = await datastore.runQuery(query);
+  return results[0].id;
+}
+
+/**
+ * Writes YAML file to the specified file path.
+ * @param {string} filePath
+ * @param {Object} object
+ */
+function writeYamlFile(filePath, object) {
+  const yamlDocument = yaml.safeDump(object);
+  fs.writeFileSync(filePath, yamlDocument);
 }
 
 /**
  * Generates key given a problem object to guarantee idempotency.
  * If a problem with the same id already exists, it will give the
  * entity's key such that it could be updated.
- * Otherwise, PROBLEMS_KIND is simply returned, indicating
- * that a new entity should be created.
  **/
-async function generateKey(problemObject) {
+async function getKey(problemId) {
   const query = datastore
     .createQuery(PROBLEMS_KIND)
-    .filter('id', '=', problemObject.id);
+    .filter('id', '=', problemId)
+    .select('__key__');
 
   const [problems] = await datastore.runQuery(query);
 
-  if (problems.length == 0) {
-    return PROBLEMS_KIND;
-  } else {
-    return problems[0][datastore.KEY];
-  }
+  return problems[0][datastore.KEY];
 }
 
 /**
@@ -49,12 +109,11 @@ async function generateKey(problemObject) {
  * id, title, text, code, tests, and solution.
  **/
 function problemIsValid(problemObject) {
-  return problemObject.hasOwnProperty('id')     && 
-    problemObject.hasOwnProperty('title')       &&
-    problemObject.hasOwnProperty('text')        &&
-    problemObject.hasOwnProperty('code')        &&
-    problemObject.hasOwnProperty('tests')       &&
-    problemObject.hasOwnProperty('solution');
+  return 'title' in problemObject &&
+         'text' in problemObject &&
+         'code' in problemObject &&
+         'tests' in problemObject &&
+         'solution' in problemObject;
 }
 
 /**
@@ -73,11 +132,11 @@ async function addFromProblemsDir(dirName) {
 
     if (stat.isDirectory()) {
       addFromProblemsDir(fullName);
-    } 
+    }
 
     if (path.extname(fullName) === '.yaml') {
       let problem = readYamlFile(fullName);
-      addProblem(problem);
+      addProblem(problem, fullName);
     }
   });
 }
@@ -89,6 +148,8 @@ function readYamlFile(filePath) {
 
 module.exports = {
   addProblem: addProblem,
-  addFromProblemsDir: addFromProblemsDir
+  addFromProblemsDir: addFromProblemsDir,
+  problemIsValid: problemIsValid,
+  storeProblem: storeProblem,
 };
 

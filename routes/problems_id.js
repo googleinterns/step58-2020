@@ -14,20 +14,6 @@ const CODE_COVERAGE_TIMEOUT_MULTIPLIER = 5;
 problemUtil.addFromProblemsDir();
 
 /**
- * Gets problem according to the id given.
- * Utilizes parseInt() as integer sent through request
- * may have its typing wrongly inferred by Node.
- **/
-async function getProblem(id) {
-  const query = datastore
-    .createQuery(PROBLEMS_KIND)
-    .filter('id', '=', parseInt(id));
-
-  const [problems] = await datastore.runQuery(query);
-  return problems[0];
-}
-
-/**
  * Helper function that calculates code coverage.
  * Multiplies the timeout given by CODE_COVERAGE_TIMEOUT_MULTIPLIER
  * to account for instrumented code taking longer to run
