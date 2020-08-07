@@ -15,3 +15,14 @@ img {
 .form-group .CodeMirror {
   height: 200px;
 }
+
+#gif {
+    text-align: center;
+    z-index: 1500;
+    isolation: isolate;
+    width: 750px;
+    height: 450px;
+    position: absolute;
+    top: 70%;
+    left: 25%;
+}
