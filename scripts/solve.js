@@ -16,6 +16,12 @@ const LOADING_BUTTON     = '<span class="spinner-border spinner-border-sm" role=
 const DIFFICULTY_DESC    = 'Halstead difficulty is a metric calculated based on the number of operands and operators in the function. The higher the number, the more difficult a program is to understand (e.g. in a code review).';
 const LLOC_DESC          = 'Logical lines of code is a measure of the number of imperative statements in the program.';
 const CYCLOMATIC_DESC    = 'Cyclomatic complexity is a measure of the number linearly independent paths through a program.';
+const PLOC_DESC          = 'Physical lines of code is a measure of the number of lines in a function or a module.';
+const PARAMS_DESC        = 'Number of Parameters metric is a count of the number of parameters to a method. Lower is better.';
+const DENSITY_DESC       = 'Cyclomatic Complexity Density metric that simply re-expresses cyclomatic density as a percentage of the logical lines of code.';
+
+
+
 
 let codeMirror;
 let outputArea;
@@ -215,7 +221,13 @@ async function runStaticAnalysis(code) {
     difficulty: `The Halstead difficulty is ${analysis.difficulty}.
       ${generateTooltipHTMLString(DIFFICULTY_DESC, 'right')}`,
     lloc: `${analysis.lloc} logical lines of code.
-      ${generateTooltipHTMLString(LLOC_DESC, 'right')}`
+      ${generateTooltipHTMLString(LLOC_DESC, 'right')}`,
+    ploc: `${analysis.ploc} physical lines of code.
+      ${generateTooltipHTMLString(PLOC_DESC, 'right')}`,
+    params: `The Number of Parameters is ${analysis.params}.
+      ${generateTooltipHTMLString(PARAMS_DESC, 'right')}`,
+    density: `The total cyclomatic complexity density is ${analysis.density}.
+      ${generateTooltipHTMLString(DENSITY_DESC, 'right')}`
   }
 
   document.getElementById(ANALYSIS_OUTPUT_ID).innerHTML = '';

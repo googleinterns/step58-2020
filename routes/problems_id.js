@@ -34,7 +34,12 @@ async function saveSubmission(user, code, analysisResult, coverage, problemId) {
   // Store Halstead difficulty as a double since it can be a float
   if (analysisResult.difficulty) {
     analysisResult.difficulty = datastore.double(analysisResult.difficulty);
-  }
+
+  } 
+  if (analysisResult.density){
+  // Store Cyclomatic Complexity Density as a double
+    analysisResult.density = datastore.double(analysisResult.density);
+  } 
 
   const data        = analysisResult;
   data.username     = user.username;

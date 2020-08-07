@@ -4,3 +4,21 @@ indexes:
   properties:
   - name: problemId
   - name: complexity
+
+- kind: Solution
+  properties:
+  - name: problemId
+  - name: ploc
+  - name: username
+
+- kind: Solution
+  properties:
+  - name: problemId
+  - name: params
+  - name: username
+
+- kind: Solution
+  properties:
+  - name: problemId
+  - name: density
+  - name: username
