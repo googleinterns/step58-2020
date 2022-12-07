@@ -23,7 +23,7 @@
     "escodegen": "^1.14.3",
     "escomplex": "^2.0.0-alpha",
     "estraverse": "^5.1.0",
-    "express": "^4.16.3",
+    "express": "^4.18.2",
     "express-handlebars": "^4.0.4",
     "google-auth-library": "^6.0.3",
     "javascript-time-ago": "^2.0.13",
